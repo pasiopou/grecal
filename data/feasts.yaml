@@ -1,0 +1,1800 @@
+# Fixed dates, movable feast rules, and church observance rules.
+feast_vasiliki:
+  type: fixed
+  month: 1
+  day: 1
+feast_vasilis:
+  type: fixed
+  month: 1
+  day: 1
+feast_tilemachos:
+  type: fixed
+  month: 1
+  day: 1
+feast_silvestros:
+  type: fixed
+  month: 1
+  day: 2
+feast_genovefa:
+  type: fixed
+  month: 1
+  day: 3
+feast_theoni:
+  type: fixed
+  month: 1
+  day: 5
+feast_foteini:
+  type: fixed
+  month: 1
+  day: 6
+feast_fani:
+  type: fixed
+  month: 1
+  day: 6
+feast_fotis:
+  type: fixed
+  month: 1
+  day: 6
+feast_theofanis:
+  type: fixed
+  month: 1
+  day: 6
+feast_iordanis:
+  type: fixed
+  month: 1
+  day: 6
+feast_peristera:
+  type: fixed
+  month: 1
+  day: 6
+feast_theopoyla:
+  type: fixed
+  month: 1
+  day: 6
+feast_faidon:
+  type: fixed
+  month: 1
+  day: 6
+feast_ioannis:
+  type: fixed
+  month: 1
+  day: 7
+feast_prodromos:
+  type: fixed
+  month: 1
+  day: 7
+feast_parthena:
+  type: fixed
+  month: 1
+  day: 8
+feast_dominiki:
+  type: fixed
+  month: 1
+  day: 8
+feast_eystratios:
+  type: fixed
+  month: 1
+  day: 9
+feast_theodosios:
+  type: fixed
+  month: 1
+  day: 11
+feast_tatiani:
+  type: fixed
+  month: 1
+  day: 12
+feast_nina:
+  type: fixed
+  month: 1
+  day: 14
+feast_antonios:
+  type: fixed
+  month: 1
+  day: 17
+feast_athanasios:
+  type: fixed
+  month: 1
+  day: 18
+feast_theodoyla:
+  type: fixed
+  month: 1
+  day: 18
+feast_kyrillos:
+  type: fixed
+  month: 1
+  day: 18
+feast_eythymios:
+  type: fixed
+  month: 1
+  day: 20
+feast_agni:
+  type: fixed
+  month: 1
+  day: 21
+feast_eygenios:
+  type: fixed
+  month: 1
+  day: 21
+feast_neofytos:
+  type: fixed
+  month: 1
+  day: 21
+feast_patroklos:
+  type: fixed
+  month: 1
+  day: 21
+feast_timotheos:
+  type: fixed
+  month: 1
+  day: 22
+feast_xeni:
+  type: fixed
+  month: 1
+  day: 24
+feast_grigoris:
+  type: fixed
+  month: 1
+  day: 25
+feast_xenofon:
+  type: fixed
+  month: 1
+  day: 26
+feast_charis:
+  type: fixed
+  month: 1
+  day: 28
+feast_varsamia:
+  type: fixed
+  month: 1
+  day: 29
+feast_chrysi:
+  type: fixed
+  month: 1
+  day: 30
+feast_grammatiki:
+  type: fixed
+  month: 1
+  day: 30
+feast_mayros:
+  type: fixed
+  month: 1
+  day: 30
+feast_ayra:
+  type: fixed
+  month: 1
+  day: 30
+feast_eydoxia:
+  type: fixed
+  month: 1
+  day: 31
+feast_kyros:
+  type: fixed
+  month: 1
+  day: 31
+feast_tryfonas:
+  type: fixed
+  month: 2
+  day: 1
+feast_ypapanti:
+  type: fixed
+  month: 2
+  day: 2
+feast_stamatia:
+  type: fixed
+  month: 2
+  day: 3
+feast_asimina:
+  type: fixed
+  month: 2
+  day: 3
+feast_stamatis:
+  type: fixed
+  month: 2
+  day: 3
+feast_symeon:
+  type: fixed
+  month: 2
+  day: 3
+feast_asimakis:
+  type: fixed
+  month: 2
+  day: 3
+feast_isidoros:
+  type: fixed
+  month: 2
+  day: 4
+feast_agathi:
+  type: fixed
+  month: 2
+  day: 5
+feast_parthenis:
+  type: fixed
+  month: 2
+  day: 7
+feast_zacharias:
+  type: fixed
+  month: 2
+  day: 8
+feast_charalampos:
+  type: fixed
+  month: 2
+  day: 10
+feast_charilaos:
+  type: fixed
+  month: 2
+  day: 10
+feast_charalampia:
+  type: fixed
+  month: 2
+  day: 10
+feast_theodora:
+  type: fixed
+  month: 2
+  day: 11
+feast_vlassis:
+  type: fixed
+  month: 2
+  day: 11
+feast_aygi:
+  type: fixed
+  month: 2
+  day: 11
+feast_meletios:
+  type: fixed
+  month: 2
+  day: 12
+feast_filothei:
+  type: fixed
+  month: 2
+  day: 19
+feast_eystathios:
+  type: fixed
+  month: 2
+  day: 21
+feast_polykarpos:
+  type: fixed
+  month: 2
+  day: 23
+feast_riginos:
+  type: fixed
+  month: 2
+  day: 25
+feast_tarso:
+  type: fixed
+  month: 2
+  day: 25
+feast_anatoli:
+  type: fixed
+  month: 2
+  day: 26
+feast_kyra:
+  type: fixed
+  month: 2
+  day: 28
+feast_eydokia:
+  type: fixed
+  month: 3
+  day: 1
+feast_paraskeyas:
+  type: fixed
+  month: 3
+  day: 1
+feast_paraschos:
+  type: fixed
+  month: 3
+  day: 1
+feast_eythalia:
+  type: fixed
+  month: 3
+  day: 2
+feast_theofylaktos:
+  type: fixed
+  month: 3
+  day: 8
+feast_iliana:
+  type: fixed
+  month: 3
+  day: 9
+feast_smaragda:
+  type: fixed
+  month: 3
+  day: 9
+feast_iliana_0309:
+  type: fixed
+  month: 3
+  day: 9
+feast_savina:
+  type: fixed
+  month: 3
+  day: 11
+feast_sofronios:
+  type: fixed
+  month: 3
+  day: 11
+feast_theofanis_0312:
+  type: fixed
+  month: 3
+  day: 12
+feast_marios:
+  type: fixed
+  month: 3
+  day: 13
+feast_leandros:
+  type: fixed
+  month: 3
+  day: 13
+feast_agapios:
+  type: fixed
+  month: 3
+  day: 15
+feast_christodoylos:
+  type: fixed
+  month: 3
+  day: 16
+feast_alexios:
+  type: fixed
+  month: 3
+  day: 17
+feast_edoyardos:
+  type: fixed
+  month: 3
+  day: 18
+feast_rodi:
+  type: fixed
+  month: 3
+  day: 20
+feast_drosoyla:
+  type: fixed
+  month: 3
+  day: 22
+feast_drosos:
+  type: fixed
+  month: 3
+  day: 22
+feast_eyaggelos:
+  type: fixed
+  month: 3
+  day: 25
+feast_lydia:
+  type: fixed
+  month: 3
+  day: 27
+feast_lida:
+  type: fixed
+  month: 3
+  day: 27
+feast_ypatia:
+  type: fixed
+  month: 3
+  day: 31
+feast_titos:
+  type: fixed
+  month: 4
+  day: 2
+feast_argyro:
+  type: fixed
+  month: 4
+  day: 5
+feast_eytychios:
+  type: fixed
+  month: 4
+  day: 6
+feast_miltiadis:
+  type: fixed
+  month: 4
+  day: 10
+feast_periklis:
+  type: fixed
+  month: 4
+  day: 10
+feast_sokratis:
+  type: fixed
+  month: 4
+  day: 10
+feast_iraklis:
+  type: fixed
+  month: 4
+  day: 10
+feast_themistoklis:
+  type: fixed
+  month: 4
+  day: 10
+feast_epameinondas:
+  type: fixed
+  month: 4
+  day: 10
+feast_sofoklis:
+  type: fixed
+  month: 4
+  day: 10
+feast_polyvios:
+  type: fixed
+  month: 4
+  day: 10
+feast_zinon:
+  type: fixed
+  month: 4
+  day: 10
+feast_pelopidas:
+  type: fixed
+  month: 4
+  day: 10
+feast_fokion:
+  type: fixed
+  month: 4
+  day: 10
+feast_omiros:
+  type: fixed
+  month: 4
+  day: 10
+feast_parmenion:
+  type: fixed
+  month: 4
+  day: 10
+feast_filopoimin:
+  type: fixed
+  month: 4
+  day: 10
+feast_thomais:
+  type: fixed
+  month: 4
+  day: 14
+feast_leonidas:
+  type: fixed
+  month: 4
+  day: 15
+feast_niki:
+  type: fixed
+  month: 4
+  day: 16
+feast_galini:
+  type: fixed
+  month: 4
+  day: 16
+feast_chionia:
+  type: fixed
+  month: 4
+  day: 16
+feast_elisavet:
+  type: fixed
+  month: 4
+  day: 24
+feast_achilleas:
+  type: fixed
+  month: 4
+  day: 24
+feast_doykas:
+  type: fixed
+  month: 4
+  day: 24
+feast_iason:
+  type: fixed
+  month: 4
+  day: 29
+feast_donatos:
+  type: fixed
+  month: 4
+  day: 30
+feast_isidora:
+  type: fixed
+  month: 5
+  day: 1
+feast_tamara:
+  type: fixed
+  month: 5
+  day: 1
+feast_aygerinos:
+  type: fixed
+  month: 5
+  day: 2
+feast_rodopi:
+  type: fixed
+  month: 5
+  day: 3
+feast_eirini:
+  type: fixed
+  month: 5
+  day: 5
+feast_serafeim:
+  type: fixed
+  month: 5
+  day: 6
+feast_theologos:
+  type: fixed
+  month: 5
+  day: 8
+feast_milios:
+  type: fixed
+  month: 5
+  day: 8
+feast_christoforos:
+  type: fixed
+  month: 5
+  day: 9
+feast_isaias:
+  type: fixed
+  month: 5
+  day: 9
+feast_simonas:
+  type: fixed
+  month: 5
+  day: 10
+feast_olympia:
+  type: fixed
+  month: 5
+  day: 11
+feast_argyris:
+  type: fixed
+  month: 5
+  day: 11
+feast_glykeria:
+  type: fixed
+  month: 5
+  day: 13
+feast_aristotelis:
+  type: fixed
+  month: 5
+  day: 14
+feast_kali:
+  type: fixed
+  month: 5
+  day: 15
+feast_andronikos:
+  type: fixed
+  month: 5
+  day: 17
+feast_solon:
+  type: fixed
+  month: 5
+  day: 17
+feast_ioylia:
+  type: fixed
+  month: 5
+  day: 18
+feast_galateia:
+  type: fixed
+  month: 5
+  day: 18
+feast_magdalini:
+  type: fixed
+  month: 5
+  day: 19
+feast_theognostos:
+  type: fixed
+  month: 5
+  day: 19
+feast_patrikios:
+  type: fixed
+  month: 5
+  day: 19
+feast_lito:
+  type: fixed
+  month: 5
+  day: 20
+feast_eleni:
+  type: fixed
+  month: 5
+  day: 21
+feast_konstantinos:
+  type: fixed
+  month: 5
+  day: 21
+feast_konstantina:
+  type: fixed
+  month: 5
+  day: 21
+feast_nantia:
+  type: fixed
+  month: 5
+  day: 21
+feast_aimilios:
+  type: fixed
+  month: 5
+  day: 22
+feast_theodosia:
+  type: fixed
+  month: 5
+  day: 29
+feast_gerakina:
+  type: fixed
+  month: 6
+  day: 1
+feast_pyrros:
+  type: fixed
+  month: 6
+  day: 1
+feast_marinos:
+  type: fixed
+  month: 6
+  day: 2
+feast_martha:
+  type: fixed
+  month: 6
+  day: 4
+feast_dorotheos:
+  type: fixed
+  month: 6
+  day: 5
+feast_selini:
+  type: fixed
+  month: 6
+  day: 5
+feast_apollon:
+  type: fixed
+  month: 6
+  day: 5
+feast_sevastiani:
+  type: fixed
+  month: 6
+  day: 7
+feast_kalliopi:
+  type: fixed
+  month: 6
+  day: 8
+feast_rodanthi:
+  type: fixed
+  month: 6
+  day: 9
+feast_zafeirios:
+  type: fixed
+  month: 6
+  day: 11
+feast_onoyfrios:
+  type: fixed
+  month: 6
+  day: 12
+feast_elissaios:
+  type: fixed
+  month: 6
+  day: 14
+feast_monika:
+  type: fixed
+  month: 6
+  day: 15
+feast_aygoysta:
+  type: fixed
+  month: 6
+  day: 15
+feast_aygoystinos:
+  type: fixed
+  month: 6
+  day: 15
+feast_paisios:
+  type: fixed
+  month: 6
+  day: 19
+feast_eysevios:
+  type: fixed
+  month: 6
+  day: 22
+feast_fevronia:
+  type: fixed
+  month: 6
+  day: 25
+feast_david:
+  type: fixed
+  month: 6
+  day: 26
+feast_anargyros:
+  type: fixed
+  month: 6
+  day: 28
+feast_petros:
+  type: fixed
+  month: 6
+  day: 29
+feast_paylos:
+  type: fixed
+  month: 6
+  day: 29
+feast_apostolos:
+  type: fixed
+  month: 6
+  day: 30
+feast_kosmas:
+  type: fixed
+  month: 7
+  day: 1
+feast_damianos:
+  type: fixed
+  month: 7
+  day: 1
+feast_zoympoylia:
+  type: fixed
+  month: 7
+  day: 3
+feast_yakinthos:
+  type: fixed
+  month: 7
+  day: 3
+feast_kyriaki:
+  type: fixed
+  month: 7
+  day: 7
+feast_theofilos:
+  type: fixed
+  month: 7
+  day: 8
+feast_prokopis:
+  type: fixed
+  month: 7
+  day: 8
+feast_amalia:
+  type: fixed
+  month: 7
+  day: 10
+feast_olga:
+  type: fixed
+  month: 7
+  day: 11
+feast_eyfimia:
+  type: fixed
+  month: 7
+  day: 11
+feast_veroniki:
+  type: fixed
+  month: 7
+  day: 12
+feast_sara:
+  type: fixed
+  month: 7
+  day: 13
+feast_nikodimos:
+  type: fixed
+  month: 7
+  day: 14
+feast_vladimiros:
+  type: fixed
+  month: 7
+  day: 15
+feast_ioylitta:
+  type: fixed
+  month: 7
+  day: 15
+feast_kirykos:
+  type: fixed
+  month: 7
+  day: 15
+feast_marina:
+  type: fixed
+  month: 7
+  day: 17
+feast_aliki:
+  type: fixed
+  month: 7
+  day: 17
+feast_garyfallia:
+  type: fixed
+  month: 7
+  day: 19
+feast_makrina:
+  type: fixed
+  month: 7
+  day: 19
+feast_ilias:
+  type: fixed
+  month: 7
+  day: 20
+feast_markella:
+  type: fixed
+  month: 7
+  day: 22
+feast_menelaos:
+  type: fixed
+  month: 7
+  day: 22
+feast_christina:
+  type: fixed
+  month: 7
+  day: 24
+feast_eypraxia:
+  type: fixed
+  month: 7
+  day: 25
+feast_paraskeyi:
+  type: fixed
+  month: 7
+  day: 26
+feast_ersi:
+  type: fixed
+  month: 7
+  day: 26
+feast_oraiozili:
+  type: fixed
+  month: 7
+  day: 26
+feast_ermolaos:
+  type: fixed
+  month: 7
+  day: 26
+feast_pantelis:
+  type: fixed
+  month: 7
+  day: 27
+feast_chrysovalantis:
+  type: fixed
+  month: 7
+  day: 28
+feast_theodoti:
+  type: fixed
+  month: 7
+  day: 29
+feast_freideriki:
+  type: fixed
+  month: 7
+  day: 31
+feast_salomi:
+  type: fixed
+  month: 8
+  day: 3
+feast_violeta:
+  type: fixed
+  month: 8
+  day: 4
+feast_exakoystodianos:
+  type: fixed
+  month: 8
+  day: 4
+feast_sotiris:
+  type: fixed
+  month: 8
+  day: 6
+feast_eymorfia:
+  type: fixed
+  month: 8
+  day: 6
+feast_morfoyla:
+  type: fixed
+  month: 8
+  day: 6
+feast_asterios:
+  type: fixed
+  month: 8
+  day: 7
+feast_astero:
+  type: fixed
+  month: 8
+  day: 7
+feast_astrini:
+  type: fixed
+  month: 8
+  day: 7
+feast_triantafyllia:
+  type: fixed
+  month: 8
+  day: 8
+feast_triantafyllos:
+  type: fixed
+  month: 8
+  day: 8
+feast_iro:
+  type: fixed
+  month: 8
+  day: 10
+feast_ippolytos:
+  type: fixed
+  month: 8
+  day: 10
+feast_lora:
+  type: fixed
+  month: 8
+  day: 10
+feast_layrentios:
+  type: fixed
+  month: 8
+  day: 10
+feast_symela:
+  type: fixed
+  month: 8
+  day: 15
+feast_krystallo:
+  type: fixed
+  month: 8
+  day: 15
+feast_gesthimani:
+  type: fixed
+  month: 8
+  day: 15
+feast_presveia:
+  type: fixed
+  month: 8
+  day: 15
+feast_gerasimos:
+  type: fixed
+  month: 8
+  day: 16
+feast_alkiviadis:
+  type: fixed
+  month: 8
+  day: 16
+feast_leykothea:
+  type: fixed
+  month: 8
+  day: 17
+feast_floros:
+  type: fixed
+  month: 8
+  day: 18
+feast_arsenios:
+  type: fixed
+  month: 8
+  day: 18
+feast_malamati:
+  type: fixed
+  month: 8
+  day: 23
+feast_eirinaios:
+  type: fixed
+  month: 8
+  day: 23
+feast_natalia:
+  type: fixed
+  month: 8
+  day: 26
+feast_adriani:
+  type: fixed
+  month: 8
+  day: 26
+feast_adrianos:
+  type: fixed
+  month: 8
+  day: 26
+feast_fanoyris:
+  type: fixed
+  month: 8
+  day: 27
+feast_osios:
+  type: fixed
+  month: 8
+  day: 27
+feast_alexandros:
+  type: fixed
+  month: 8
+  day: 30
+feast_eylalios:
+  type: fixed
+  month: 8
+  day: 30
+feast_athina:
+  type: fixed
+  month: 9
+  day: 1
+feast_charikleia:
+  type: fixed
+  month: 9
+  day: 1
+feast_oyrania:
+  type: fixed
+  month: 9
+  day: 1
+feast_afroditi:
+  type: fixed
+  month: 9
+  day: 1
+feast_margarita:
+  type: fixed
+  month: 9
+  day: 1
+feast_pinelopi:
+  type: fixed
+  month: 9
+  day: 1
+feast_aspasia:
+  type: fixed
+  month: 9
+  day: 1
+feast_antigoni:
+  type: fixed
+  month: 9
+  day: 1
+feast_melpomeni:
+  type: fixed
+  month: 9
+  day: 1
+feast_kleopatra:
+  type: fixed
+  month: 9
+  day: 1
+feast_theano:
+  type: fixed
+  month: 9
+  day: 1
+feast_elpiniki:
+  type: fixed
+  month: 9
+  day: 1
+feast_kalliroi:
+  type: fixed
+  month: 9
+  day: 1
+feast_eyterpi:
+  type: fixed
+  month: 9
+  day: 1
+feast_akrivi:
+  type: fixed
+  month: 9
+  day: 1
+feast_thaleia:
+  type: fixed
+  month: 9
+  day: 1
+feast_chaido:
+  type: fixed
+  month: 9
+  day: 1
+feast_kleoniki:
+  type: fixed
+  month: 9
+  day: 1
+feast_erasmia:
+  type: fixed
+  month: 9
+  day: 1
+feast_diamanto:
+  type: fixed
+  month: 9
+  day: 1
+feast_ismini:
+  type: fixed
+  month: 9
+  day: 1
+feast_polytimi:
+  type: fixed
+  month: 9
+  day: 1
+feast_polymnia:
+  type: fixed
+  month: 9
+  day: 1
+feast_pandora:
+  type: fixed
+  month: 9
+  day: 1
+feast_erato:
+  type: fixed
+  month: 9
+  day: 1
+feast_theonymfi:
+  type: fixed
+  month: 9
+  day: 1
+feast_koralia:
+  type: fixed
+  month: 9
+  day: 1
+feast_sapfo:
+  type: fixed
+  month: 9
+  day: 1
+feast_moscho:
+  type: fixed
+  month: 9
+  day: 1
+feast_terpsichori:
+  type: fixed
+  month: 9
+  day: 1
+feast_rallia:
+  type: fixed
+  month: 9
+  day: 1
+feast_polyniki:
+  type: fixed
+  month: 9
+  day: 1
+feast_rallis:
+  type: fixed
+  month: 9
+  day: 1
+feast_aristea:
+  type: fixed
+  month: 9
+  day: 3
+feast_archontia:
+  type: fixed
+  month: 9
+  day: 3
+feast_anthimos:
+  type: fixed
+  month: 9
+  day: 3
+feast_foivos:
+  type: fixed
+  month: 9
+  day: 3
+feast_polydoros:
+  type: fixed
+  month: 9
+  day: 3
+feast_ermioni:
+  type: fixed
+  month: 9
+  day: 4
+feast_moysis:
+  type: fixed
+  month: 9
+  day: 4
+feast_lygeri:
+  type: fixed
+  month: 9
+  day: 6
+feast_eydoxios:
+  type: fixed
+  month: 9
+  day: 6
+feast_kassiani:
+  type: fixed
+  month: 9
+  day: 7
+feast_tsampika:
+  type: fixed
+  month: 9
+  day: 8
+feast_ioakeim:
+  type: fixed
+  month: 9
+  day: 9
+feast_klimis:
+  type: fixed
+  month: 9
+  day: 10
+feast_poylcheria:
+  type: fixed
+  month: 9
+  day: 10
+feast_mitrodora:
+  type: fixed
+  month: 9
+  day: 10
+feast_klimentini:
+  type: fixed
+  month: 9
+  day: 10
+feast_eyanthia:
+  type: fixed
+  month: 9
+  day: 11
+feast_aristeidis:
+  type: fixed
+  month: 9
+  day: 13
+feast_kornilios:
+  type: fixed
+  month: 9
+  day: 13
+feast_stayros:
+  type: fixed
+  month: 9
+  day: 14
+feast_theoklis:
+  type: fixed
+  month: 9
+  day: 14
+feast_nikitas:
+  type: fixed
+  month: 9
+  day: 15
+feast_vissarion:
+  type: fixed
+  month: 9
+  day: 15
+feast_melina:
+  type: fixed
+  month: 9
+  day: 16
+feast_sofia:
+  type: fixed
+  month: 9
+  day: 17
+feast_elpida:
+  type: fixed
+  month: 9
+  day: 17
+feast_agapi:
+  type: fixed
+  month: 9
+  day: 17
+feast_sonia:
+  type: fixed
+  month: 9
+  day: 17
+feast_agathoklis:
+  type: fixed
+  month: 9
+  day: 17
+feast_ariadni:
+  type: fixed
+  month: 9
+  day: 18
+feast_savvatios:
+  type: fixed
+  month: 9
+  day: 19
+feast_theopisti:
+  type: fixed
+  month: 9
+  day: 20
+feast_loyiza:
+  type: fixed
+  month: 9
+  day: 22
+feast_zografia:
+  type: fixed
+  month: 9
+  day: 22
+feast_polyxeni:
+  type: fixed
+  month: 9
+  day: 23
+feast_xanthippi:
+  type: fixed
+  month: 9
+  day: 23
+feast_iris:
+  type: fixed
+  month: 9
+  day: 23
+feast_myrto:
+  type: fixed
+  month: 9
+  day: 24
+feast_persefoni:
+  type: fixed
+  month: 9
+  day: 24
+feast_myrsini:
+  type: fixed
+  month: 9
+  day: 24
+feast_thekla:
+  type: fixed
+  month: 9
+  day: 24
+feast_eyfrosyni:
+  type: fixed
+  month: 9
+  day: 25
+feast_kyriakos:
+  type: fixed
+  month: 9
+  day: 29
+feast_thiresia:
+  type: fixed
+  month: 10
+  day: 1
+feast_dionysis:
+  type: fixed
+  month: 10
+  day: 3
+feast_ierotheos:
+  type: fixed
+  month: 10
+  day: 4
+feast_kallisthenis:
+  type: fixed
+  month: 10
+  day: 4
+feast_charitini:
+  type: fixed
+  month: 10
+  day: 5
+feast_thomas:
+  type: fixed
+  month: 10
+  day: 6
+feast_polychronis:
+  type: fixed
+  month: 10
+  day: 7
+feast_sergios:
+  type: fixed
+  month: 10
+  day: 7
+feast_pelagia:
+  type: fixed
+  month: 10
+  day: 8
+feast_avraam:
+  type: fixed
+  month: 10
+  day: 9
+feast_eylampia:
+  type: fixed
+  month: 10
+  day: 10
+feast_amaryllis:
+  type: fixed
+  month: 10
+  day: 10
+feast_andromachi:
+  type: fixed
+  month: 10
+  day: 12
+feast_florentia:
+  type: fixed
+  month: 10
+  day: 13
+feast_agathoniki:
+  type: fixed
+  month: 10
+  day: 13
+feast_ignatios:
+  type: fixed
+  month: 10
+  day: 14
+feast_loykas:
+  type: fixed
+  month: 10
+  day: 18
+feast_artemis:
+  type: fixed
+  month: 10
+  day: 20
+feast_kerasia:
+  type: fixed
+  month: 10
+  day: 20
+feast_ntiana:
+  type: fixed
+  month: 10
+  day: 20
+feast_artemios:
+  type: fixed
+  month: 10
+  day: 20
+feast_orsalia:
+  type: fixed
+  month: 10
+  day: 21
+feast_averkios:
+  type: fixed
+  month: 10
+  day: 22
+feast_iakovos:
+  type: fixed
+  month: 10
+  day: 23
+feast_dimitris:
+  type: fixed
+  month: 10
+  day: 26
+feast_dimitra:
+  type: fixed
+  month: 10
+  day: 26
+feast_nestor:
+  type: fixed
+  month: 10
+  day: 27
+feast_zinovia:
+  type: fixed
+  month: 10
+  day: 30
+feast_afthonios:
+  type: fixed
+  month: 11
+  day: 2
+feast_epistimi:
+  type: fixed
+  month: 11
+  day: 5
+feast_leonardos:
+  type: fixed
+  month: 11
+  day: 6
+feast_athinodoros:
+  type: fixed
+  month: 11
+  day: 7
+feast_thessaloniki:
+  type: fixed
+  month: 11
+  day: 7
+feast_aggelos:
+  type: fixed
+  month: 11
+  day: 8
+feast_michail:
+  type: fixed
+  month: 11
+  day: 8
+feast_metaxia:
+  type: fixed
+  month: 11
+  day: 8
+feast_gavriil:
+  type: fixed
+  month: 11
+  day: 8
+feast_michaela:
+  type: fixed
+  month: 11
+  day: 8
+feast_stratigos:
+  type: fixed
+  month: 11
+  day: 8
+feast_taxiarchis:
+  type: fixed
+  month: 11
+  day: 8
+feast_nektarios:
+  type: fixed
+  month: 11
+  day: 9
+feast_mayra:
+  type: fixed
+  month: 11
+  day: 9
+feast_orestis:
+  type: fixed
+  month: 11
+  day: 10
+feast_rodion:
+  type: fixed
+  month: 11
+  day: 10
+feast_arsinoi:
+  type: fixed
+  month: 11
+  day: 10
+feast_viktoras:
+  type: fixed
+  month: 11
+  day: 11
+feast_minas:
+  type: fixed
+  month: 11
+  day: 11
+feast_minos:
+  type: fixed
+  month: 11
+  day: 11
+feast_vikentios:
+  type: fixed
+  month: 11
+  day: 11
+feast_chrysostomos:
+  type: fixed
+  month: 11
+  day: 13
+feast_filippos:
+  type: fixed
+  month: 11
+  day: 14
+feast_filippa:
+  type: fixed
+  month: 11
+  day: 14
+feast_ifigeneia:
+  type: fixed
+  month: 11
+  day: 16
+feast_matthaios:
+  type: fixed
+  month: 11
+  day: 16
+feast_soyltana:
+  type: fixed
+  month: 11
+  day: 21
+feast_virginia:
+  type: fixed
+  month: 11
+  day: 21
+feast_lemonia:
+  type: fixed
+  month: 11
+  day: 21
+feast_filimon:
+  type: fixed
+  month: 11
+  day: 22
+feast_aikaterini:
+  type: fixed
+  month: 11
+  day: 25
+feast_merkoyris:
+  type: fixed
+  month: 11
+  day: 25
+feast_stylianos:
+  type: fixed
+  month: 11
+  day: 26
+feast_stergios:
+  type: fixed
+  month: 11
+  day: 26
+feast_kyparissia:
+  type: fixed
+  month: 11
+  day: 26
+feast_faidra:
+  type: fixed
+  month: 11
+  day: 29
+feast_filomeni:
+  type: fixed
+  month: 11
+  day: 29
+feast_andreas:
+  type: fixed
+  month: 11
+  day: 30
+feast_areti:
+  type: fixed
+  month: 12
+  day: 1
+feast_naoym:
+  type: fixed
+  month: 12
+  day: 1
+feast_filaretos:
+  type: fixed
+  month: 12
+  day: 1
+feast_theoklitos:
+  type: fixed
+  month: 12
+  day: 1
+feast_meropi:
+  type: fixed
+  month: 12
+  day: 2
+feast_varvara:
+  type: fixed
+  month: 12
+  day: 4
+feast_savvas:
+  type: fixed
+  month: 12
+  day: 5
+feast_diogenis:
+  type: fixed
+  month: 12
+  day: 5
+feast_nikolaos:
+  type: fixed
+  month: 12
+  day: 6
+feast_nikoleta:
+  type: fixed
+  month: 12
+  day: 6
+feast_nikolina:
+  type: fixed
+  month: 12
+  day: 6
+feast_anna:
+  type: fixed
+  month: 12
+  day: 9
+feast_spyridon:
+  type: fixed
+  month: 12
+  day: 12
+feast_aris:
+  type: fixed
+  month: 12
+  day: 13
+feast_leyki:
+  type: fixed
+  month: 12
+  day: 14
+feast_eleytherios:
+  type: fixed
+  month: 12
+  day: 15
+feast_anthi:
+  type: fixed
+  month: 12
+  day: 15
+feast_sylvia:
+  type: fixed
+  month: 12
+  day: 15
+feast_theofano:
+  type: fixed
+  month: 12
+  day: 16
+feast_daniil:
+  type: fixed
+  month: 12
+  day: 17
+feast_aglaia:
+  type: fixed
+  month: 12
+  day: 19
+feast_natasa:
+  type: fixed
+  month: 12
+  day: 22
+feast_eygenia:
+  type: fixed
+  month: 12
+  day: 24
+feast_achmet:
+  type: fixed
+  month: 12
+  day: 24
+feast_christos:
+  type: fixed
+  month: 12
+  day: 25
+feast_chrysoyla:
+  type: fixed
+  month: 12
+  day: 25
+feast_emmanoyil:
+  type: fixed
+  month: 12
+  day: 25
+feast_emmanoyela:
+  type: fixed
+  month: 12
+  day: 25
+feast_chrysa:
+  type: fixed
+  month: 12
+  day: 25
+feast_chrysaygi:
+  type: fixed
+  month: 12
+  day: 25
+feast_vithleem:
+  type: fixed
+  month: 12
+  day: 25
+feast_konstantios:
+  type: fixed
+  month: 12
+  day: 26
+feast_iosif:
+  type: fixed
+  month: 12
+  day: 26
+feast_stefanos:
+  type: fixed
+  month: 12
+  day: 27
+feast_domna:
+  type: fixed
+  month: 12
+  day: 28
+feast_theofili:
+  type: fixed
+  month: 12
+  day: 28
+feast_veniamin:
+  type: fixed
+  month: 12
+  day: 29
+feast_anysios:
+  type: fixed
+  month: 12
+  day: 30
+feast_melani:
+  type: fixed
+  month: 12
+  day: 31
+feast_saint_theodore_saturday:
+  type: offset_from_easter
+  offset: -43
+feast_sunday_of_orthodoxy:
+  type: offset_from_easter
+  offset: -42
+feast_lazarus_saturday:
+  type: offset_from_easter
+  offset: -8
+feast_palm_sunday:
+  type: offset_from_easter
+  offset: -7
+feast_orthodox_easter:
+  type: offset_from_easter
+  offset: 0
+feast_bright_tuesday:
+  type: offset_from_easter
+  offset: 2
+feast_bright_wednesday:
+  type: offset_from_easter
+  offset: 3
+feast_life_giving_spring:
+  type: offset_from_easter
+  offset: 5
+feast_saint_george:
+  type: saint_george
+feast_saint_mark:
+  type: custom
+  rule: saint_mark
+  month: 4
+  day: 25
+feast_sunday_of_myrrh_bearers:
+  type: offset_from_easter
+  offset: 14
+feast_ascension:
+  type: offset_from_easter
+  offset: 39
+feast_holy_spirit:
+  type: offset_from_easter
+  offset: 50
+feast_sunday_of_forefathers:
+  type: custom
+  rule: sunday_on_or_after
+  month: 12
+  day: 11
+feast_dormition:
+  type: fixed
+  month: 8
+  day: 15
+feast_saint_alexandra:
+  type: fixed
+  month: 4
+  day: 21
+feast_saint_emmeleia:
+  type: fixed
+  month: 5
+  day: 30
+# Additional rules used by church observances. Existing generic rules are
+# reused from above when their calculation is identical.
+feast_sunday_of_cross_veneration:
+  type: offset_from_easter
+  offset: -28
+feast_sunday_of_thomas:
+  type: offset_from_easter
+  offset: 7
+feast_pentecost:
+  type: offset_from_easter
+  offset: 49
+feast_sunday_of_all_saints:
+  type: offset_from_easter
+  offset: 56
+feast_presentation_of_christ:
+  type: fixed
+  month: 2
+  day: 2
+feast_theophany:
+  type: fixed
+  month: 1
+  day: 6
+feast_annunciation:
+  type: fixed
+  month: 3
+  day: 25
+feast_exaltation_holy_cross:
+  type: fixed
+  month: 9
+  day: 14
+feast_nativity_christ:
+  type: fixed
+  month: 12
+  day: 25
+feast_transfiguration:
+  type: fixed
+  month: 8
+  day: 6
+feast_nativity_theotokos:
+  type: fixed
+  month: 9
+  day: 8
+feast_entry_theotokos:
+  type: fixed
+  month: 11
+  day: 21
+feast_three_hierarchs:
+  type: fixed
+  month: 1
+  day: 30
+feast_saint_demetrios:
+  type: fixed
+  month: 10
+  day: 26
+feast_saints_peter_paul:
+  type: fixed
+  month: 6
+  day: 29
+feast_saint_nicholas:
+  type: fixed
+  month: 12
+  day: 6

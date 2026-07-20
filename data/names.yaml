@@ -1,0 +1,2472 @@
+# Fixed and movable nameday groups.
+# Popularity is a relative integer selection score from 0 through 100.
+- id: vasiliki
+  feast: feast_vasiliki
+  popularity: 100
+  names:
+  - Βασιλική
+  - Βασιλεία
+  - Βάσω
+  - Βασούλα
+  - Βίκυ
+- id: vasilis
+  feast: feast_vasilis
+  popularity: 98
+  names:
+  - Βασίλειος
+- id: tilemachos
+  feast: feast_tilemachos
+  popularity: 67
+  names:
+  - Τηλέμαχος
+- id: silvestros
+  feast: feast_silvestros
+  popularity: 23
+  names:
+  - Σίλβεστρος
+- id: genovefa
+  feast: feast_genovefa
+  popularity: 59
+  names:
+  - Γενοβέφα
+- id: theoni
+  feast: feast_theoni
+  popularity: 77
+  names:
+  - Θεώνη
+- id: foteini
+  feast: feast_foteini
+  popularity: 97
+  names:
+  - Φωτεινή
+  - Φωτούλα
+  - Φώτω
+- id: fani
+  feast: feast_fani
+  popularity: 92
+  names:
+  - Φανή
+  - Φανούλα
+- id: fotis
+  feast: feast_fotis
+  popularity: 92
+  names:
+  - Φώτιος
+  - Φωτεινός
+- id: theofanis
+  feast: feast_theofanis
+  popularity: 84
+  names:
+  - Θεοφάνης
+- id: iordanis
+  feast: feast_iordanis
+  popularity: 80
+  names:
+  - Ιορδάνης
+  - Ιορδάνα
+- id: peristera
+  feast: feast_peristera
+  popularity: 71
+  names:
+  - Περιστέρα
+- id: theopoyla
+  feast: feast_theopoyla
+  popularity: 64
+  names:
+  - Θεοπούλα
+- id: faidon
+  feast: feast_faidon
+  popularity: 2
+  names:
+  - Φαίδων
+- id: ioannis
+  feast: feast_ioannis
+  popularity: 99
+  names:
+  - Ιωάννης
+  - Ιωάννα
+  - Γιάννης
+- id: prodromos
+  feast: feast_prodromos
+  popularity: 75
+  names:
+  - Πρόδρομος
+- id: parthena
+  feast: feast_parthena
+  popularity: 87
+  names:
+  - Παρθένα
+- id: dominiki
+  feast: feast_dominiki
+  popularity: 51
+  names:
+  - Δομνίκη
+- id: eystratios
+  feast: feast_eystratios
+  popularity: 89
+  names:
+  - Ευστράτιος
+  - Ευστρατία
+- id: theodosios
+  feast: feast_theodosios
+  popularity: 73
+  names:
+  - Θεοδόσιος
+- id: tatiani
+  feast: feast_tatiani
+  popularity: 68
+  names:
+  - Τατιανή
+  - Τατιάνα
+- id: nina
+  feast: feast_nina
+  popularity: 65
+  names:
+  - Νίνα
+- id: antonios
+  feast: feast_antonios
+  popularity: 95
+  names:
+  - Αντώνιος
+  - Αντωνία
+  - Νάκος
+- id: athanasios
+  feast: feast_athanasios
+  popularity: 98
+  names:
+  - Αθανάσιος
+  - Αθανασία
+  - Θανάσης
+  - Θάνος
+- id: theodoyla
+  feast: feast_theodoyla
+  popularity: 37
+  names:
+  - Θεοδούλα
+  - Θεόδουλη
+- id: kyrillos
+  feast: feast_kyrillos
+  popularity: 11
+  names:
+  - Κύριλλος
+- id: eythymios
+  feast: feast_eythymios
+  popularity: 95
+  names:
+  - Ευθυμία
+  - Ευθύμιος
+- id: agni
+  feast: feast_agni
+  popularity: 80
+  names:
+  - Αγνή
+- id: eygenios
+  feast: feast_eygenios
+  popularity: 60
+  names:
+  - Ευγένιος
+- id: neofytos
+  feast: feast_neofytos
+  popularity: 53
+  names:
+  - Νεόφυτος
+- id: patroklos
+  feast: feast_patroklos
+  popularity: 6
+  names:
+  - Πάτροκλος
+- id: timotheos
+  feast: feast_timotheos
+  popularity: 40
+  names:
+  - Τιμόθεος
+- id: xeni
+  feast: feast_xeni
+  popularity: 41
+  names:
+  - Ξένη
+- id: grigoris
+  feast: feast_grigoris
+  popularity: 92
+  names:
+  - Γρηγόριος
+  - Γρηγορία
+- id: xenofon
+  feast: feast_xenofon
+  popularity: 74
+  names:
+  - Ξενοφών
+  - Ξένια
+- id: charis
+  feast: feast_charis
+  popularity: 72
+  names:
+  - Χάρις
+- id: varsamia
+  feast: feast_varsamia
+  popularity: 30
+  names:
+  - Βαλσάμης
+- id: chrysi
+  feast: feast_chrysi
+  popularity: 91
+  names:
+  - Χρυσή
+- id: grammatiki
+  feast: feast_grammatiki
+  popularity: 69
+  names:
+  - Γραμματική
+- id: mayros
+  feast: feast_mayros
+  popularity: 35
+  names:
+  - Μαυρέτα
+  - Μαυρουδής
+- id: ayra
+  feast: feast_ayra
+  popularity: 30
+  names:
+  - Αύρα
+- id: eydoxia
+  feast: feast_eydoxia
+  popularity: 89
+  names:
+  - Ευδοξία
+- id: kyros
+  feast: feast_kyros
+  popularity: 11
+  names:
+  - Κύρος
+- id: tryfonas
+  feast: feast_tryfonas
+  popularity: 74
+  names:
+  - Τρύφων
+- id: ypapanti
+  feast: feast_ypapanti
+  popularity: 40
+  names:
+  - Υπαπαντή
+- id: stamatia
+  feast: feast_stamatia
+  popularity: 91
+  names:
+  - Σταματία
+  - Σταματίνα
+  - Σταμάτα
+  - Σταματέλλα
+  - Ματούλα
+- id: asimina
+  feast: feast_asimina
+  popularity: 90
+  names:
+  - Ασημίνα
+- id: stamatis
+  feast: feast_stamatis
+  popularity: 85
+  names:
+  - Σταμάτιος
+  - Σταμούλης
+- id: symeon
+  feast: feast_symeon
+  popularity: 76
+  names:
+  - Συμεών
+- id: asimakis
+  feast: feast_asimakis
+  popularity: 57
+  names:
+  - Ασημάκης
+- id: isidoros
+  feast: feast_isidoros
+  popularity: 65
+  names:
+  - Ισίδωρος
+- id: agathi
+  feast: feast_agathi
+  popularity: 84
+  names:
+  - Αγαθή
+  - Αγαθούλα
+- id: parthenis
+  feast: feast_parthenis
+  popularity: 67
+  names:
+  - Παρθενόπη
+  - Παρθενία
+- id: zacharias
+  feast: feast_zacharias
+  popularity: 86
+  names:
+  - Ζαχαρούλα
+  - Ζαχαρίας
+  - Ζαχαρένια
+  - Ζαχάρω
+- id: charalampos
+  feast: feast_charalampos
+  popularity: 95
+  names:
+  - Χαράλαμπος
+- id: charilaos
+  feast: feast_charilaos
+  popularity: 82
+  names:
+  - Χαρίλαος
+- id: charalampia
+  feast: feast_charalampia
+  popularity: 82
+  names:
+  - Χαραλαμπία
+- id: theodora
+  feast: feast_theodora
+  popularity: 97
+  names:
+  - Θεοδώρα
+- id: vlassis
+  feast: feast_vlassis
+  popularity: 69
+  names:
+  - Βλάσιος
+  - Βλασία
+- id: aygi
+  feast: feast_aygi
+  popularity: 61
+  names:
+  - Αυγή
+- id: meletios
+  feast: feast_meletios
+  popularity: 50
+  names:
+  - Μελέτιος
+- id: filothei
+  feast: feast_filothei
+  popularity: 45
+  names:
+  - Φιλοθέη
+- id: eystathios
+  feast: feast_eystathios
+  popularity: 91
+  names:
+  - Ευσταθία
+  - Ευστάθιος
+  - Σταθούλα
+- id: polykarpos
+  feast: feast_polykarpos
+  popularity: 52
+  names:
+  - Πολύκαρπος
+- id: riginos
+  feast: feast_riginos
+  popularity: 66
+  names:
+  - Ρεγγίνα
+  - Ρήγας
+  - Ρηγίνα
+- id: tarso
+  feast: feast_tarso
+  popularity: 2
+  names:
+  - Ταρσίτσα
+- id: anatoli
+  feast: feast_anatoli
+  popularity: 77
+  names:
+  - Ανατολή
+- id: kyra
+  feast: feast_kyra
+  popularity: 50
+  names:
+  - Κύρα
+  - Κυράτσω
+- id: eydokia
+  feast: feast_eydokia
+  popularity: 90
+  names:
+  - Ευδοκία
+- id: paraskeyas
+  feast: feast_paraskeyas
+  popularity: 83
+  names:
+  - Παρασκευάς
+- id: paraschos
+  feast: feast_paraschos
+  popularity: 50
+  names:
+  - Παράσχος
+- id: eythalia
+  feast: feast_eythalia
+  popularity: 88
+  names:
+  - Ευθαλία
+- id: theofylaktos
+  feast: feast_theofylaktos
+  popularity: 37
+  names:
+  - Θεοφύλακτος
+- id: iliana
+  feast: feast_iliana
+  popularity: 87
+  names:
+  - Ηλιάνα
+  - Ηλιανή
+- id: smaragda
+  feast: feast_smaragda
+  popularity: 71
+  names:
+  - Σμαράγδα
+  - Σμαρώ
+  - Σμαραγδή
+  - Σμαρούλα
+  - Σμαράγδω
+- id: iliana_0309
+  feast: feast_iliana_0309
+  popularity: 51
+  names:
+  - Ιλιάνα
+- id: savina
+  feast: feast_savina
+  popularity: 54
+  names:
+  - Ζαμπία
+  - Σαβίνα
+- id: sofronios
+  feast: feast_sofronios
+  popularity: 2
+  names:
+  - Σωφρονία
+- id: theofanis_0312
+  feast: feast_theofanis_0312
+  popularity: 64
+  names:
+  - Θεοφανία
+- id: marios
+  feast: feast_marios
+  popularity: 88
+  names:
+  - Μάριος
+- id: leandros
+  feast: feast_leandros
+  popularity: 11
+  names:
+  - Λέανδρος
+- id: agapios
+  feast: feast_agapios
+  popularity: 39
+  names:
+  - Αγάπιος
+- id: christodoylos
+  feast: feast_christodoylos
+  popularity: 75
+  names:
+  - Χριστόδουλος
+- id: alexios
+  feast: feast_alexios
+  popularity: 88
+  names:
+  - Αλεξία
+  - Αλέξιος
+- id: edoyardos
+  feast: feast_edoyardos
+  popularity: 16
+  names:
+  - Εδουάρδος
+- id: rodi
+  feast: feast_rodi
+  popularity: 58
+  names:
+  - Ροδή
+- id: drosoyla
+  feast: feast_drosoyla
+  popularity: 54
+  names:
+  - Δροσούλα
+  - Δροσία
+- id: drosos
+  feast: feast_drosos
+  popularity: 16
+  names:
+  - Δρόσος
+- id: eyaggelos
+  feast: feast_eyaggelos
+  popularity: 99
+  names:
+  - Ευαγγελία
+  - Ευάγγελος
+- id: lydia
+  feast: feast_lydia
+  popularity: 71
+  names:
+  - Λυδία
+- id: lida
+  feast: feast_lida
+  popularity: 66
+  names:
+  - Λήδα
+- id: ypatia
+  feast: feast_ypatia
+  popularity: 23
+  names:
+  - Υπατία
+- id: titos
+  feast: feast_titos
+  popularity: 2
+  names:
+  - Τίτος
+- id: panagiotis
+  feast: feast_dormition
+  popularity: 98
+  names:
+  - Παναγιώτα
+  - Παναγιώτης
+  - Παναγούλα
+  - Παναγιούλα
+  - Τούλα
+- id: argyro
+  feast: feast_argyro
+  popularity: 93
+  names:
+  - Αργυρώ
+  - Αργυρή
+  - Αργυρούλα
+- id: eytychios
+  feast: feast_eytychios
+  popularity: 93
+  names:
+  - Ευτυχία
+  - Ευτύχιος
+  - Εφη
+- id: miltiadis
+  feast: feast_miltiadis
+  popularity: 83
+  names:
+  - Μιλτιάδης
+- id: periklis
+  feast: feast_periklis
+  popularity: 83
+  names:
+  - Περικλής
+- id: sokratis
+  feast: feast_sokratis
+  popularity: 82
+  names:
+  - Σωκράτης
+- id: iraklis
+  feast: feast_iraklis
+  popularity: 80
+  names:
+  - Ηρακλής
+- id: themistoklis
+  feast: feast_themistoklis
+  popularity: 79
+  names:
+  - Θεμιστοκλής
+  - Θέμις
+- id: epameinondas
+  feast: feast_epameinondas
+  popularity: 78
+  names:
+  - Επαμεινώνδας
+- id: sofoklis
+  feast: feast_sofoklis
+  popularity: 63
+  names:
+  - Σοφοκλής
+- id: polyvios
+  feast: feast_polyvios
+  popularity: 53
+  names:
+  - Πολύβιος
+- id: zinon
+  feast: feast_zinon
+  popularity: 42
+  names:
+  - Ζήνων
+- id: pelopidas
+  feast: feast_pelopidas
+  popularity: 25
+  names:
+  - Πελοπίδας
+- id: fokion
+  feast: feast_fokion
+  popularity: 22
+  names:
+  - Φωκίων
+- id: omiros
+  feast: feast_omiros
+  popularity: 7
+  names:
+  - Ομηρος
+- id: parmenion
+  feast: feast_parmenion
+  popularity: 7
+  names:
+  - Παρμενίων
+- id: filopoimin
+  feast: feast_filopoimin
+  popularity: 1
+  names:
+  - Φιλοποίμην
+- id: thomais
+  feast: feast_thomais
+  popularity: 66
+  names:
+  - Θωμαΐς
+- id: leonidas
+  feast: feast_leonidas
+  popularity: 89
+  names:
+  - Λεωνίδας
+- id: niki
+  feast: feast_niki
+  popularity: 94
+  names:
+  - Νίκη
+- id: galini
+  feast: feast_galini
+  popularity: 61
+  names:
+  - Γαλήνη
+- id: chionia
+  feast: feast_chionia
+  popularity: 32
+  names:
+  - Χιονία
+- id: elisavet
+  feast: feast_elisavet
+  popularity: 95
+  names:
+  - Ελισάβετ
+  - Ελλη
+  - Ελίζα
+- id: achilleas
+  feast: feast_achilleas
+  popularity: 87
+  names:
+  - Αχιλλέας
+- id: doykas
+  feast: feast_doykas
+  popularity: 29
+  names:
+  - Δούκισσα
+- id: iason
+  feast: feast_iason
+  popularity: 56
+  names:
+  - Ιάσων
+- id: donatos
+  feast: feast_donatos
+  popularity: 16
+  names:
+  - Δονάτος
+- id: isidora
+  feast: feast_isidora
+  popularity: 68
+  names:
+  - Ισιδώρα
+- id: tamara
+  feast: feast_tamara
+  popularity: 2
+  names:
+  - Τάμαρα
+- id: aygerinos
+  feast: feast_aygerinos
+  popularity: 30
+  names:
+  - Αυγερινός
+- id: rodopi
+  feast: feast_rodopi
+  popularity: 33
+  names:
+  - Ροδόπη
+- id: eirini
+  feast: feast_eirini
+  popularity: 99
+  names:
+  - Ειρήνη
+  - Ρένα
+- id: serafeim
+  feast: feast_serafeim
+  popularity: 78
+  names:
+  - Σεραφείμ
+- id: theologos
+  feast: feast_theologos
+  popularity: 58
+  names:
+  - Θεολογία
+  - Θεολόγος
+- id: milios
+  feast: feast_milios
+  popularity: 46
+  names:
+  - Μηλιά
+- id: christoforos
+  feast: feast_christoforos
+  popularity: 83
+  names:
+  - Χριστόφορος
+- id: isaias
+  feast: feast_isaias
+  popularity: 58
+  names:
+  - Ησαΐα
+- id: simonas
+  feast: feast_simonas
+  popularity: 49
+  names:
+  - Σίμων
+- id: olympia
+  feast: feast_olympia
+  popularity: 89
+  names:
+  - Ολυμπία
+- id: argyris
+  feast: feast_argyris
+  popularity: 86
+  names:
+  - Αργύριος
+- id: glykeria
+  feast: feast_glykeria
+  popularity: 87
+  names:
+  - Γλυκερία
+- id: aristotelis
+  feast: feast_aristotelis
+  popularity: 82
+  names:
+  - Αριστοτέλης
+- id: kali
+  feast: feast_kali
+  popularity: 36
+  names:
+  - Κάλη
+- id: andronikos
+  feast: feast_andronikos
+  popularity: 88
+  names:
+  - Ανδρονίκη
+  - Ανδρόνικος
+- id: solon
+  feast: feast_solon
+  popularity: 40
+  names:
+  - Σόλων
+- id: ioylia
+  feast: feast_ioylia
+  popularity: 90
+  names:
+  - Ιουλία
+  - Γιούλα
+  - Ιούλιος
+  - Τζούλια
+- id: galateia
+  feast: feast_galateia
+  popularity: 67
+  names:
+  - Γαλάτεια
+- id: magdalini
+  feast: feast_magdalini
+  popularity: 94
+  names:
+  - Μαγδαληνή
+- id: theognostos
+  feast: feast_theognostos
+  popularity: 42
+  names:
+  - Θεογνωσία
+- id: patrikios
+  feast: feast_patrikios
+  popularity: 7
+  names:
+  - Πατριτσία
+- id: lito
+  feast: feast_lito
+  popularity: 46
+  names:
+  - Λητώ
+- id: eleni
+  feast: feast_eleni
+  popularity: 100
+  names:
+  - Ελένη
+  - Ελεάνα
+  - Ελενα
+  - Ελεάννα
+  - Ελεονώρα
+  - Ελεωνόρα
+  - Νόρα
+- id: konstantinos
+  feast: feast_konstantinos
+  popularity: 99
+  names:
+  - Κωνσταντίνος
+  - Κώστας
+- id: konstantina
+  feast: feast_konstantina
+  popularity: 98
+  names:
+  - Κωνσταντίνα
+  - Κωστούλα
+- id: nantia
+  feast: feast_nantia
+  popularity: 8
+  names:
+  - Νάντια
+- id: aimilios
+  feast: feast_aimilios
+  popularity: 85
+  names:
+  - Αιμιλία
+  - Αιμίλιος
+- id: theodosia
+  feast: feast_theodosia
+  popularity: 82
+  names:
+  - Θεοδοσία
+- id: gerakina
+  feast: feast_gerakina
+  popularity: 51
+  names:
+  - Γερακίνα
+- id: pyrros
+  feast: feast_pyrros
+  popularity: 5
+  names:
+  - Πύρρος
+- id: marinos
+  feast: feast_marinos
+  popularity: 70
+  names:
+  - Μαρίνος
+- id: martha
+  feast: feast_martha
+  popularity: 90
+  names:
+  - Μάρθα
+- id: dorotheos
+  feast: feast_dorotheos
+  popularity: 78
+  names:
+  - Δωροθέα
+- id: selini
+  feast: feast_selini
+  popularity: 24
+  names:
+  - Σελήνη
+- id: apollon
+  feast: feast_apollon
+  popularity: 19
+  names:
+  - Απόλλων
+- id: sevastiani
+  feast: feast_sevastiani
+  popularity: 85
+  names:
+  - Σεβαστή
+- id: kalliopi
+  feast: feast_kalliopi
+  popularity: 97
+  names:
+  - Καλλιόπη
+- id: rodanthi
+  feast: feast_rodanthi
+  popularity: 69
+  names:
+  - Ροδάνθη
+- id: zafeirios
+  feast: feast_zafeirios
+  popularity: 68
+  names:
+  - Ζαφειρία
+  - Ζαφείρω
+  - Ζαφείριος
+- id: onoyfrios
+  feast: feast_onoyfrios
+  popularity: 34
+  names:
+  - Ονούφριος
+- id: elissaios
+  feast: feast_elissaios
+  popularity: 16
+  names:
+  - Ελισσαίος
+- id: monika
+  feast: feast_monika
+  popularity: 25
+  names:
+  - Μόνικα
+- id: aygoysta
+  feast: feast_aygoysta
+  popularity: 18
+  names:
+  - Αυγουστίνα
+- id: aygoystinos
+  feast: feast_aygoystinos
+  popularity: 18
+  names:
+  - Αυγουστίνος
+- id: paisios
+  feast: feast_paisios
+  popularity: 7
+  names:
+  - Παΐσιος
+- id: eysevios
+  feast: feast_eysevios
+  popularity: 38
+  names:
+  - Ευσεβεία
+- id: fevronia
+  feast: feast_fevronia
+  popularity: 62
+  names:
+  - Φεβρωνία
+- id: david
+  feast: feast_david
+  popularity: 39
+  names:
+  - Δαυίδ
+- id: anargyros
+  feast: feast_anargyros
+  popularity: 67
+  names:
+  - Ανάργυρος
+- id: petros
+  feast: feast_petros
+  popularity: 94
+  names:
+  - Πέτρος
+  - Πετρούλα
+  - Πετρίνα
+- id: paylos
+  feast: feast_paylos
+  popularity: 90
+  names:
+  - Παύλος
+  - Παυλίνα
+- id: apostolos
+  feast: feast_apostolos
+  popularity: 95
+  names:
+  - Απόστολος
+  - Αποστολία
+  - Αποστολίνα
+- id: kosmas
+  feast: feast_kosmas
+  popularity: 79
+  names:
+  - Κοσμάς
+- id: damianos
+  feast: feast_damianos
+  popularity: 71
+  names:
+  - Δαμιανός
+- id: zoympoylia
+  feast: feast_zoympoylia
+  popularity: 38
+  names:
+  - Ζουμπουλιά
+- id: yakinthos
+  feast: feast_yakinthos
+  popularity: 37
+  names:
+  - Ιάνθη
+- id: kyriaki
+  feast: feast_kyriaki
+  popularity: 97
+  names:
+  - Κυριακή
+  - Κική
+- id: theofilos
+  feast: feast_theofilos
+  popularity: 77
+  names:
+  - Θεόφιλος
+- id: prokopis
+  feast: feast_prokopis
+  popularity: 63
+  names:
+  - Προκόπιος
+- id: amalia
+  feast: feast_amalia
+  popularity: 91
+  names:
+  - Αμαλία
+- id: olga
+  feast: feast_olga
+  popularity: 96
+  names:
+  - Ολγα
+- id: eyfimia
+  feast: feast_eyfimia
+  popularity: 73
+  names:
+  - Ευφημία
+- id: veroniki
+  feast: feast_veroniki
+  popularity: 54
+  names:
+  - Βερόνικα
+  - Βερονίκη
+- id: sara
+  feast: feast_sara
+  popularity: 74
+  names:
+  - Σάρα
+- id: nikodimos
+  feast: feast_nikodimos
+  popularity: 25
+  names:
+  - Νικόδημος
+- id: vladimiros
+  feast: feast_vladimiros
+  popularity: 29
+  names:
+  - Βλαδίμηρος
+- id: ioylitta
+  feast: feast_ioylitta
+  popularity: 13
+  names:
+  - Ιουλίττα
+- id: kirykos
+  feast: feast_kirykos
+  popularity: 12
+  names:
+  - Κήρυκος
+- id: marina
+  feast: feast_marina
+  popularity: 95
+  names:
+  - Μαρίνα
+- id: aliki
+  feast: feast_aliki
+  popularity: 85
+  names:
+  - Αλίκη
+- id: garyfallia
+  feast: feast_garyfallia
+  popularity: 81
+  names:
+  - Γαρυφαλλιά
+- id: makrina
+  feast: feast_makrina
+  popularity: 64
+  names:
+  - Μακρίνα
+- id: ilias
+  feast: feast_ilias
+  popularity: 95
+  names:
+  - Ηλίας
+- id: markella
+  feast: feast_markella
+  popularity: 72
+  names:
+  - Μαρκέλλα
+- id: menelaos
+  feast: feast_menelaos
+  popularity: 69
+  names:
+  - Μενέλαος
+- id: christina
+  feast: feast_christina
+  popularity: 98
+  names:
+  - Χριστίνα
+  - Χριστιάνα
+- id: eypraxia
+  feast: feast_eypraxia
+  popularity: 70
+  names:
+  - Ευπραξία
+- id: paraskeyi
+  feast: feast_paraskeyi
+  popularity: 97
+  names:
+  - Παρασκευή
+- id: ersi
+  feast: feast_ersi
+  popularity: 48
+  names:
+  - Ερση
+- id: oraiozili
+  feast: feast_oraiozili
+  popularity: 44
+  names:
+  - Ωραιοζήλη
+- id: ermolaos
+  feast: feast_ermolaos
+  popularity: 28
+  names:
+  - Ερμόλαος
+- id: pantelis
+  feast: feast_pantelis
+  popularity: 90
+  names:
+  - Παντελής
+  - Παντελίτσα
+- id: chrysovalantis
+  feast: feast_chrysovalantis
+  popularity: 79
+  names:
+  - Χρυσοβαλάντης
+  - Χρυσοβαλάντου
+- id: theodoti
+  feast: feast_theodoti
+  popularity: 28
+  names:
+  - Θεοδότη
+- id: freideriki
+  feast: feast_freideriki
+  popularity: 65
+  names:
+  - Φρειδερίκη
+- id: salomi
+  feast: feast_salomi
+  popularity: 4
+  names:
+  - Σαλώμη
+- id: violeta
+  feast: feast_violeta
+  popularity: 76
+  names:
+  - Βιολέττα
+- id: exakoystodianos
+  feast: feast_exakoystodianos
+  popularity: 25
+  names:
+  - Ξακουστή
+- id: sotiris
+  feast: feast_sotiris
+  popularity: 94
+  names:
+  - Σωτήριος
+  - Σωτηρία
+- id: eymorfia
+  feast: feast_eymorfia
+  popularity: 84
+  names:
+  - Ευμορφία
+- id: morfoyla
+  feast: feast_morfoyla
+  popularity: 35
+  names:
+  - Μορφούλα
+- id: asterios
+  feast: feast_asterios
+  popularity: 82
+  names:
+  - Αστέριος
+- id: astero
+  feast: feast_astero
+  popularity: 44
+  names:
+  - Αστερία
+  - Αστέρω
+- id: astrini
+  feast: feast_astrini
+  popularity: 30
+  names:
+  - Αστρινός
+- id: triantafyllia
+  feast: feast_triantafyllia
+  popularity: 88
+  names:
+  - Τριανταφυλλιά
+- id: triantafyllos
+  feast: feast_triantafyllos
+  popularity: 75
+  names:
+  - Τριαντάφυλλος
+- id: iro
+  feast: feast_iro
+  popularity: 69
+  names:
+  - Ηρώ
+- id: ippolytos
+  feast: feast_ippolytos
+  popularity: 37
+  names:
+  - Ιππολύτη
+- id: lora
+  feast: feast_lora
+  popularity: 26
+  names:
+  - Λαυρεντία
+- id: layrentios
+  feast: feast_layrentios
+  popularity: 26
+  names:
+  - Λαυρέντιος
+- id: symela
+  feast: feast_symela
+  popularity: 72
+  names:
+  - Συμέλα
+  - Σουμελά
+  - Σιμέλα
+- id: krystallo
+  feast: feast_krystallo
+  popularity: 70
+  names:
+  - Κρυσταλλία
+  - Κρυσταλία
+  - Κρυστάλλω
+  - Κρίστι
+  - Κρουσταλένια
+- id: gesthimani
+  feast: feast_gesthimani
+  popularity: 67
+  names:
+  - Γεσθημανή
+- id: presveia
+  feast: feast_presveia
+  popularity: 34
+  names:
+  - Πρέσβεια
+- id: gerasimos
+  feast: feast_gerasimos
+  popularity: 87
+  names:
+  - Γεράσιμος
+- id: alkiviadis
+  feast: feast_alkiviadis
+  popularity: 72
+  names:
+  - Αλκιβιάδης
+  - Αλκης
+- id: leykothea
+  feast: feast_leykothea
+  popularity: 74
+  names:
+  - Λευκοθέα
+- id: floros
+  feast: feast_floros
+  popularity: 77
+  names:
+  - Φλώρα
+- id: arsenios
+  feast: feast_arsenios
+  popularity: 44
+  names:
+  - Αρσένιος
+  - Αρσενία
+- id: malamati
+  feast: feast_malamati
+  popularity: 75
+  names:
+  - Μαλαματή
+  - Μαλαματένια
+- id: eirinaios
+  feast: feast_eirinaios
+  popularity: 48
+  names:
+  - Ειρηναίος
+- id: natalia
+  feast: feast_natalia
+  popularity: 83
+  names:
+  - Ναταλία
+- id: adriani
+  feast: feast_adriani
+  popularity: 31
+  names:
+  - Αντριάνα
+  - Ανδριάννα
+- id: adrianos
+  feast: feast_adrianos
+  popularity: 21
+  names:
+  - Αδριανός
+- id: fanoyris
+  feast: feast_fanoyris
+  popularity: 40
+  names:
+  - Φανούριος
+- id: osios
+  feast: feast_osios
+  popularity: 34
+  names:
+  - Οσία
+- id: alexandros
+  feast: feast_alexandros
+  popularity: 96
+  names:
+  - Αλέξανδρος
+- id: eylalios
+  feast: feast_eylalios
+  popularity: 43
+  names:
+  - Ευλαλία
+- id: athina
+  feast: feast_athina
+  popularity: 96
+  names:
+  - Αθηνά
+- id: charikleia
+  feast: feast_charikleia
+  popularity: 94
+  names:
+  - Χαρίκλεια
+- id: oyrania
+  feast: feast_oyrania
+  popularity: 94
+  names:
+  - Ουρανία
+- id: afroditi
+  feast: feast_afroditi
+  popularity: 93
+  names:
+  - Αφροδίτη
+- id: margarita
+  feast: feast_margarita
+  popularity: 93
+  names:
+  - Μαργαρίτα
+- id: pinelopi
+  feast: feast_pinelopi
+  popularity: 92
+  names:
+  - Πηνελόπη
+- id: aspasia
+  feast: feast_aspasia
+  popularity: 90
+  names:
+  - Ασπασία
+- id: antigoni
+  feast: feast_antigoni
+  popularity: 90
+  names:
+  - Αντιγόνη
+- id: melpomeni
+  feast: feast_melpomeni
+  popularity: 85
+  names:
+  - Μελπομένη
+- id: kleopatra
+  feast: feast_kleopatra
+  popularity: 84
+  names:
+  - Κλεοπάτρα
+  - Κλειώ
+- id: theano
+  feast: feast_theano
+  popularity: 82
+  names:
+  - Θεανώ
+- id: elpiniki
+  feast: feast_elpiniki
+  popularity: 81
+  names:
+  - Ελπινίκη
+- id: kalliroi
+  feast: feast_kalliroi
+  popularity: 81
+  names:
+  - Καλλιρρόη
+- id: eyterpi
+  feast: feast_eyterpi
+  popularity: 79
+  names:
+  - Ευτέρπη
+- id: akrivi
+  feast: feast_akrivi
+  popularity: 78
+  names:
+  - Ακριβή
+- id: thaleia
+  feast: feast_thaleia
+  popularity: 78
+  names:
+  - Θάλεια
+- id: chaido
+  feast: feast_chaido
+  popularity: 78
+  names:
+  - Χάϊδω
+- id: kleoniki
+  feast: feast_kleoniki
+  popularity: 78
+  names:
+  - Κλεονίκη
+- id: erasmia
+  feast: feast_erasmia
+  popularity: 76
+  names:
+  - Ερασμία
+- id: diamanto
+  feast: feast_diamanto
+  popularity: 76
+  names:
+  - Διαμάντω
+- id: ismini
+  feast: feast_ismini
+  popularity: 76
+  names:
+  - Ισμήνη
+- id: polytimi
+  feast: feast_polytimi
+  popularity: 65
+  names:
+  - Πολυτίμη
+- id: polymnia
+  feast: feast_polymnia
+  popularity: 63
+  names:
+  - Πολύμνια
+- id: pandora
+  feast: feast_pandora
+  popularity: 58
+  names:
+  - Πανδώρα
+- id: erato
+  feast: feast_erato
+  popularity: 57
+  names:
+  - Ερατώ
+- id: theonymfi
+  feast: feast_theonymfi
+  popularity: 54
+  names:
+  - Θεονύμφη
+- id: koralia
+  feast: feast_koralia
+  popularity: 47
+  names:
+  - Κοραλία
+- id: sapfo
+  feast: feast_sapfo
+  popularity: 45
+  names:
+  - Σαπφώ
+- id: moscho
+  feast: feast_moscho
+  popularity: 41
+  names:
+  - Μοσχούλα
+- id: terpsichori
+  feast: feast_terpsichori
+  popularity: 40
+  names:
+  - Τερψιχόρη
+- id: rallia
+  feast: feast_rallia
+  popularity: 34
+  names:
+  - Ραλλού
+- id: polyniki
+  feast: feast_polyniki
+  popularity: 6
+  names:
+  - Πολυνίκη
+- id: rallis
+  feast: feast_rallis
+  popularity: 5
+  names:
+  - Ράλλης
+- id: aristea
+  feast: feast_aristea
+  popularity: 87
+  names:
+  - Αριστέα
+- id: archontia
+  feast: feast_archontia
+  popularity: 73
+  names:
+  - Αρχοντούλα
+  - Αρχοντία
+  - Αρχόντω
+  - Αρχοντή
+  - Αρχόντισσα
+- id: anthimos
+  feast: feast_anthimos
+  popularity: 52
+  names:
+  - Ανθιμος
+- id: foivos
+  feast: feast_foivos
+  popularity: 40
+  names:
+  - Φοίβη
+  - Φοίβος
+- id: polydoros
+  feast: feast_polydoros
+  popularity: 6
+  names:
+  - Πολύδωρος
+- id: ermioni
+  feast: feast_ermioni
+  popularity: 74
+  names:
+  - Ερμιόνη
+  - Ερμίνα
+- id: moysis
+  feast: feast_moysis
+  popularity: 25
+  names:
+  - Μωϋσής
+- id: lygeri
+  feast: feast_lygeri
+  popularity: 50
+  names:
+  - Λυγερή
+- id: eydoxios
+  feast: feast_eydoxios
+  popularity: 15
+  names:
+  - Ευδόξιος
+- id: kassiani
+  feast: feast_kassiani
+  popularity: 77
+  names:
+  - Κασσιανή
+- id: tsampika
+  feast: feast_tsampika
+  popularity: 63
+  names:
+  - Τσαμπίκα
+  - Τσαμπίκος
+- id: ioakeim
+  feast: feast_ioakeim
+  popularity: 64
+  names:
+  - Ιωακείμ
+- id: klimis
+  feast: feast_klimis
+  popularity: 42
+  names:
+  - Κλήμης
+- id: poylcheria
+  feast: feast_poylcheria
+  popularity: 41
+  names:
+  - Πουλχερία
+- id: mitrodora
+  feast: feast_mitrodora
+  popularity: 26
+  names:
+  - Μητροδώρα
+- id: klimentini
+  feast: feast_klimentini
+  popularity: 12
+  names:
+  - Κλημεντίνη
+- id: eyanthia
+  feast: feast_eyanthia
+  popularity: 93
+  names:
+  - Ευανθία
+- id: aristeidis
+  feast: feast_aristeidis
+  popularity: 89
+  names:
+  - Αριστείδης
+  - Αριστούλα
+  - Αρίστος
+- id: kornilios
+  feast: feast_kornilios
+  popularity: 70
+  names:
+  - Κορνηλία
+  - Κορνήλιος
+- id: stayros
+  feast: feast_stayros
+  popularity: 97
+  names:
+  - Σταυρούλα
+  - Σταύρος
+  - Σταυριανή
+- id: theoklis
+  feast: feast_theoklis
+  popularity: 14
+  names:
+  - Θεόκλεια
+- id: nikitas
+  feast: feast_nikitas
+  popularity: 69
+  names:
+  - Νικήτας
+- id: vissarion
+  feast: feast_vissarion
+  popularity: 64
+  names:
+  - Βησσαρίων
+- id: melina
+  feast: feast_melina
+  popularity: 72
+  names:
+  - Μελίνα
+- id: sofia
+  feast: feast_sofia
+  popularity: 99
+  names:
+  - Σοφία
+- id: elpida
+  feast: feast_elpida
+  popularity: 89
+  names:
+  - Ελπίδα
+- id: agapi
+  feast: feast_agapi
+  popularity: 82
+  names:
+  - Αγάπη
+- id: sonia
+  feast: feast_sonia
+  popularity: 70
+  names:
+  - Σόνια
+- id: agathoklis
+  feast: feast_agathoklis
+  popularity: 40
+  names:
+  - Αγαθοκλής
+- id: ariadni
+  feast: feast_ariadni
+  popularity: 78
+  names:
+  - Αριάδνη
+- id: savvatios
+  feast: feast_savvatios
+  popularity: 24
+  names:
+  - Σαββάτω
+- id: theopisti
+  feast: feast_theopisti
+  popularity: 72
+  names:
+  - Θεοπίστη
+- id: loyiza
+  feast: feast_loyiza
+  popularity: 70
+  names:
+  - Λουϊζα
+- id: zografia
+  feast: feast_zografia
+  popularity: 61
+  names:
+  - Ζωγραφιά
+- id: polyxeni
+  feast: feast_polyxeni
+  popularity: 92
+  names:
+  - Πολυξένη
+- id: xanthippi
+  feast: feast_xanthippi
+  popularity: 76
+  names:
+  - Ξανθίππη
+- id: iris
+  feast: feast_iris
+  popularity: 47
+  names:
+  - Ιρις
+- id: myrto
+  feast: feast_myrto
+  popularity: 81
+  names:
+  - Μυρτώ
+- id: persefoni
+  feast: feast_persefoni
+  popularity: 77
+  names:
+  - Περσεφόνη
+- id: myrsini
+  feast: feast_myrsini
+  popularity: 74
+  names:
+  - Μυρσίνη
+- id: thekla
+  feast: feast_thekla
+  popularity: 42
+  names:
+  - Θέκλα
+- id: eyfrosyni
+  feast: feast_eyfrosyni
+  popularity: 94
+  names:
+  - Ευφροσύνη
+- id: kyriakos
+  feast: feast_kyriakos
+  popularity: 89
+  names:
+  - Κυριάκος
+- id: thiresia
+  feast: feast_thiresia
+  popularity: 27
+  names:
+  - Θηρεσία
+- id: dionysis
+  feast: feast_dionysis
+  popularity: 91
+  names:
+  - Διονύσιος
+  - Διονυσία
+- id: ierotheos
+  feast: feast_ierotheos
+  popularity: 13
+  names:
+  - Ιερόθεος
+- id: kallisthenis
+  feast: feast_kallisthenis
+  popularity: 13
+  names:
+  - Καλλισθένη
+- id: charitini
+  feast: feast_charitini
+  popularity: 45
+  names:
+  - Χαριτίνη
+- id: thomas
+  feast: feast_thomas
+  popularity: 93
+  names:
+  - Θωμάς
+  - Θωμαή
+- id: polychronis
+  feast: feast_polychronis
+  popularity: 73
+  names:
+  - Πολυχρόνης
+  - Πολυχρονία
+  - Χρόνης
+- id: sergios
+  feast: feast_sergios
+  popularity: 45
+  names:
+  - Σέργιος
+- id: pelagia
+  feast: feast_pelagia
+  popularity: 84
+  names:
+  - Πελαγία
+- id: avraam
+  feast: feast_avraam
+  popularity: 69
+  names:
+  - Αβραάμ
+- id: eylampia
+  feast: feast_eylampia
+  popularity: 72
+  names:
+  - Ευλαμπία
+- id: amaryllis
+  feast: feast_amaryllis
+  popularity: 20
+  names:
+  - Αμαρυλλίς
+- id: andromachi
+  feast: feast_andromachi
+  popularity: 87
+  names:
+  - Ανδρομάχη
+- id: florentia
+  feast: feast_florentia
+  popularity: 45
+  names:
+  - Φλωρεντία
+  - Φλωρίνα
+- id: agathoniki
+  feast: feast_agathoniki
+  popularity: 40
+  names:
+  - Αγαθονίκη
+- id: ignatios
+  feast: feast_ignatios
+  popularity: 61
+  names:
+  - Ιγνάτιος
+  - Ιγνατία
+- id: loykas
+  feast: feast_loykas
+  popularity: 83
+  names:
+  - Λουκία
+  - Λουκάς
+- id: artemis
+  feast: feast_artemis
+  popularity: 86
+  names:
+  - Αρτεμις
+- id: kerasia
+  feast: feast_kerasia
+  popularity: 62
+  names:
+  - Κερασιά
+- id: ntiana
+  feast: feast_ntiana
+  popularity: 38
+  names:
+  - Διάνα
+  - Ντιάνα
+- id: artemios
+  feast: feast_artemios
+  popularity: 30
+  names:
+  - Αρτέμιος
+- id: orsalia
+  feast: feast_orsalia
+  popularity: 34
+  names:
+  - Ορσαλία
+- id: averkios
+  feast: feast_averkios
+  popularity: 22
+  names:
+  - Αβέρκιος
+- id: iakovos
+  feast: feast_iakovos
+  popularity: 75
+  names:
+  - Ιάκωβος
+  - Ζακελίνα
+- id: dimitris
+  feast: feast_dimitris
+  popularity: 100
+  names:
+  - Δημήτριος
+  - Δήμος
+- id: dimitra
+  feast: feast_dimitra
+  popularity: 99
+  names:
+  - Δήμητρα
+  - Δημητρία
+- id: nestor
+  feast: feast_nestor
+  popularity: 56
+  names:
+  - Νέστωρ
+  - Νέστορας
+- id: zinovia
+  feast: feast_zinovia
+  popularity: 78
+  names:
+  - Ζηνοβία
+- id: afthonios
+  feast: feast_afthonios
+  popularity: 18
+  names:
+  - Αφθονία
+- id: epistimi
+  feast: feast_epistimi
+  popularity: 38
+  names:
+  - Επιστήμη
+- id: leonardos
+  feast: feast_leonardos
+  popularity: 10
+  names:
+  - Λεονάρδος
+- id: athinodoros
+  feast: feast_athinodoros
+  popularity: 21
+  names:
+  - Αθηνόδωρος
+- id: thessaloniki
+  feast: feast_thessaloniki
+  popularity: 13
+  names:
+  - Θεσσαλονίκη
+- id: aggelos
+  feast: feast_aggelos
+  popularity: 98
+  names:
+  - Αγγελική
+  - Αγγελος
+  - Αγγέλα
+  - Αγγελίνα
+  - Αγγελικούλα
+  - Αντζελα
+- id: michail
+  feast: feast_michail
+  popularity: 96
+  names:
+  - Μιχαήλ
+- id: metaxia
+  feast: feast_metaxia
+  popularity: 74
+  names:
+  - Μεταξία
+  - Μεταξένια
+  - Μεταξούλα
+- id: gavriil
+  feast: feast_gavriil
+  popularity: 68
+  names:
+  - Γαβριήλ
+- id: michaela
+  feast: feast_michaela
+  popularity: 64
+  names:
+  - Μιχαέλα
+  - Μιχαλία
+- id: stratigos
+  feast: feast_stratigos
+  popularity: 55
+  names:
+  - Στρατηγούλα
+- id: taxiarchis
+  feast: feast_taxiarchis
+  popularity: 55
+  names:
+  - Ταξιάρχης
+- id: nektarios
+  feast: feast_nektarios
+  popularity: 88
+  names:
+  - Νεκταρία
+  - Νεκτάριος
+- id: mayra
+  feast: feast_mayra
+  popularity: 26
+  names:
+  - Μαύρα
+- id: orestis
+  feast: feast_orestis
+  popularity: 70
+  names:
+  - Ορέστης
+- id: rodion
+  feast: feast_rodion
+  popularity: 56
+  names:
+  - Ροδούλα
+  - Ροζίνα
+  - Ροζάνα
+- id: arsinoi
+  feast: feast_arsinoi
+  popularity: 30
+  names:
+  - Αρσινόη
+- id: viktoras
+  feast: feast_viktoras
+  popularity: 88
+  names:
+  - Βικτωρία
+  - Βίκτωρ
+- id: minas
+  feast: feast_minas
+  popularity: 76
+  names:
+  - Μηνάς
+  - Μήνα
+- id: minos
+  feast: feast_minos
+  popularity: 35
+  names:
+  - Μίνα
+- id: vikentios
+  feast: feast_vikentios
+  popularity: 17
+  names:
+  - Βικεντία
+- id: chrysostomos
+  feast: feast_chrysostomos
+  popularity: 77
+  names:
+  - Χρυσόστομος
+  - Χρυσοστόμη
+- id: filippos
+  feast: feast_filippos
+  popularity: 83
+  names:
+  - Φίλιππος
+- id: filippa
+  feast: feast_filippa
+  popularity: 32
+  names:
+  - Φιλιππία
+- id: ifigeneia
+  feast: feast_ifigeneia
+  popularity: 86
+  names:
+  - Ιφιγένεια
+- id: matthaios
+  feast: feast_matthaios
+  popularity: 76
+  names:
+  - Ματθαίος
+- id: soyltana
+  feast: feast_soyltana
+  popularity: 91
+  names:
+  - Σουλτάνα
+- id: virginia
+  feast: feast_virginia
+  popularity: 85
+  names:
+  - Βιργινία
+- id: lemonia
+  feast: feast_lemonia
+  popularity: 83
+  names:
+  - Λεμονιά
+- id: filimon
+  feast: feast_filimon
+  popularity: 32
+  names:
+  - Φιλήμων
+- id: aikaterini
+  feast: feast_aikaterini
+  popularity: 100
+  names:
+  - Αικατερίνη
+  - Αικατερίνα
+  - Καίτη
+  - Κατίνα
+- id: merkoyris
+  feast: feast_merkoyris
+  popularity: 9
+  names:
+  - Μερκούριος
+- id: stylianos
+  feast: feast_stylianos
+  popularity: 96
+  names:
+  - Στυλιανή
+  - Στυλιανός
+  - Στέλλα
+- id: stergios
+  feast: feast_stergios
+  popularity: 87
+  names:
+  - Στέργιος
+  - Στεργιανή
+  - Στεργία
+- id: kyparissia
+  feast: feast_kyparissia
+  popularity: 36
+  names:
+  - Κυπαρισσία
+- id: faidra
+  feast: feast_faidra
+  popularity: 63
+  names:
+  - Φαίδρα
+- id: filomeni
+  feast: feast_filomeni
+  popularity: 49
+  names:
+  - Φιλομένη
+- id: andreas
+  feast: feast_andreas
+  popularity: 95
+  names:
+  - Ανδρέας
+  - Ανδρούλα
+- id: areti
+  feast: feast_areti
+  popularity: 90
+  names:
+  - Αρετή
+- id: naoym
+  feast: feast_naoym
+  popularity: 53
+  names:
+  - Ναούμ
+- id: filaretos
+  feast: feast_filaretos
+  popularity: 45
+  names:
+  - Φιλαρέτη
+- id: theoklitos
+  feast: feast_theoklitos
+  popularity: 42
+  names:
+  - Θεόκλητος
+- id: meropi
+  feast: feast_meropi
+  popularity: 75
+  names:
+  - Μερόπη
+  - Μυρόπη
+- id: varvara
+  feast: feast_varvara
+  popularity: 92
+  names:
+  - Βαρβάρα
+- id: savvas
+  feast: feast_savvas
+  popularity: 86
+  names:
+  - Σάββας
+  - Σαββούλα
+- id: diogenis
+  feast: feast_diogenis
+  popularity: 54
+  names:
+  - Διογένης
+- id: nikolaos
+  feast: feast_nikolaos
+  popularity: 99
+  names:
+  - Νικόλαος
+  - Νικολίτσα
+- id: nikoleta
+  feast: feast_nikoleta
+  popularity: 92
+  names:
+  - Νικολετα
+  - Νικολέττα
+- id: nikolina
+  feast: feast_nikolina
+  popularity: 67
+  names:
+  - Νικολίνα
+- id: anna
+  feast: feast_anna
+  popularity: 98
+  names:
+  - Αννα
+  - Αννέτα
+  - Ανέτα
+  - Ανέζα
+  - Ανίτα
+  - Αννίτα
+- id: spyridon
+  feast: feast_spyridon
+  popularity: 96
+  names:
+  - Σπυρίδων
+  - Σπυριδούλα
+  - Σπύρος
+- id: aris
+  feast: feast_aris
+  popularity: 63
+  names:
+  - Αρης
+- id: leyki
+  feast: feast_leyki
+  popularity: 50
+  names:
+  - Λευκή
+- id: eleytherios
+  feast: feast_eleytherios
+  popularity: 96
+  names:
+  - Ελευθερία
+  - Ελευθέριος
+- id: anthi
+  feast: feast_anthi
+  popularity: 88
+  names:
+  - Ανθούλα
+  - Ανθή
+  - Ανθια
+- id: sylvia
+  feast: feast_sylvia
+  popularity: 67
+  names:
+  - Σύλβια
+- id: theofano
+  feast: feast_theofano
+  popularity: 62
+  names:
+  - Θεοφανώ
+- id: daniil
+  feast: feast_daniil
+  popularity: 43
+  names:
+  - Δανιήλ
+  - Δανιέλα
+- id: aglaia
+  feast: feast_aglaia
+  popularity: 88
+  names:
+  - Αγλαΐα
+- id: natasa
+  feast: feast_natasa
+  popularity: 62
+  names:
+  - Νατάσα
+- id: eygenia
+  feast: feast_eygenia
+  popularity: 95
+  names:
+  - Ευγενία
+  - Τζένη
+- id: achmet
+  feast: feast_achmet
+  popularity: 18
+  names:
+  - Αχμέτ
+- id: christos
+  feast: feast_christos
+  popularity: 98
+  names:
+  - Χρήστος
+- id: chrysoyla
+  feast: feast_chrysoyla
+  popularity: 97
+  names:
+  - Χρυσούλα
+- id: emmanoyil
+  feast: feast_emmanoyil
+  popularity: 95
+  names:
+  - Εμμανουήλ
+  - Μανούσος
+- id: emmanoyela
+  feast: feast_emmanoyela
+  popularity: 80
+  names:
+  - Εμμανουέλα
+  - Μανουέλα
+  - Μανωλία
+- id: chrysa
+  feast: feast_chrysa
+  popularity: 80
+  names:
+  - Χρύσα
+- id: chrysaygi
+  feast: feast_chrysaygi
+  popularity: 79
+  names:
+  - Χρυσαυγή
+- id: vithleem
+  feast: feast_vithleem
+  popularity: 59
+  names:
+  - Βηθλεέμ
+- id: konstantios
+  feast: feast_konstantios
+  popularity: 91
+  names:
+  - Κωνσταντία
+- id: iosif
+  feast: feast_iosif
+  popularity: 75
+  names:
+  - Ιωσήφ
+- id: stefanos
+  feast: feast_stefanos
+  popularity: 92
+  names:
+  - Στέφανος
+  - Στεφανία
+- id: domna
+  feast: feast_domna
+  popularity: 71
+  names:
+  - Δόμνα
+- id: theofili
+  feast: feast_theofili
+  popularity: 37
+  names:
+  - Θεοφίλη
+- id: veniamin
+  feast: feast_veniamin
+  popularity: 17
+  names:
+  - Βενιαμίν
+- id: anysios
+  feast: feast_anysios
+  popularity: 20
+  names:
+  - Ανυσία
+- id: melani
+  feast: feast_melani
+  popularity: 58
+  names:
+  - Μελανία
+- id: adam
+  feast: feast_sunday_of_forefathers
+  popularity: 88
+  names:
+  - Αδάμ
+  - Διαμαντής
+  - Διαμαντούλα
+- id: anastasios
+  feast: feast_orthodox_easter
+  popularity: 99
+  names:
+  - Αναστασία
+  - Αναστάσιος
+- id: anestis
+  feast: feast_orthodox_easter
+  popularity: 77
+  names:
+  - Ανέστης
+- id: dafni
+  feast: feast_palm_sunday
+  popularity: 87
+  names:
+  - Δάφνη
+- id: danai
+  feast: feast_sunday_of_forefathers
+  popularity: 81
+  names:
+  - Δανάη
+- id: eya
+  feast: feast_sunday_of_forefathers
+  popularity: 72
+  names:
+  - Εύα
+- id: georgios
+  feast: feast_saint_george
+  popularity: 100
+  names:
+  - Γεώργιος
+  - Γιώργος
+  - Γεωργία
+- id: isaak
+  feast: feast_sunday_of_forefathers
+  popularity: 56
+  names:
+  - Ισαάκ
+- id: korina
+  feast: feast_holy_spirit
+  popularity: 60
+  names:
+  - Κορίνα
+- id: lazaros
+  feast: feast_lazarus_saturday
+  popularity: 87
+  names:
+  - Λάζαρος
+- id: markos
+  feast: feast_saint_mark
+  popularity: 81
+  names:
+  - Μάρκος
+- id: myrofora
+  feast: feast_sunday_of_myrrh_bearers
+  popularity: 58
+  names:
+  - Μυροφόρα
+- id: nefeli
+  feast: feast_ascension
+  popularity: 35
+  names:
+  - Νεφέλη
+- id: paschalina
+  feast: feast_orthodox_easter
+  popularity: 79
+  names:
+  - Πασχαλίνα
+- id: paschalis
+  feast: feast_orthodox_easter
+  popularity: 84
+  names:
+  - Πασχάλης
+- id: pigi
+  feast: feast_life_giving_spring
+  popularity: 65
+  names:
+  - Πηγή
+- id: polyzois
+  feast: feast_life_giving_spring
+  popularity: 24
+  names:
+  - Πολυζώης
+- id: rachil
+  feast: feast_sunday_of_forefathers
+  popularity: 49
+  names:
+  - Ραχήλ
+- id: rafail
+  feast: feast_bright_tuesday
+  popularity: 24
+  names:
+  - Ραφαέλα
+  - Ραφαήλ
+- id: revekka
+  feast: feast_sunday_of_forefathers
+  popularity: 73
+  names:
+  - Ρεβέκκα
+- id: roxani
+  feast: feast_sunday_of_orthodoxy
+  popularity: 66
+  names:
+  - Ρωξάνη
+- id: roympini
+  feast: feast_sunday_of_forefathers
+  popularity: 65
+  names:
+  - Ρουμπίνη
+  - Ρουμπίνα
+- id: sossana
+  feast: feast_sunday_of_forefathers
+  popularity: 52
+  names:
+  - Σωσάννα
+  - Σωσάνα
+- id: stasinos
+  feast: feast_orthodox_easter
+  popularity: 3
+  names:
+  - Στασινή
+- id: theocharis
+  feast: feast_bright_wednesday
+  popularity: 81
+  names:
+  - Θεοχάρης
+  - Θεοχαρούλα
+- id: theodoros
+  feast: feast_saint_theodore_saturday
+  popularity: 96
+  names:
+  - Θεόδωρος
+- id: triada
+  feast: feast_holy_spirit
+  popularity: 67
+  names:
+  - Τριάδα
+- id: vaios
+  feast: feast_palm_sunday
+  popularity: 93
+  names:
+  - Βάϊα
+  - Βάϊος
+  - Βάγια
+- id: zisimos
+  feast: feast_life_giving_spring
+  popularity: 48
+  names:
+  - Ζήσιμος
+- id: zisis
+  feast: feast_life_giving_spring
+  popularity: 81
+  names:
+  - Ζήσης
+- id: zoi
+  feast: feast_life_giving_spring
+  popularity: 96
+  names:
+  - Ζωή
+- id: maria
+  feast: feast_dormition
+  popularity: 100
+  names:
+  - Μαρία
+  - Μαριέττα
+  - Μαρίκα
+  - Μαρούλα
+  - Μαριγώ
+  - Μαριγούλα
+  - Μαρούσα
+  - Μάρω
+- id: alexandra
+  feast: feast_saint_alexandra
+  popularity: 97
+  names:
+  - Αλεξάνδρα
+  - Αλέκα
+- id: lampros
+  feast: feast_orthodox_easter
+  popularity: 92
+  names:
+  - Λαμπρινή
+  - Λάμπρος
+- id: lina
+  feast: feast_orthodox_easter
+  popularity: 10
+  names:
+  - Λίνα
+- id: emmeleia
+  feast: feast_saint_emmeleia
+  popularity: 16
+  names:
+  - Εμμέλεια

@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grecal"
+version = "1.0.0"
+description = "Generate iCalendar files containing Greek Orthodox namedays and feasts"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+  "icalendar>=5,<8",
+  "PyYAML>=6,<7",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7,<9"]
+
+[project.scripts]
+grecal = "grecal.generator:main"
+
+[tool.setuptools.data-files]
+"share/grecal" = [
+  "data/feasts.yaml",
+  "data/names.yaml",
+  "data/observances.yaml",
+]
+
+[tool.setuptools.packages.find]
+include = ["grecal*"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["."]
+testpaths = ["tests"]
