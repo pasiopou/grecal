@@ -71,7 +71,9 @@ def test_validate_catalog_checks_each_year_in_the_range() -> None:
     )
 
     validate_catalog(catalog, 2024, 2024)
-    with pytest.raises(ValueError, match="day is out of range"):
+    # CPython 3.14 made the date() error more specific; the wording is not part
+    # of the public API, so test the validation failure rather than its text.
+    with pytest.raises(ValueError):
         validate_catalog(catalog, 2024, 2025)
 
 
