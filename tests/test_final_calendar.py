@@ -61,7 +61,9 @@ def test_cli_generates_requested_year_and_reports_statistics(
 ) -> None:
     output = tmp_path / "namedays-2026.ics"
 
-    assert main(["--all", "--from-year", "2026", "--output", str(output)]) == 0
+    assert main(
+        ["generate", "--all", "--from-year", "2026", "--output", str(output)]
+    ) == 0
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = [component for component in parsed.walk() if component.name == "VEVENT"]
@@ -97,6 +99,7 @@ def test_cli_reports_yearly_totals_and_averages_for_multiple_years(
 
     assert main(
         [
+            "generate",
             "--top",
             "100",
             "--from-year",
@@ -131,6 +134,7 @@ def test_cli_reports_output_write_errors_without_a_traceback(
     with pytest.raises(SystemExit) as error:
         main(
             [
+                "generate",
                 "--top",
                 "1",
                 "--from-year",
@@ -154,6 +158,7 @@ def test_cli_dry_run_reports_without_writing_or_creating_directories(
 
     assert main(
         [
+            "generate",
             "--all",
             "--from-year",
             "2026",
@@ -200,11 +205,11 @@ def test_validate_command_reports_rule_errors_without_a_traceback(
         main(
             [
                 "validate",
-                "--feasts",
+                "--feasts-file",
                 str(feasts),
-                "--names",
+                "--names-file",
                 str(names),
-                "--observances",
+                "--observances-file",
                 str(observances),
             ]
         )
@@ -220,7 +225,7 @@ def test_cli_finds_a_name_without_writing_a_calendar(
 ) -> None:
     monkeypatch.chdir(tmp_path)
 
-    assert main(["--find", "γιωργος", "--from-year", "2026"]) == 0
+    assert main(["find", "γιωργος", "--from-year", "2026"]) == 0
 
     report = capsys.readouterr().out
     assert "Name: Γιώργος" in report
@@ -235,6 +240,7 @@ def test_cli_generates_a_personal_calendar(tmp_path: Path, capsys) -> None:
 
     assert main(
         [
+            "generate",
             "--names",
             "Γιώργος, Μαρία",
             "--from-year",
@@ -260,7 +266,7 @@ def test_cli_generates_a_personal_calendar(tmp_path: Path, capsys) -> None:
 
 def test_cli_reports_an_unknown_personal_name(capsys) -> None:
     with pytest.raises(SystemExit) as error:
-        main(["--names", "Άγνωστος", "--from-year", "2026"])
+        main(["generate", "--names", "Άγνωστος", "--from-year", "2026"])
 
     assert error.value.code == 2
     stderr = capsys.readouterr().err
@@ -270,9 +276,93 @@ def test_cli_reports_an_unknown_personal_name(capsys) -> None:
 
 def test_cli_syntax_errors_still_show_usage(capsys) -> None:
     with pytest.raises(SystemExit) as error:
-        main(["--find", "Γιώργος", "--unknown-option"])
+        main(["find", "Γιώργος", "--unknown-option"])
 
     assert error.value.code == 2
     stderr = capsys.readouterr().err
     assert "usage:" in stderr
     assert "unrecognized arguments: --unknown-option" in stderr
+
+
+def test_cli_without_a_command_prints_main_help(capsys) -> None:
+    assert main([]) == 0
+
+    output = capsys.readouterr().out
+    assert all(
+        command in output
+        for command in ("generate", "find", "search", "date", "validate")
+    )
+
+
+def test_cli_reports_its_version(capsys) -> None:
+    with pytest.raises(SystemExit) as error:
+        main(["--version"])
+
+    assert error.value.code == 0
+    assert re.fullmatch(r"grecal \d+\.\d+\.\d+\n", capsys.readouterr().out)
+
+
+def test_cli_rejects_the_removed_legacy_syntax(capsys) -> None:
+    with pytest.raises(SystemExit) as error:
+        main(["--all", "--from-year", "2026"])
+
+    assert error.value.code == 2
+    stderr = capsys.readouterr().err
+    assert "unrecognized argument: --all" in stderr
+    assert "grecal generate" in stderr
+
+
+def test_cli_search_supports_partial_and_fuzzy_queries(capsys) -> None:
+    assert main(["search", "Ανδρ", "--limit", "3"]) == 0
+    partial_results = capsys.readouterr().out.splitlines()
+    assert partial_results[0] == "Ανδρέας  group: andreas"
+    assert len(partial_results) == 3
+
+    assert main(["search", "αασΑνδρεας", "--limit", "3"]) == 0
+    fuzzy_results = capsys.readouterr().out.splitlines()
+    assert fuzzy_results[0] == "Ανδρέας  group: andreas"
+
+
+def test_cli_search_returns_one_when_there_are_no_matches(capsys) -> None:
+    assert main(["search", "χψωκλ"]) == 1
+    assert "No matching names found" in capsys.readouterr().out
+
+
+def test_cli_find_suggests_search_for_an_unknown_name(capsys) -> None:
+    with pytest.raises(SystemExit) as error:
+        main(["find", "αασΑνδρεας", "--from-year", "2026"])
+
+    assert error.value.code == 2
+    stderr = capsys.readouterr().err
+    assert "name not found in the catalog" in stderr
+    assert "Try: grecal search" in stderr
+
+
+def test_cli_date_returns_namedays_and_observances(capsys) -> None:
+    assert main(["date", "2026-08-15"]) == 0
+
+    output = capsys.readouterr().out
+    assert "Date: 2026-08-15" in output
+    assert "Namedays: Μαρία, Μαριέττα" in output
+    assert "Church observances: Κοίμηση της Θεοτόκου" in output
+
+
+def test_cli_date_returns_one_for_a_valid_empty_date(capsys) -> None:
+    assert main(["date", "2026-01-04"]) == 1
+
+    output = capsys.readouterr().out
+    assert "Namedays: none" in output
+    assert "Church observances: none" in output
+
+
+def test_cli_date_rejects_ambiguous_formats(capsys) -> None:
+    with pytest.raises(SystemExit) as error:
+        main(["date", "15/08/2026"])
+
+    assert error.value.code == 2
+    assert "DATE must use YYYY-MM-DD format" in capsys.readouterr().err
+
+
+def test_cli_date_accepts_today(capsys) -> None:
+    assert main(["date", "today"]) in {0, 1}
+    assert f"Date: {date.today().isoformat()}" in capsys.readouterr().out

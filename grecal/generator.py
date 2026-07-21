@@ -4,17 +4,20 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import shlex
 import sys
 import sysconfig
 import unicodedata
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
+from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
 from icalendar import Calendar, Event
 
+from ._version import __version__
 from .easter import MAX_YEAR, MIN_YEAR, orthodox_easter
 from .models import Catalog, Nameday
 from .parser import DataValidationError, load_catalog
@@ -52,6 +55,26 @@ class _YearStatistics:
     calendar_events: int
 
 
+@dataclass(frozen=True)
+class NameSearchResult:
+    """A ranked catalog-name match returned by :func:`search_names`."""
+
+    name: str
+    nameday_id: str
+    popularity: int
+    score: float
+    match_type: str
+
+
+@dataclass(frozen=True)
+class DateLookupResult:
+    """Namedays and church observances resolved for one calendar date."""
+
+    day: date
+    namedays: tuple[str, ...]
+    observances: tuple[str, ...]
+
+
 def select_namedays(
     namedays: Iterable[Nameday],
     *,
@@ -85,6 +108,116 @@ def _normalized_name(name: str) -> str:
         for character in unicodedata.normalize("NFKD", name.strip()).casefold()
         if not unicodedata.combining(character)
     )
+
+
+def _edit_distance(left: str, right: str) -> int:
+    """Return an adjacent-transposition-aware edit distance."""
+
+    rows = len(left) + 1
+    columns = len(right) + 1
+    distances = [[0] * columns for _ in range(rows)]
+    for row in range(rows):
+        distances[row][0] = row
+    for column in range(columns):
+        distances[0][column] = column
+
+    for row in range(1, rows):
+        for column in range(1, columns):
+            substitution_cost = left[row - 1] != right[column - 1]
+            distances[row][column] = min(
+                distances[row - 1][column] + 1,
+                distances[row][column - 1] + 1,
+                distances[row - 1][column - 1] + substitution_cost,
+            )
+            if (
+                row > 1
+                and column > 1
+                and left[row - 1] == right[column - 2]
+                and left[row - 2] == right[column - 1]
+            ):
+                distances[row][column] = min(
+                    distances[row][column],
+                    distances[row - 2][column - 2] + 1,
+                )
+    return distances[-1][-1]
+
+
+def _fuzzy_similarity(left: str, right: str) -> float:
+    longest = max(len(left), len(right))
+    if longest == 0:
+        return 1.0
+    edit_similarity = 1 - (_edit_distance(left, right) / longest)
+    sequence_similarity = SequenceMatcher(
+        None,
+        left,
+        right,
+        autojunk=False,
+    ).ratio()
+    return (0.65 * edit_similarity) + (0.35 * sequence_similarity)
+
+
+def search_names(
+    catalog: Catalog,
+    query: str,
+    *,
+    limit: int = 10,
+) -> tuple[NameSearchResult, ...]:
+    """Return ranked exact, partial, and fuzzy catalog-name matches."""
+
+    normalized_query = _normalized_name(query)
+    if not normalized_query:
+        raise ValueError("search query must not be empty")
+    if limit < 1:
+        raise ValueError("limit must be at least 1")
+
+    ranked: list[tuple[int, float, NameSearchResult]] = []
+    for nameday in catalog.namedays:
+        for display_name in nameday.names:
+            normalized_display_name = _normalized_name(display_name)
+            if normalized_display_name == normalized_query:
+                category = 4
+                score = 1.0
+                match_type = "exact"
+            elif normalized_display_name.startswith(normalized_query):
+                category = 3
+                score = len(normalized_query) / len(normalized_display_name)
+                match_type = "prefix"
+            elif normalized_query in normalized_display_name:
+                category = 2
+                score = len(normalized_query) / len(normalized_display_name)
+                match_type = "substring"
+            else:
+                if len(normalized_query) < 3:
+                    continue
+                score = _fuzzy_similarity(
+                    normalized_query,
+                    normalized_display_name,
+                )
+                threshold = 0.58 if len(normalized_query) <= 4 else 0.55
+                if score < threshold:
+                    continue
+                category = 1
+                match_type = "fuzzy"
+
+            result = NameSearchResult(
+                name=display_name,
+                nameday_id=nameday.id,
+                popularity=nameday.popularity,
+                score=score,
+                match_type=match_type,
+            )
+            ranked.append((category, score, result))
+
+    ranked.sort(
+        key=lambda item: (
+            -item[0],
+            -item[1],
+            -item[2].popularity,
+            _normalized_name(item[2].name),
+            item[2].nameday_id,
+        )
+    )
+    return tuple(item[2] for item in ranked[:limit])
 
 
 def select_namedays_by_name(
@@ -237,6 +370,35 @@ def generate_observances(
             if observance.title not in grouped[celebration]:
                 grouped[celebration].append(observance.title)
     return {day: tuple(titles) for day, titles in sorted(grouped.items())}
+
+
+def lookup_date(
+    catalog: Catalog,
+    day: date,
+    *,
+    custom_rules: Mapping[str, CustomRule] | None = None,
+) -> DateLookupResult:
+    """Resolve all namedays and church observances for ``day``."""
+
+    if not MIN_YEAR <= day.year <= MAX_YEAR:
+        raise ValueError(f"date year must be between {MIN_YEAR} and {MAX_YEAR}")
+    namedays = generate_namedays(
+        catalog,
+        day.year,
+        day.year,
+        custom_rules=custom_rules,
+    ).get(day, ())
+    observances = generate_observances(
+        catalog,
+        day.year,
+        day.year,
+        custom_rules=custom_rules,
+    ).get(day, ())
+    return DateLookupResult(
+        day=day,
+        namedays=namedays,
+        observances=observances,
+    )
 
 
 def validate_catalog(
@@ -430,10 +592,39 @@ def _print_generation_summary(
         print(format_row(row))
 
 
-def _argument_parser() -> argparse.ArgumentParser:
+def _main_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Generate an iCalendar of Greek Orthodox namedays and feasts.",
-        epilog="Run 'grecal validate' to validate YAML data and feast rules.",
+        prog="grecal",
+        usage="grecal [-h] [--version] COMMAND",
+        description="Greek Orthodox nameday calendar tools.",
+        epilog=(
+            "commands:\n"
+            "  generate  Generate an ICS calendar\n"
+            "  find      Resolve one exact name\n"
+            "  search    Search for possible names\n"
+            "  date      Show namedays and observances for a date\n"
+            "  validate  Validate catalog data and feast rules"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
+    parser.add_argument(
+        "command",
+        nargs="?",
+        choices=("generate", "find", "search", "date", "validate"),
+        help=argparse.SUPPRESS,
+    )
+    return parser
+
+
+def _generation_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="grecal generate",
+        description="Generate an ICS calendar of namedays and church feasts.",
     )
     selection = parser.add_mutually_exclusive_group(required=True)
     selection.add_argument(
@@ -459,11 +650,6 @@ def _argument_parser() -> argparse.ArgumentParser:
         help="include church feasts without namedays",
     )
     selection.add_argument(
-        "--find",
-        metavar="NAME",
-        help="look up a name and print its nameday date",
-    )
-    selection.add_argument(
         "--names",
         dest="personal_names",
         metavar="NAME[,NAME...]",
@@ -483,41 +669,33 @@ def _argument_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="calculate and report without writing an ICS file",
     )
-    _add_data_path_arguments(parser, suppress_help=True)
+    _add_data_path_arguments(parser)
     return parser
 
 
 def _add_data_path_arguments(
     parser: argparse.ArgumentParser,
-    *,
-    suppress_help: bool,
-    names_option: str = "--names-file",
 ) -> None:
-    feasts_help = (
-        argparse.SUPPRESS if suppress_help else "path to feast definitions YAML"
-    )
-    names_help = argparse.SUPPRESS if suppress_help else "path to namedays YAML"
-    observances_help = (
-        argparse.SUPPRESS if suppress_help else "path to church observances YAML"
-    )
     parser.add_argument(
-        "--feasts",
+        "--feasts-file",
+        dest="feasts_path",
         type=Path,
         default=DEFAULT_FEASTS_PATH,
-        help=feasts_help,
+        help="path to feast definitions YAML",
     )
     parser.add_argument(
-        names_option,
+        "--names-file",
         dest="names_path",
         type=Path,
         default=DEFAULT_NAMES_PATH,
-        help=names_help,
+        help="path to namedays YAML",
     )
     parser.add_argument(
-        "--observances",
+        "--observances-file",
+        dest="observances_path",
         type=Path,
         default=DEFAULT_OBSERVANCES_PATH,
-        help=observances_help,
+        help="path to church observances YAML",
     )
 
 
@@ -528,19 +706,88 @@ def _validation_argument_parser() -> argparse.ArgumentParser:
             "Validate YAML data and resolve every feast rule for 1900-2100."
         ),
     )
-    _add_data_path_arguments(
-        parser,
-        suppress_help=False,
-        names_option="--names",
-    )
+    _add_data_path_arguments(parser)
     return parser
+
+
+def _find_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="grecal find",
+        description="Resolve one complete catalog name and its nameday dates.",
+    )
+    parser.add_argument("name", metavar="NAME", help="complete name to resolve")
+    current_year = date.today().year
+    parser.add_argument("--from-year", type=int, default=current_year)
+    parser.add_argument("--to-year", type=int)
+    _add_data_path_arguments(parser)
+    return parser
+
+
+def _search_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="grecal search",
+        description="Search for names using partial and fuzzy matching.",
+    )
+    parser.add_argument("query", metavar="QUERY", help="name or fragment to search")
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=10,
+        metavar="N",
+        help="maximum results to return (default: 10)",
+    )
+    _add_data_path_arguments(parser)
+    return parser
+
+
+def _parse_date_argument(value: str) -> date:
+    if value.casefold() == "today":
+        return date.today()
+    try:
+        parsed = date.fromisoformat(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            "DATE must use YYYY-MM-DD format or be 'today'"
+        ) from exc
+    if parsed.isoformat() != value:
+        raise argparse.ArgumentTypeError(
+            "DATE must use YYYY-MM-DD format or be 'today'"
+        )
+    if not MIN_YEAR <= parsed.year <= MAX_YEAR:
+        raise argparse.ArgumentTypeError(
+            f"DATE year must be between {MIN_YEAR} and {MAX_YEAR}"
+        )
+    return parsed
+
+
+def _date_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="grecal date",
+        description="Show namedays and church observances for one date.",
+    )
+    parser.add_argument(
+        "day",
+        metavar="DATE",
+        type=_parse_date_argument,
+        help="date in YYYY-MM-DD format, or 'today'",
+    )
+    _add_data_path_arguments(parser)
+    return parser
+
+
+def _load_catalog_from_args(args: argparse.Namespace) -> Catalog:
+    return load_catalog(
+        args.feasts_path,
+        args.names_path,
+        args.observances_path,
+    )
 
 
 def _validate_main(argv: Sequence[str]) -> int:
     parser = _validation_argument_parser()
     args = parser.parse_args(argv)
     try:
-        catalog = load_catalog(args.feasts, args.names_path, args.observances)
+        catalog = _load_catalog_from_args(args)
         validate_catalog(catalog)
     except (
         DataValidationError,
@@ -548,7 +795,7 @@ def _validate_main(argv: Sequence[str]) -> int:
         UnsupportedFeastRuleError,
         ValueError,
     ) as exc:
-        parser.error(str(exc))
+        parser.exit(2, f"{parser.prog}: error: {exc}\n")
 
     print("Validation successful")
     print(f"Years checked: {MIN_YEAR}-{MAX_YEAR}")
@@ -563,35 +810,13 @@ def _validate_main(argv: Sequence[str]) -> int:
 
 
 def _generate_main(argv: Sequence[str]) -> int:
-    parser = _argument_parser()
+    parser = _generation_argument_parser()
     args = parser.parse_args(argv)
     if args.feasts_only and args.include_feasts:
         parser.error("--feasts-only cannot be combined with --include-feasts")
-    if args.find is not None and args.include_feasts:
-        parser.error("--find cannot be combined with --include-feasts")
     to_year = args.to_year if args.to_year is not None else args.from_year
     try:
-        catalog = load_catalog(args.feasts, args.names_path, args.observances)
-        if args.find is not None:
-            selected_namedays = select_namedays_by_name(catalog, (args.find,))
-            grouped_names = _generate_selected_namedays(
-                catalog,
-                selected_namedays,
-                args.from_year,
-                to_year,
-            )
-            selected = selected_namedays[0]
-            print(f"Name: {selected.names[0]}")
-            print(f"Identity group: {selected.id}")
-            source_nameday = next(
-                item for item in catalog.namedays if item.id == selected.id
-            )
-            print(f"Variants: {', '.join(source_nameday.names)}")
-            print("Dates:")
-            for day in grouped_names:
-                print(f"  {day.isoformat()}")
-            return 0
-
+        catalog = _load_catalog_from_args(args)
         requested_names = (
             args.personal_names.split(",")
             if args.personal_names is not None
@@ -663,8 +888,117 @@ def _generate_main(argv: Sequence[str]) -> int:
     return 0
 
 
+def _find_main(argv: Sequence[str]) -> int:
+    parser = _find_argument_parser()
+    args = parser.parse_args(argv)
+    to_year = args.to_year if args.to_year is not None else args.from_year
+    try:
+        catalog = _load_catalog_from_args(args)
+        try:
+            selected_namedays = select_namedays_by_name(catalog, (args.name,))
+        except ValueError as exc:
+            command = f"grecal search {shlex.quote(args.name)}"
+            parser.exit(
+                2,
+                f"{parser.prog}: error: {exc}\nTry: {command}\n",
+            )
+        grouped_names = _generate_selected_namedays(
+            catalog,
+            selected_namedays,
+            args.from_year,
+            to_year,
+        )
+        selected = selected_namedays[0]
+        source_nameday = next(
+            item for item in catalog.namedays if item.id == selected.id
+        )
+    except (
+        DataValidationError,
+        OSError,
+        UnsupportedFeastRuleError,
+        ValueError,
+    ) as exc:
+        parser.exit(2, f"{parser.prog}: error: {exc}\n")
+
+    print(f"Name: {selected.names[0]}")
+    print(f"Identity group: {selected.id}")
+    print(f"Variants: {', '.join(source_nameday.names)}")
+    print("Dates:")
+    for day in grouped_names:
+        print(f"  {day.isoformat()}")
+    return 0
+
+
+def _search_main(argv: Sequence[str]) -> int:
+    parser = _search_argument_parser()
+    args = parser.parse_args(argv)
+    try:
+        catalog = _load_catalog_from_args(args)
+        results = search_names(catalog, args.query, limit=args.limit)
+    except (
+        DataValidationError,
+        OSError,
+        ValueError,
+    ) as exc:
+        parser.exit(2, f"{parser.prog}: error: {exc}\n")
+
+    if not results:
+        print(f"No matching names found for: {args.query}")
+        return 1
+    for result in results:
+        print(f"{result.name}  group: {result.nameday_id}")
+    return 0
+
+
+def _date_main(argv: Sequence[str]) -> int:
+    parser = _date_argument_parser()
+    args = parser.parse_args(argv)
+    try:
+        catalog = _load_catalog_from_args(args)
+        result = lookup_date(catalog, args.day)
+    except (
+        DataValidationError,
+        OSError,
+        UnsupportedFeastRuleError,
+        ValueError,
+    ) as exc:
+        parser.exit(2, f"{parser.prog}: error: {exc}\n")
+
+    print(f"Date: {result.day.isoformat()}")
+    print(f"Namedays: {', '.join(result.namedays) if result.namedays else 'none'}")
+    print(
+        "Church observances: "
+        + (", ".join(result.observances) if result.observances else "none")
+    )
+    return 0 if result.namedays or result.observances else 1
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     arguments = tuple(sys.argv[1:] if argv is None else argv)
-    if arguments[:1] == ("validate",):
-        return _validate_main(arguments[1:])
-    return _generate_main(arguments)
+    if not arguments:
+        _main_argument_parser().print_help()
+        return 0
+
+    command_handlers = {
+        "generate": _generate_main,
+        "find": _find_main,
+        "search": _search_main,
+        "date": _date_main,
+        "validate": _validate_main,
+    }
+    handler = command_handlers.get(arguments[0])
+    if handler is not None:
+        return handler(arguments[1:])
+
+    parser = _main_argument_parser()
+    if arguments[0].startswith("-") and arguments[0] not in {
+        "-h",
+        "--help",
+        "--version",
+    }:
+        parser.error(
+            f"unrecognized argument: {arguments[0]}; "
+            "generation options require 'grecal generate'"
+        )
+    parser.parse_args(arguments)
+    return 0

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "grecal"
-version = "1.1.0"
+dynamic = ["version"]
 description = "Generate iCalendar files containing Greek Orthodox namedays and feasts"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -30,6 +30,9 @@ grecal = "grecal.generator:main"
 
 [tool.setuptools.packages.find]
 include = ["grecal*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "grecal._version.__version__"}
 
 [tool.pytest.ini_options]
 addopts = "-q"

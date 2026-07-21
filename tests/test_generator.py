@@ -7,11 +7,13 @@ from grecal.generator import (
     build_calendar,
     generate_namedays,
     generate_personal_namedays,
+    lookup_date,
+    search_names,
     select_namedays,
     select_namedays_by_name,
     validate_catalog,
 )
-from grecal.models import Catalog, Feast, FeastType, Nameday
+from grecal.models import Catalog, Feast, FeastType, Nameday, Observance
 
 
 def _catalog() -> Catalog:
@@ -102,6 +104,56 @@ def test_personal_calendar_contains_only_requested_variants() -> None:
     )
 
     assert grouped == {date(2026, 11, 30): ("Ανδρέας", "Άντρια")}
+
+
+def test_lookup_date_returns_namedays_and_observances() -> None:
+    source = _catalog()
+    catalog = Catalog(
+        feasts=source.feasts,
+        namedays=source.namedays,
+        observances=(Observance("shared", "shared", "Κοινή εορτή"),),
+    )
+
+    result = lookup_date(catalog, date(2026, 11, 30))
+
+    assert result.day == date(2026, 11, 30)
+    assert result.namedays == ("Ανδρέας", "Ανδριανή", "Άντρια")
+    assert result.observances == ("Κοινή εορτή",)
+
+
+def test_lookup_date_returns_empty_groups_and_validates_the_year() -> None:
+    assert lookup_date(_catalog(), date(2026, 1, 1)).namedays == ()
+
+    with pytest.raises(ValueError, match="between 1900 and 2100"):
+        lookup_date(_catalog(), date(1899, 11, 30))
+
+
+def test_search_names_ranks_prefixes_before_substrings() -> None:
+    results = search_names(_catalog(), "ανδ", limit=2)
+
+    assert [result.name for result in results] == ["Ανδρέας", "Ανδριανή"]
+    assert [result.match_type for result in results] == ["prefix", "prefix"]
+
+
+def test_search_names_handles_adjacent_transpositions() -> None:
+    results = search_names(_catalog(), "ανδρεσα")
+
+    assert results[0].name == "Ανδρέας"
+    assert results[0].match_type == "fuzzy"
+
+
+@pytest.mark.parametrize(
+    ("query", "limit", "message"),
+    [
+        ("", 10, "query must not be empty"),
+        ("Ανδρέας", 0, "limit must be at least 1"),
+    ],
+)
+def test_search_names_rejects_invalid_arguments(
+    query: str, limit: int, message: str
+) -> None:
+    with pytest.raises(ValueError, match=message):
+        search_names(_catalog(), query, limit=limit)
 
 
 def test_ics_contains_one_all_day_event_without_description_or_location() -> None:

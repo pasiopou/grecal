@@ -146,7 +146,16 @@ def test_nameday_only_generation_remains_unchanged() -> None:
 def test_feasts_only_cli_generates_22_events(tmp_path: Path, capsys) -> None:
     output = tmp_path / "feasts-2026.ics"
 
-    assert main(["--feasts-only", "--from-year", "2026", "--output", str(output)]) == 0
+    assert main(
+        [
+            "generate",
+            "--feasts-only",
+            "--from-year",
+            "2026",
+            "--output",
+            str(output),
+        ]
+    ) == 0
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = _events(parsed)
@@ -162,6 +171,7 @@ def test_include_feasts_cli_merges_titles_with_names(tmp_path: Path) -> None:
 
     assert main(
         [
+            "generate",
             "--all",
             "--include-feasts",
             "--from-year",

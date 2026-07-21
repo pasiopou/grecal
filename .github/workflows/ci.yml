@@ -80,7 +80,9 @@ jobs:
           "$RUNNER_TEMP/grecal-wheel-check/bin/python" -m pip install dist/*.whl
           cd "$RUNNER_TEMP"
           "$RUNNER_TEMP/grecal-wheel-check/bin/grecal" validate
+          "$RUNNER_TEMP/grecal-wheel-check/bin/grecal" date 2026-08-15
           "$RUNNER_TEMP/grecal-wheel-check/bin/grecal" \
+            generate \
             --all \
             --include-feasts \
             --from-year 2026 \

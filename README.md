@@ -20,8 +20,10 @@ For installation and CLI examples, see
 - fixed, Easter-offset, Saint George, and named custom feast rules
 - one all-day event per date, with all celebrating names in `SUMMARY`
 - `--all`, `--top N`, and `--min-popularity N` selection modes
-- case- and tonos-insensitive name lookup with `--find NAME`
-- personal calendars for comma-separated names with `--names NAME,...`
+- case- and tonos-insensitive exact lookup with `grecal find NAME`
+- ranked partial and typo-tolerant lookup with `grecal search QUERY`
+- reverse lookup by calendar date with `grecal date DATE`
+- personal calendars with `grecal generate --names NAME,...`
 - opt-in combined feast output and a feast-only mode
 - single-year or multi-year output
 - full data and feast-rule validation with `grecal validate`
@@ -38,6 +40,7 @@ grecal/
 ├── generate_ics.py              # source-tree CLI entry point
 ├── grecal/
 │   ├── __init__.py              # public library API
+│   ├── _version.py              # package version source of truth
 │   ├── easter.py                # Orthodox computus
 │   ├── generator.py             # filtering, grouping, ICS, and CLI
 │   ├── models.py                # immutable dataclasses
@@ -90,110 +93,245 @@ Confirm that the CLI is available:
 grecal --help
 ```
 
-### Generate a calendar
+## Command-line reference
 
-For every nameday in 2026:
+Grecal uses subcommands exclusively; generation options are not accepted at
+the top level.
 
-```bash
-grecal --all --from-year 2026 --output grecal-2026.ics
+```text
+grecal [-h] [--version] COMMAND
 ```
 
-This creates `grecal-2026.ics` in the current directory. After writing the
-file, Grecal prints its path and size, the selected year range, and generation
-statistics. The file can be imported into Apple Calendar, Google Calendar,
-Outlook, or another iCalendar-compatible application.
+| Option | Meaning |
+| --- | --- |
+| `-h`, `--help` | Show the command list and exit |
+| `--version` | Print the installed Grecal version and exit |
 
-Every invocation requires exactly one selection mode:
+The available commands are:
 
-| Selection mode | Result |
+| Command | Purpose | Writes a file? |
+| --- | --- | --- |
+| `generate` | Generate an ICS calendar | Yes, unless `--dry-run` is used |
+| `find` | Resolve one exact name and calculate its dates | No |
+| `search` | Discover names with partial and fuzzy matching | No |
+| `date` | Show namedays and church observances for one date | No |
+| `validate` | Validate catalog files and every feast rule | No |
+
+Running `grecal` without a command prints the same overview. Each command has
+focused help, for example `grecal search --help`.
+
+### `grecal generate`
+
+```text
+grecal generate
+    (--all | --top N | --min-popularity N | --names LIST | --feasts-only)
+    [--include-feasts]
+    [--from-year YEAR]
+    [--to-year YEAR]
+    [--output PATH]
+    [--dry-run]
+    [catalog options]
+```
+
+Exactly one selection option is required:
+
+| Selection option | Result |
 | --- | --- |
 | `--all` | Every nameday identity group |
-| `--top N` | The `N` highest-scoring nameday identity groups |
-| `--min-popularity N` | Nameday groups whose score is at least `N` |
+| `--top N` | The `N` highest-scoring identity groups; `N` must be at least 1 |
+| `--min-popularity N` | Groups whose score is at least `N`; accepted range is 0–100 |
+| `--names LIST` | Only the comma-separated personal names in `LIST` |
 | `--feasts-only` | Church feast titles without namedays |
-| `--find NAME` | Print the matching identity group, variants, and date(s) |
-| `--names NAME,...` | Create a calendar containing only the requested names |
 
-`--include-feasts` is not a selection mode. Add it to `--all`, `--top N`,
-`--min-popularity N`, or `--names NAME,...` to include church feast titles
-alongside namedays. Do not combine two selection modes.
+Other generation options:
 
-Common examples:
+| Option | Default | Meaning |
+| --- | --- | --- |
+| `--include-feasts` | Off | Add church feast titles to the selected namedays |
+| `--from-year YEAR` | Current year | First generated year |
+| `--to-year YEAR` | Same as `--from-year` | Last generated year |
+| `--output PATH` | `grecal.ics` | Destination ICS file |
+| `--dry-run` | Off | Calculate and report without writing a file or creating its directory |
+| `-h`, `--help` | — | Show generation help |
+
+Selection options are mutually exclusive. `--feasts-only` cannot be combined
+with `--include-feasts`. Year ranges are inclusive and must remain within
+1900–2100.
+
+Examples:
 
 ```bash
 # Every nameday in 2026
-grecal --all --from-year 2026 --output grecal-2026.ics
+grecal generate --all --from-year 2026 --output grecal-2026.ics
 
 # The 100 highest-scoring identity groups in 2026
-grecal --top 100 --from-year 2026 --output grecal-top-100-2026.ics
+grecal generate --top 100 --from-year 2026 --output grecal-top-100-2026.ics
 
 # Groups scored 80 or higher from 2026 through 2030
-grecal --min-popularity 80 --from-year 2026 --to-year 2030 --output grecal-2026-2030.ics
+grecal generate --min-popularity 80 --from-year 2026 --to-year 2030 --output grecal-2026-2030.ics
 
 # Every nameday plus all church feasts in 2026
-grecal --all --include-feasts --from-year 2026 --output grecal-complete-2026.ics
+grecal generate --all --include-feasts --from-year 2026 --output grecal-complete-2026.ics
 
 # Church feasts only in 2026
-grecal --feasts-only --from-year 2026 --output grecal-feasts-2026.ics
+grecal generate --feasts-only --from-year 2026 --output grecal-feasts-2026.ics
 
-# Look up one name without creating a calendar
-grecal --find Γιώργος --from-year 2026
+# A personal calendar containing two names
+grecal generate --names Γιώργος,Μαρία --from-year 2026 --output personal.ics
 
-# Create a personal calendar containing two names
-grecal --names Γιώργος,Μαρία --from-year 2026 --output personal.ics
+# Preview the full pipeline without writing the output
+grecal generate --all --from-year 2026 --output grecal-2026.ics --dry-run
 ```
 
-Name matching ignores capitalization and Greek diacritics, so `γιωργος` also
-matches the catalog spelling `Γιώργος`. Lookup prints the canonical spelling,
-the identity group and all its variants, followed by one resolved date for each
-requested year. It does not create an `.ics` file.
-
-A personal calendar includes only the requested canonical spellings in its
-event summaries. For example, selecting `Γιώργος` does not also add `Γεώργιος`
-or `Γεωργία`, even though all three belong to the same identity group. Spaces
-around commas are allowed when the whole value is quoted. Unknown and empty
-names are reported as errors.
-
-Year ranges are inclusive and must remain within 1900–2100. If
-`--from-year` is omitted, Grecal uses the current year. If `--to-year` is
-omitted, it uses the same year as `--from-year`. If `--output` is omitted, the
-output path is `grecal.ics` in the current directory:
-
-```bash
-grecal --all
-```
+Personal-name matching ignores capitalization and Greek diacritics. Event
+summaries contain only the requested canonical spellings: selecting `Γιώργος`
+does not also add `Γεώργιος` or `Γεωργία`. Spaces around commas are accepted
+when the whole value is quoted. Unknown and empty names are errors.
 
 Output paths may be absolute or relative. Quote paths containing spaces:
 
 ```bash
-grecal --all --from-year 2026 --output "$HOME/My Calendars/grecal-2026.ics"
+grecal generate --all --from-year 2026 --output "$HOME/My Calendars/grecal-2026.ics"
 ```
 
-To run the complete generation pipeline and view the report without writing a
-file or creating its parent directory, add `--dry-run`:
+After writing a file, Grecal prints its path and size, the year range, and
+generation statistics. A dry-run report begins with `Dry run: no file written`
+and reports the path and byte size that would have been generated.
+
+### `grecal find`
+
+```text
+grecal find NAME
+    [--from-year YEAR]
+    [--to-year YEAR]
+    [catalog options]
+```
+
+| Argument or option | Default | Meaning |
+| --- | --- | --- |
+| `NAME` | Required | One complete name to resolve |
+| `--from-year YEAR` | Current year | First year to calculate |
+| `--to-year YEAR` | Same as `--from-year` | Last year to calculate |
+| `-h`, `--help` | — | Show exact-lookup help |
+
+`find` performs one case- and tonos-insensitive exact lookup. It prints the
+canonical name, identity group, all variants, and one resolved date per year;
+it never creates an ICS file.
 
 ```bash
-grecal --all --from-year 2026 --output grecal-2026.ics --dry-run
+grecal find γιωργος --from-year 2026
 ```
 
-The report begins with `Dry run: no file written` and shows the path and byte
-size that would have been generated.
+```text
+Name: Γιώργος
+Identity group: georgios
+Variants: Γεώργιος, Γιώργος, Γεωργία
+Dates:
+  2026-04-23
+```
 
-### Validate the data
+An unknown complete name is an error and suggests trying `grecal search`.
 
-Validate the YAML schema, cross-references, duplicate values, and every feast
-calculation throughout the supported 1900–2100 range:
+### `grecal search`
+
+```text
+grecal search QUERY [--limit N] [catalog options]
+```
+
+| Argument or option | Default | Meaning |
+| --- | --- | --- |
+| `QUERY` | Required | Complete name, name fragment, or potentially misspelled name |
+| `--limit N` | `10` | Maximum results; `N` must be at least 1 |
+| `-h`, `--help` | — | Show search help |
+
+Search normalization ignores capitalization and Greek diacritics. Results are
+ranked deterministically in this order: exact matches, prefixes, substrings,
+and fuzzy matches. Fuzzy ranking combines adjacent-transposition-aware edit
+distance with sequence similarity, then uses popularity and canonical spelling
+as stable tie-breakers.
+
+```bash
+grecal search Ανδρ
+grecal search αασΑνδρεας --limit 3
+```
+
+```text
+Ανδρέας  group: andreas
+Ανδρούλα  group: andreas
+Ανδρονίκη  group: andronikos
+```
+
+Search returns status 0 when it finds results and status 1 when there are no
+matches. It does not calculate feast dates or create files; pass a selected
+result to `grecal find` to calculate dates.
+
+### `grecal date`
+
+```text
+grecal date DATE [catalog options]
+```
+
+| Argument or option | Default | Meaning |
+| --- | --- | --- |
+| `DATE` | Required | ISO date in `YYYY-MM-DD` format, or `today` |
+| `-h`, `--help` | — | Show date-lookup help |
+
+`date` is the inverse of `find`: it resolves every nameday and church
+observance on one date. The two categories are always displayed separately,
+and the command never creates an ICS file.
+
+```bash
+grecal date 2026-08-15
+grecal date today
+```
+
+```text
+Date: 2026-08-15
+Namedays: Μαρία, Μαριέττα, Μαρίκα, ...
+Church observances: Κοίμηση της Θεοτόκου
+```
+
+Ambiguous formats such as `15/08/2026` are rejected. Dates must be within
+1900–2100. The command returns status 0 when it finds a nameday or observance,
+status 1 for a valid empty date, and status 2 for invalid input or catalog
+errors.
+
+### `grecal validate`
+
+```text
+grecal validate [catalog options]
+```
+
+Validation checks YAML structure, duplicate identifiers and display names,
+popularity ranges, feast cross-references, fixed dates, and every feast rule
+throughout 1900–2100. Success prints catalog counts and returns status 0;
+invalid data prints an error and returns a nonzero status.
 
 ```bash
 grecal validate
 ```
 
-A successful validation prints the catalog counts and exits with status 0. An
-invalid file or feast rule prints an error and exits with a nonzero status.
+### Catalog options
+
+All five commands accept the same advanced catalog overrides:
+
+| Option | Default | Meaning |
+| --- | --- | --- |
+| `--feasts-file PATH` | Bundled `feasts.yaml` | Alternative feast definitions |
+| `--names-file PATH` | Bundled `names.yaml` | Alternative nameday definitions |
+| `--observances-file PATH` | Bundled `observances.yaml` | Alternative church observances |
+
+The `-file` suffix distinguishes a catalog path from personal names:
+
+```text
+--names Γιώργος,Μαρία    Personal names selected by `generate`
+--names-file names.yaml  YAML catalog containing all names
+```
+
 Contributors can validate alternative files explicitly:
 
 ```bash
-grecal validate --feasts data/feasts.yaml --names data/names.yaml --observances data/observances.yaml
+grecal validate --feasts-file data/feasts.yaml --names-file data/names.yaml --observances-file data/observances.yaml
 ```
 
 ### Subsequent use
@@ -203,13 +341,13 @@ activate it, and run the desired command:
 
 ```bash
 source .venv/bin/activate
-grecal --all --from-year 2026 --output grecal-2026.ics
+grecal generate --all --from-year 2026 --output grecal-2026.ics
 ```
 
 Alternatively, invoke the installed script without activating the environment:
 
 ```bash
-.venv/bin/grecal --all --from-year 2026 --output grecal-2026.ics
+.venv/bin/grecal generate --all --from-year 2026 --output grecal-2026.ics
 ```
 
 After updating the checkout, reinstall it so `.venv` receives the latest code,
@@ -231,9 +369,10 @@ Use `deactivate` to leave an active virtual environment.
 - Package download errors during initial installation usually indicate that
   access to the Python Package Index is unavailable or requires proxy
   configuration.
-- An error that a selection argument is required means the command needs
-  exactly one of `--all`, `--top N`, `--min-popularity N`, `--feasts-only`,
-  `--find NAME`, or `--names NAME,...`.
+- An error that a command is required means the invocation needs one of
+  `generate`, `find`, `search`, `date`, or `validate`.
+- Within `generate`, exactly one of `--all`, `--top N`,
+  `--min-popularity N`, `--feasts-only`, or `--names LIST` is required.
 - Relative output paths are resolved from the current working directory. For
   permission errors, choose a writable destination.
 - From an activated environment, `python generate_ics.py ...` is an equivalent
@@ -351,6 +490,7 @@ average row.
 ## Library use
 
 ```python
+from datetime import date
 from pathlib import Path
 
 from grecal import (
@@ -359,6 +499,8 @@ from grecal import (
     generate_observances,
     generate_personal_namedays,
     load_catalog,
+    lookup_date,
+    search_names,
     validate_catalog,
     write_calendar,
 )
@@ -374,6 +516,8 @@ observances = generate_observances(catalog, 2026, 2026)
 personal_names = generate_personal_namedays(
     catalog, ("Γιώργος", "Μαρία"), 2026, 2026
 )
+matches = search_names(catalog, "αασΑνδρεας", limit=3)
+day = lookup_date(catalog, date(2026, 8, 15))
 calendar = build_calendar(names, grouped_observances=observances)
 write_calendar(calendar, Path("grecal-2026.ics"))
 ```
@@ -387,6 +531,13 @@ nameday-only calendar.
 `generate_personal_namedays` uses the same date-keyed shape but includes only
 the requested display names. Like the CLI, its matching is case- and
 tonos-insensitive and its output uses canonical catalog spellings.
+
+`search_names` returns immutable `NameSearchResult` values in the same ranked
+order as `grecal search`. Each result contains the canonical display name,
+identity-group ID, popularity, numeric similarity score, and match type.
+
+`lookup_date` returns an immutable `DateLookupResult` containing the requested
+date plus separate tuples of namedays and church observance titles.
 
 ## YAML formats
 
@@ -528,8 +679,9 @@ emits `PRODID`, `VERSION:2.0`, and `CALSCALE:GREGORIAN`. It deliberately omits
 The automated suite covers known Orthodox Easter dates and range limits, every
 feast-rule type, all eight movable church observances, Saint George transfer
 boundaries, custom-rule injection, filtering, same-day grouping, YAML schema
-failures, final dataset counts, `grecal validate`, dry runs, and every CLI
-generation mode. The final ICS checks include:
+failures, final dataset counts, validation, dry runs, exact lookup, fuzzy
+search, reverse date lookup, and every CLI generation mode. The final ICS
+checks include:
 
 - valid UTF-8 without a byte-order mark
 - CRLF record endings and 75-octet content-line folding
