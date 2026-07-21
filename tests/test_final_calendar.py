@@ -213,3 +213,66 @@ def test_validate_command_reports_rule_errors_without_a_traceback(
     stderr = capsys.readouterr().err
     assert "unknown custom rule 'missing'" in stderr
     assert "Traceback" not in stderr
+
+
+def test_cli_finds_a_name_without_writing_a_calendar(
+    tmp_path: Path, capsys, monkeypatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+
+    assert main(["--find", "γιωργος", "--from-year", "2026"]) == 0
+
+    report = capsys.readouterr().out
+    assert "Name: Γιώργος" in report
+    assert "Identity group: georgios" in report
+    assert "Variants: Γεώργιος, Γιώργος, Γεωργία" in report
+    assert "2026-04-23" in report
+    assert not (tmp_path / "grecal.ics").exists()
+
+
+def test_cli_generates_a_personal_calendar(tmp_path: Path, capsys) -> None:
+    output = tmp_path / "personal.ics"
+
+    assert main(
+        [
+            "--names",
+            "Γιώργος, Μαρία",
+            "--from-year",
+            "2026",
+            "--output",
+            str(output),
+        ]
+    ) == 0
+
+    parsed = Calendar.from_ical(output.read_bytes())
+    events = [component for component in parsed.walk() if component.name == "VEVENT"]
+    summaries = {
+        event.decoded("dtstart"): str(event["SUMMARY"]) for event in events
+    }
+    assert summaries == {
+        date(2026, 4, 23): "Γιώργος",
+        date(2026, 8, 15): "Μαρία",
+    }
+    report = capsys.readouterr().out
+    assert "Selection: 2 personal names" in report
+    assert re.search(r"^2026\s+2\s+2\s+0\s+2$", report, re.MULTILINE)
+
+
+def test_cli_reports_an_unknown_personal_name(capsys) -> None:
+    with pytest.raises(SystemExit) as error:
+        main(["--names", "Άγνωστος", "--from-year", "2026"])
+
+    assert error.value.code == 2
+    stderr = capsys.readouterr().err
+    assert "error: name not found in the catalog: Άγνωστος" in stderr
+    assert "usage:" not in stderr
+
+
+def test_cli_syntax_errors_still_show_usage(capsys) -> None:
+    with pytest.raises(SystemExit) as error:
+        main(["--find", "Γιώργος", "--unknown-option"])
+
+    assert error.value.code == 2
+    stderr = capsys.readouterr().err
+    assert "usage:" in stderr
+    assert "unrecognized arguments: --unknown-option" in stderr

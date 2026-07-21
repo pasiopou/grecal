@@ -20,6 +20,8 @@ For installation and CLI examples, see
 - fixed, Easter-offset, Saint George, and named custom feast rules
 - one all-day event per date, with all celebrating names in `SUMMARY`
 - `--all`, `--top N`, and `--min-popularity N` selection modes
+- case- and tonos-insensitive name lookup with `--find NAME`
+- personal calendars for comma-separated names with `--names NAME,...`
 - opt-in combined feast output and a feast-only mode
 - single-year or multi-year output
 - full data and feast-rule validation with `grecal validate`
@@ -109,10 +111,12 @@ Every invocation requires exactly one selection mode:
 | `--top N` | The `N` highest-scoring nameday identity groups |
 | `--min-popularity N` | Nameday groups whose score is at least `N` |
 | `--feasts-only` | Church feast titles without namedays |
+| `--find NAME` | Print the matching identity group, variants, and date(s) |
+| `--names NAME,...` | Create a calendar containing only the requested names |
 
-`--include-feasts` is not a selection mode. Add it to `--all`, `--top N`, or
-`--min-popularity N` to include church feast titles alongside namedays. Do not
-combine two selection modes.
+`--include-feasts` is not a selection mode. Add it to `--all`, `--top N`,
+`--min-popularity N`, or `--names NAME,...` to include church feast titles
+alongside namedays. Do not combine two selection modes.
 
 Common examples:
 
@@ -131,7 +135,24 @@ grecal --all --include-feasts --from-year 2026 --output grecal-complete-2026.ics
 
 # Church feasts only in 2026
 grecal --feasts-only --from-year 2026 --output grecal-feasts-2026.ics
+
+# Look up one name without creating a calendar
+grecal --find Γιώργος --from-year 2026
+
+# Create a personal calendar containing two names
+grecal --names Γιώργος,Μαρία --from-year 2026 --output personal.ics
 ```
+
+Name matching ignores capitalization and Greek diacritics, so `γιωργος` also
+matches the catalog spelling `Γιώργος`. Lookup prints the canonical spelling,
+the identity group and all its variants, followed by one resolved date for each
+requested year. It does not create an `.ics` file.
+
+A personal calendar includes only the requested canonical spellings in its
+event summaries. For example, selecting `Γιώργος` does not also add `Γεώργιος`
+or `Γεωργία`, even though all three belong to the same identity group. Spaces
+around commas are allowed when the whole value is quoted. Unknown and empty
+names are reported as errors.
 
 Year ranges are inclusive and must remain within 1900–2100. If
 `--from-year` is omitted, Grecal uses the current year. If `--to-year` is
@@ -211,8 +232,8 @@ Use `deactivate` to leave an active virtual environment.
   access to the Python Package Index is unavailable or requires proxy
   configuration.
 - An error that a selection argument is required means the command needs
-  exactly one of `--all`, `--top N`, `--min-popularity N`, or
-  `--feasts-only`.
+  exactly one of `--all`, `--top N`, `--min-popularity N`, `--feasts-only`,
+  `--find NAME`, or `--names NAME,...`.
 - Relative output paths are resolved from the current working directory. For
   permission errors, choose a writable destination.
 - From an activated environment, `python generate_ics.py ...` is an equivalent
@@ -336,6 +357,7 @@ from grecal import (
     build_calendar,
     generate_namedays,
     generate_observances,
+    generate_personal_namedays,
     load_catalog,
     validate_catalog,
     write_calendar,
@@ -349,6 +371,9 @@ catalog = load_catalog(
 validate_catalog(catalog)
 names = generate_namedays(catalog, 2026, 2026, min_popularity=80)
 observances = generate_observances(catalog, 2026, 2026)
+personal_names = generate_personal_namedays(
+    catalog, ("Γιώργος", "Μαρία"), 2026, 2026
+)
 calendar = build_calendar(names, grouped_observances=observances)
 write_calendar(calendar, Path("grecal-2026.ics"))
 ```
@@ -358,6 +383,10 @@ once. `generate_observances` does the same for titles. `build_calendar` combines
 the mappings while retaining at most one event per date. Omitting the third
 path from `load_catalog` and omitting `grouped_observances` produces a
 nameday-only calendar.
+
+`generate_personal_namedays` uses the same date-keyed shape but includes only
+the requested display names. Like the CLI, its matching is case- and
+tonos-insensitive and its output uses canonical catalog spellings.
 
 ## YAML formats
 

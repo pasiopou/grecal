@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import sys
 import sysconfig
+import unicodedata
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
@@ -76,24 +77,79 @@ def select_namedays(
     return tuple(ordered)
 
 
-def generate_namedays(
+def _normalized_name(name: str) -> str:
+    """Return a case- and tonos-insensitive key for a display name."""
+
+    return "".join(
+        character
+        for character in unicodedata.normalize("NFKD", name.strip()).casefold()
+        if not unicodedata.combining(character)
+    )
+
+
+def select_namedays_by_name(
     catalog: Catalog,
+    names: Iterable[str],
+) -> tuple[Nameday, ...]:
+    """Select requested display names, preserving their catalog spellings.
+
+    Multiple requested variants from one identity group are returned as one
+    ``Nameday`` carrying only those variants. Matching ignores case and Greek
+    diacritics.
+    """
+
+    index: dict[str, tuple[Nameday, str]] = {}
+    for nameday in catalog.namedays:
+        for display_name in nameday.names:
+            index[_normalized_name(display_name)] = (nameday, display_name)
+
+    selected: dict[str, tuple[Nameday, list[str]]] = {}
+    unknown: list[str] = []
+    for requested_name in names:
+        cleaned_name = requested_name.strip()
+        match = index.get(_normalized_name(cleaned_name)) if cleaned_name else None
+        if match is None:
+            if cleaned_name not in unknown:
+                unknown.append(cleaned_name or "<empty>")
+            continue
+        nameday, display_name = match
+        if nameday.id not in selected:
+            selected[nameday.id] = (nameday, [])
+        selected_names = selected[nameday.id][1]
+        if display_name not in selected_names:
+            selected_names.append(display_name)
+
+    if unknown:
+        label = "name" if len(unknown) == 1 else "names"
+        raise ValueError(
+            f"{label} not found in the catalog: {', '.join(unknown)}"
+        )
+    if not selected:
+        raise ValueError("at least one name is required")
+
+    return tuple(
+        Nameday(
+            id=nameday.id,
+            feast=nameday.feast,
+            popularity=nameday.popularity,
+            names=tuple(display_names),
+        )
+        for nameday, display_names in selected.values()
+    )
+
+
+def _generate_selected_namedays(
+    catalog: Catalog,
+    selected: Iterable[Nameday],
     from_year: int,
     to_year: int,
     *,
-    top: int | None = None,
-    min_popularity: int | None = None,
     custom_rules: Mapping[str, CustomRule] | None = None,
 ) -> dict[date, tuple[str, ...]]:
-    """Resolve and group selected names, returning at most one group per day."""
-
     if not MIN_YEAR <= from_year <= to_year <= MAX_YEAR:
         raise ValueError(
             f"year range must satisfy {MIN_YEAR} <= from_year <= to_year <= {MAX_YEAR}"
         )
-    selected = select_namedays(
-        catalog.namedays, top=top, min_popularity=min_popularity
-    )
     feasts = catalog.feast_map()
     grouped: dict[date, list[str]] = defaultdict(list)
     for year in range(from_year, to_year + 1):
@@ -109,6 +165,49 @@ def generate_namedays(
                 if name not in grouped[celebration]:
                     grouped[celebration].append(name)
     return {day: tuple(names) for day, names in sorted(grouped.items())}
+
+
+def generate_namedays(
+    catalog: Catalog,
+    from_year: int,
+    to_year: int,
+    *,
+    top: int | None = None,
+    min_popularity: int | None = None,
+    custom_rules: Mapping[str, CustomRule] | None = None,
+) -> dict[date, tuple[str, ...]]:
+    """Resolve and group selected names, returning at most one group per day."""
+
+    selected = select_namedays(
+        catalog.namedays, top=top, min_popularity=min_popularity
+    )
+    return _generate_selected_namedays(
+        catalog,
+        selected,
+        from_year,
+        to_year,
+        custom_rules=custom_rules,
+    )
+
+
+def generate_personal_namedays(
+    catalog: Catalog,
+    names: Iterable[str],
+    from_year: int,
+    to_year: int,
+    *,
+    custom_rules: Mapping[str, CustomRule] | None = None,
+) -> dict[date, tuple[str, ...]]:
+    """Resolve only the requested display names for a personal calendar."""
+
+    selected = select_namedays_by_name(catalog, names)
+    return _generate_selected_namedays(
+        catalog,
+        selected,
+        from_year,
+        to_year,
+        custom_rules=custom_rules,
+    )
 
 
 def generate_observances(
@@ -239,10 +338,16 @@ def _year_statistics(
     )
 
 
-def _selection_label(args: argparse.Namespace) -> str:
+def _selection_label(
+    args: argparse.Namespace,
+    selected_namedays: Sequence[Nameday],
+) -> str:
     if args.feasts_only:
         return "church feasts only"
-    if args.top is not None:
+    if args.personal_names is not None:
+        count = sum(len(item.names) for item in selected_namedays)
+        label = f"{count} personal " + ("name" if count == 1 else "names")
+    elif args.top is not None:
         label = f"top {args.top} nameday groups"
     elif args.min_popularity is not None:
         label = f"nameday popularity >= {args.min_popularity}"
@@ -353,6 +458,17 @@ def _argument_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="include church feasts without namedays",
     )
+    selection.add_argument(
+        "--find",
+        metavar="NAME",
+        help="look up a name and print its nameday date",
+    )
+    selection.add_argument(
+        "--names",
+        dest="personal_names",
+        metavar="NAME[,NAME...]",
+        help="include only these comma-separated names",
+    )
     parser.add_argument(
         "--include-feasts",
         action="store_true",
@@ -375,6 +491,7 @@ def _add_data_path_arguments(
     parser: argparse.ArgumentParser,
     *,
     suppress_help: bool,
+    names_option: str = "--names-file",
 ) -> None:
     feasts_help = (
         argparse.SUPPRESS if suppress_help else "path to feast definitions YAML"
@@ -390,7 +507,8 @@ def _add_data_path_arguments(
         help=feasts_help,
     )
     parser.add_argument(
-        "--names",
+        names_option,
+        dest="names_path",
         type=Path,
         default=DEFAULT_NAMES_PATH,
         help=names_help,
@@ -410,7 +528,11 @@ def _validation_argument_parser() -> argparse.ArgumentParser:
             "Validate YAML data and resolve every feast rule for 1900-2100."
         ),
     )
-    _add_data_path_arguments(parser, suppress_help=False)
+    _add_data_path_arguments(
+        parser,
+        suppress_help=False,
+        names_option="--names",
+    )
     return parser
 
 
@@ -418,7 +540,7 @@ def _validate_main(argv: Sequence[str]) -> int:
     parser = _validation_argument_parser()
     args = parser.parse_args(argv)
     try:
-        catalog = load_catalog(args.feasts, args.names, args.observances)
+        catalog = load_catalog(args.feasts, args.names_path, args.observances)
         validate_catalog(catalog)
     except (
         DataValidationError,
@@ -445,29 +567,62 @@ def _generate_main(argv: Sequence[str]) -> int:
     args = parser.parse_args(argv)
     if args.feasts_only and args.include_feasts:
         parser.error("--feasts-only cannot be combined with --include-feasts")
+    if args.find is not None and args.include_feasts:
+        parser.error("--find cannot be combined with --include-feasts")
     to_year = args.to_year if args.to_year is not None else args.from_year
     try:
-        catalog = load_catalog(args.feasts, args.names, args.observances)
-        selected_namedays = (
-            ()
-            if args.feasts_only
-            else select_namedays(
+        catalog = load_catalog(args.feasts, args.names_path, args.observances)
+        if args.find is not None:
+            selected_namedays = select_namedays_by_name(catalog, (args.find,))
+            grouped_names = _generate_selected_namedays(
+                catalog,
+                selected_namedays,
+                args.from_year,
+                to_year,
+            )
+            selected = selected_namedays[0]
+            print(f"Name: {selected.names[0]}")
+            print(f"Identity group: {selected.id}")
+            source_nameday = next(
+                item for item in catalog.namedays if item.id == selected.id
+            )
+            print(f"Variants: {', '.join(source_nameday.names)}")
+            print("Dates:")
+            for day in grouped_names:
+                print(f"  {day.isoformat()}")
+            return 0
+
+        requested_names = (
+            args.personal_names.split(",")
+            if args.personal_names is not None
+            else None
+        )
+        if args.feasts_only:
+            selected_namedays = ()
+            grouped_names = {}
+        elif requested_names is not None:
+            selected_namedays = select_namedays_by_name(
+                catalog, requested_names
+            )
+            grouped_names = _generate_selected_namedays(
+                catalog,
+                selected_namedays,
+                args.from_year,
+                to_year,
+            )
+        else:
+            selected_namedays = select_namedays(
                 catalog.namedays,
                 top=args.top,
                 min_popularity=args.min_popularity,
             )
-        )
-        grouped_names = (
-            {}
-            if args.feasts_only
-            else generate_namedays(
+            grouped_names = generate_namedays(
                 catalog,
                 args.from_year,
                 to_year,
                 top=args.top,
                 min_popularity=args.min_popularity,
             )
-        )
         grouped_observances = (
             generate_observances(catalog, args.from_year, to_year)
             if args.include_feasts or args.feasts_only
@@ -494,7 +649,7 @@ def _generate_main(argv: Sequence[str]) -> int:
         )
         _print_generation_summary(
             args.output,
-            _selection_label(args),
+            _selection_label(args, selected_namedays),
             statistics,
             dry_run_size=dry_run_size,
         )
@@ -504,7 +659,7 @@ def _generate_main(argv: Sequence[str]) -> int:
         UnsupportedFeastRuleError,
         ValueError,
     ) as exc:
-        parser.error(str(exc))
+        parser.exit(2, f"{parser.prog}: error: {exc}\n")
     return 0
 
 

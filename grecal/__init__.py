@@ -6,6 +6,8 @@ from .generator import (
     build_calendar,
     generate_namedays,
     generate_observances,
+    generate_personal_namedays,
+    select_namedays_by_name,
     validate_catalog,
     write_calendar,
 )
@@ -21,7 +23,9 @@ __all__ = [
     "build_calendar",
     "generate_namedays",
     "generate_observances",
+    "generate_personal_namedays",
     "load_catalog",
+    "select_namedays_by_name",
     "validate_catalog",
     "write_calendar",
     "__version__",

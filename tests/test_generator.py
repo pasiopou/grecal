@@ -6,7 +6,9 @@ import pytest
 from grecal.generator import (
     build_calendar,
     generate_namedays,
+    generate_personal_namedays,
     select_namedays,
+    select_namedays_by_name,
     validate_catalog,
 )
 from grecal.models import Catalog, Feast, FeastType, Nameday
@@ -75,6 +77,31 @@ def test_validate_catalog_checks_each_year_in_the_range() -> None:
     # of the public API, so test the validation failure rather than its text.
     with pytest.raises(ValueError):
         validate_catalog(catalog, 2024, 2025)
+
+
+def test_selection_by_name_ignores_case_and_diacritics() -> None:
+    selected = select_namedays_by_name(_catalog(), ("ανδρεας", "ΑΝΤΡΙΑ"))
+
+    assert selected == (
+        Nameday("andreas", "shared", 95, ("Ανδρέας",)),
+        Nameday("andriani", "shared", 60, ("Άντρια",)),
+    )
+
+
+def test_selection_by_name_reports_all_unknown_names() -> None:
+    with pytest.raises(
+        ValueError,
+        match="names not found in the catalog: Άγνωστος, Κανένας",
+    ):
+        select_namedays_by_name(_catalog(), ("Άγνωστος", "Κανένας"))
+
+
+def test_personal_calendar_contains_only_requested_variants() -> None:
+    grouped = generate_personal_namedays(
+        _catalog(), ("Ανδρέας", "Άντρια"), 2026, 2026
+    )
+
+    assert grouped == {date(2026, 11, 30): ("Ανδρέας", "Άντρια")}
 
 
 def test_ics_contains_one_all_day_event_without_description_or_location() -> None:
