@@ -29,6 +29,7 @@ For installation and CLI examples, see
 - full data and feast-rule validation with `grecal validate`
 - generation previews with `--dry-run`
 - calendar name, description, modification time, and optional display color metadata
+- persistent calendar and event UIDs suitable for refreshable subscriptions
 - UTF-8 RFC 5545 output with CRLF line endings and folded content lines
 - minimal `VEVENT` components with no event description or location
 - importable by Apple Calendar, Google Calendar, and Outlook
@@ -133,6 +134,7 @@ grecal generate
     [--calendar-name TEXT]
     [--calendar-description TEXT]
     [--calendar-color COLOR]
+    [--calendar-id ID]
     [--dry-run]
     [catalog options]
 ```
@@ -158,6 +160,7 @@ Other generation options:
 | `--calendar-name TEXT` | Depends on the selection | Calendar display name |
 | `--calendar-description TEXT` | Depends on the selection and years | Calendar description |
 | `--calendar-color COLOR` | Omitted | Suggested display color, such as `blue` or `#3f51b5` |
+| `--calendar-id ID` | Derived from the selection | Stable logical identity used for calendar and event UIDs |
 | `--dry-run` | Off | Calculate and report without writing a file or creating its directory |
 | `-h`, `--help` | — | Show generation help |
 
@@ -195,6 +198,15 @@ grecal generate \
   --calendar-color blue \
   --output family.ics
 
+# A long-lived published feed with an explicit stable identity
+grecal generate \
+  --all \
+  --include-feasts \
+  --from-year 2025 \
+  --to-year 2036 \
+  --calendar-id official-complete \
+  --output grecal.ics
+
 # Preview the full pipeline without writing the output
 grecal generate --all --from-year 2026 --output grecal-2026.ics --dry-run
 ```
@@ -217,6 +229,19 @@ The default description similarly identifies the selection and generated year
 or inclusive year range. `--calendar-name` and `--calendar-description`
 replace those defaults. `--calendar-color` is optional because calendar
 applications may ignore or override a suggested color.
+
+Grecal derives a stable calendar identity from the selection mode. For
+example, `--all` uses `namedays:all`, `--feasts-only` uses `feasts`, and
+`--all --include-feasts` uses `complete:all`. Personal identities use the
+resolved names after case- and tonos-insensitive normalization, sorting, and
+deduplication, so changing the input order does not change the identity.
+
+The generated year range, output path, display name, description, and color do
+not participate in identity. Consequently, overlapping dates keep the same
+event UIDs when a calendar is regenerated with a wider year range or revised
+summary. Use `--calendar-id` for a long-lived published feed or a custom YAML
+catalog whose identity must remain independent of its current selection. Once
+published, changing this value makes calendar clients see a different feed.
 
 Output paths may be absolute or relative. Quote paths containing spaces:
 
@@ -554,6 +579,7 @@ calendar = build_calendar(
     calendar_name="Grecal — My Calendar",
     calendar_description="Greek Orthodox namedays and feasts for 2026.",
     calendar_color="blue",
+    calendar_id="my-calendar",
 )
 write_calendar(calendar, Path("grecal-2026.ics"))
 ```
@@ -564,7 +590,9 @@ the mappings while retaining at most one event per date. Omitting the third
 path from `load_catalog` and omitting `grouped_observances` produces a
 nameday-only calendar. `calendar_name`, `calendar_description`, and
 `calendar_color` control the same top-level metadata as the corresponding CLI
-options. Passing `None` for the name or description omits that property.
+options. `calendar_id` provides the stable logical identity used to derive the
+calendar and event UIDs. Passing `None` for the name or description omits that
+property.
 
 `generate_personal_namedays` uses the same date-keyed shape but includes only
 the requested display names. Like the CLI, its matching is case- and
@@ -713,17 +741,23 @@ the serializer emits `PRODID`, `VERSION:2.0`, and `CALSCALE:GREGORIAN`, plus:
 
 | Property | Emitted | Purpose |
 | --- | --- | --- |
+| `UID` | Always | Persistent UUIDv5 identity for the logical calendar |
 | `NAME` and `X-WR-CALNAME` | Always by the CLI | Standard display name plus compatibility form |
 | `DESCRIPTION` and `X-WR-CALDESC` | Always by the CLI | Standard calendar description plus compatibility form |
 | `LAST-MODIFIED` | Always | UTC generation timestamp |
 | `COLOR` | With `--calendar-color` | Suggested display color |
 
-`NAME`, calendar-level `DESCRIPTION`, `LAST-MODIFIED`, and `COLOR` follow
+Calendar-level `UID`, `NAME`, `DESCRIPTION`, `LAST-MODIFIED`, and `COLOR` follow
 [RFC 7986](https://www.rfc-editor.org/rfc/rfc7986.html). The `X-WR-*`
 properties are emitted alongside their standard equivalents for calendar-app
 compatibility. Individual `VEVENT` components remain intentionally minimal:
 they omit event-level `DESCRIPTION`, `LOCATION`, time zones, alarms, and timed
 event fields.
+
+Each event UID is a UUIDv5 derived from the calendar identity and ISO date,
+not from its summary. The same date in the same logical feed therefore keeps
+its UID across regenerated year ranges and catalog corrections, while the same
+date in a different feed receives a different UID.
 
 ## Validation
 
@@ -739,6 +773,7 @@ checks include:
 - one `VEVENT` per date
 - date-valued `DTSTART` and exclusive next-day `DTEND`
 - required `UID`, `DTSTAMP`, and `SUMMARY`
+- stable UIDs across content revisions and distinct UIDs between feeds
 - standard and compatibility calendar metadata
 - no event-level `DESCRIPTION` or `LOCATION`
 

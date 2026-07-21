@@ -176,19 +176,58 @@ def test_ics_contains_one_all_day_event_without_description_or_location() -> Non
 def test_calendar_contains_standard_and_compatibility_metadata() -> None:
     stamp = datetime(2026, 1, 1, tzinfo=timezone.utc)
     calendar = build_calendar(
-        {date(2026, 1, 1): ("Ανδρέας",)},
+        {date(2026, 8, 15): ("Μαρία",)},
         generated_at=stamp,
         calendar_name="Οικογενειακές γιορτές",
         calendar_description="Ονομαστικές εορτές της οικογένειας",
         calendar_color="blue",
+        calendar_id="official-complete",
     )
 
+    assert str(calendar["UID"]) == (
+        "urn:uuid:b484af8b-559e-5081-a6be-8b69bc217873"
+    )
     assert str(calendar["NAME"]) == "Οικογενειακές γιορτές"
     assert str(calendar["X-WR-CALNAME"]) == "Οικογενειακές γιορτές"
     assert str(calendar["DESCRIPTION"]) == "Ονομαστικές εορτές της οικογένειας"
     assert str(calendar["X-WR-CALDESC"]) == "Ονομαστικές εορτές της οικογένειας"
     assert calendar.decoded("LAST-MODIFIED") == stamp
     assert str(calendar["COLOR"]) == "blue"
+    event = next(item for item in calendar.walk() if item.name == "VEVENT")
+    assert str(event["UID"]) == (
+        "urn:uuid:fd5eabe4-6772-5832-ba47-1290876b29ff"
+    )
+
+
+def test_event_uids_are_stable_across_content_changes_and_isolated_by_feed() -> None:
+    day = date(2026, 8, 15)
+    original = build_calendar(
+        {day: ("Μαρία",)},
+        calendar_id="official-complete",
+    )
+    revised = build_calendar(
+        {day: ("Μαρία", "Παναγιώτης")},
+        grouped_observances={day: ("Κοίμηση της Θεοτόκου",)},
+        calendar_id="official-complete",
+    )
+    other_feed = build_calendar(
+        {day: ("Μαρία",)},
+        calendar_id="personal:maria",
+    )
+
+    original_event = next(
+        item for item in original.walk() if item.name == "VEVENT"
+    )
+    revised_event = next(
+        item for item in revised.walk() if item.name == "VEVENT"
+    )
+    other_event = next(
+        item for item in other_feed.walk() if item.name == "VEVENT"
+    )
+    assert str(original_event["UID"]) == str(revised_event["UID"])
+    assert str(original_event["UID"]) != str(other_event["UID"])
+    assert str(original["UID"]) == str(revised["UID"])
+    assert str(original["UID"]) != str(other_feed["UID"])
 
 
 def test_calendar_metadata_can_be_omitted_and_rejects_empty_values() -> None:
@@ -207,3 +246,5 @@ def test_calendar_metadata_can_be_omitted_and_rejects_empty_values() -> None:
 
     with pytest.raises(ValueError, match="calendar_name must be a non-empty"):
         build_calendar({}, calendar_name="  ")
+    with pytest.raises(ValueError, match="calendar_id must be a non-empty"):
+        build_calendar({}, calendar_id="  ")

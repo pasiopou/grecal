@@ -89,6 +89,7 @@ jobs:
             --calendar-name "Grecal CI" \
             --calendar-description "Distribution smoke test" \
             --calendar-color blue \
+            --calendar-id official-complete \
             --output "$RUNNER_TEMP/grecal-smoke.ics" \
             --dry-run
           test ! -e "$RUNNER_TEMP/grecal-smoke.ics"
