@@ -145,3 +145,71 @@ def test_cli_reports_output_write_errors_without_a_traceback(
     assert "error:" in stderr
     assert str(tmp_path) in stderr
     assert "Traceback" not in stderr
+
+
+def test_cli_dry_run_reports_without_writing_or_creating_directories(
+    tmp_path: Path, capsys
+) -> None:
+    output = tmp_path / "missing" / "namedays-2026.ics"
+
+    assert main(
+        [
+            "--all",
+            "--from-year",
+            "2026",
+            "--output",
+            str(output),
+            "--dry-run",
+        ]
+    ) == 0
+
+    assert not output.exists()
+    assert not output.parent.exists()
+    report = capsys.readouterr().out
+    assert "Dry run: no file written" in report
+    assert f"Would generate: {output}" in report
+    assert re.search(r"^2026\s+457\s+642\s+0\s+226$", report, re.MULTILINE)
+
+
+def test_validate_command_checks_all_production_data(capsys) -> None:
+    assert main(["validate"]) == 0
+
+    report = capsys.readouterr().out
+    assert "Validation successful" in report
+    assert "Years checked: 1900-2100" in report
+    assert "Feast definitions: 453" in report
+    assert "Identity groups: 457" in report
+    assert "Display names: 642" in report
+    assert "Church feasts: 22" in report
+
+
+def test_validate_command_reports_rule_errors_without_a_traceback(
+    tmp_path: Path, capsys
+) -> None:
+    feasts = tmp_path / "feasts.yaml"
+    names = tmp_path / "names.yaml"
+    observances = tmp_path / "observances.yaml"
+    feasts.write_text(
+        "unknown: {type: custom, rule: missing}\n",
+        encoding="utf-8",
+    )
+    names.write_text("[]\n", encoding="utf-8")
+    observances.write_text("[]\n", encoding="utf-8")
+
+    with pytest.raises(SystemExit) as error:
+        main(
+            [
+                "validate",
+                "--feasts",
+                str(feasts),
+                "--names",
+                str(names),
+                "--observances",
+                str(observances),
+            ]
+        )
+
+    assert error.value.code == 2
+    stderr = capsys.readouterr().err
+    assert "unknown custom rule 'missing'" in stderr
+    assert "Traceback" not in stderr

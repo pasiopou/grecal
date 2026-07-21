@@ -1,5 +1,7 @@
 # Grecal
 
+[![CI](https://github.com/pasiopou/grecal/actions/workflows/ci.yml/badge.svg)](https://github.com/pasiopou/grecal/actions/workflows/ci.yml)
+
 `grecal` is a reusable Python library and command-line application for
 generating UTF-8 iCalendar files containing Greek Orthodox namedays and,
 optionally, major church observances. Dates, names, and observance titles live
@@ -20,6 +22,8 @@ For installation and CLI examples, see
 - `--all`, `--top N`, and `--min-popularity N` selection modes
 - opt-in combined feast output and a feast-only mode
 - single-year or multi-year output
+- full data and feast-rule validation with `grecal validate`
+- generation previews with `--dry-run`
 - UTF-8 RFC 5545 output with CRLF line endings and folded content lines
 - minimal events with no description or location
 - importable by Apple Calendar, Google Calendar, and Outlook
@@ -28,6 +32,7 @@ For installation and CLI examples, see
 
 ```text
 grecal/
+├── .github/workflows/ci.yml     # test and distribution build workflow
 ├── generate_ics.py              # source-tree CLI entry point
 ├── grecal/
 │   ├── __init__.py              # public library API
@@ -141,6 +146,33 @@ Output paths may be absolute or relative. Quote paths containing spaces:
 
 ```bash
 grecal --all --from-year 2026 --output "$HOME/My Calendars/grecal-2026.ics"
+```
+
+To run the complete generation pipeline and view the report without writing a
+file or creating its parent directory, add `--dry-run`:
+
+```bash
+grecal --all --from-year 2026 --output grecal-2026.ics --dry-run
+```
+
+The report begins with `Dry run: no file written` and shows the path and byte
+size that would have been generated.
+
+### Validate the data
+
+Validate the YAML schema, cross-references, duplicate values, and every feast
+calculation throughout the supported 1900–2100 range:
+
+```bash
+grecal validate
+```
+
+A successful validation prints the catalog counts and exits with status 0. An
+invalid file or feast rule prints an error and exits with a nonzero status.
+Contributors can validate alternative files explicitly:
+
+```bash
+grecal validate --feasts data/feasts.yaml --names data/names.yaml --observances data/observances.yaml
 ```
 
 ### Subsequent use
@@ -305,6 +337,7 @@ from grecal import (
     generate_namedays,
     generate_observances,
     load_catalog,
+    validate_catalog,
     write_calendar,
 )
 
@@ -313,6 +346,7 @@ catalog = load_catalog(
     Path("data/names.yaml"),
     Path("data/observances.yaml"),
 )
+validate_catalog(catalog)
 names = generate_namedays(catalog, 2026, 2026, min_popularity=80)
 observances = generate_observances(catalog, 2026, 2026)
 calendar = build_calendar(names, grouped_observances=observances)
@@ -465,8 +499,8 @@ emits `PRODID`, `VERSION:2.0`, and `CALSCALE:GREGORIAN`. It deliberately omits
 The automated suite covers known Orthodox Easter dates and range limits, every
 feast-rule type, all eight movable church observances, Saint George transfer
 boundaries, custom-rule injection, filtering, same-day grouping, YAML schema
-failures, final dataset counts, and every CLI generation mode. The final ICS
-checks include:
+failures, final dataset counts, `grecal validate`, dry runs, and every CLI
+generation mode. The final ICS checks include:
 
 - valid UTF-8 without a byte-order mark
 - CRLF record endings and 75-octet content-line folding
@@ -477,6 +511,11 @@ checks include:
 
 The packaged console command and bundled YAML are additionally tested from a
 built wheel outside the repository before release.
+
+GitHub Actions runs the suite on Python 3.9 through 3.14 for every pull request
+and push to `main`. After the test matrix passes, it builds the wheel and source
+distribution, verifies the installed wheel, and uploads both as workflow
+artifacts.
 
 ## License
 

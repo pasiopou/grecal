@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import sys
 import sysconfig
 from collections import defaultdict
 from dataclasses import dataclass
@@ -139,6 +140,30 @@ def generate_observances(
     return {day: tuple(titles) for day, titles in sorted(grouped.items())}
 
 
+def validate_catalog(
+    catalog: Catalog,
+    from_year: int = MIN_YEAR,
+    to_year: int = MAX_YEAR,
+    *,
+    custom_rules: Mapping[str, CustomRule] | None = None,
+) -> None:
+    """Resolve every feast rule throughout a supported year range."""
+
+    if not MIN_YEAR <= from_year <= to_year <= MAX_YEAR:
+        raise ValueError(
+            f"year range must satisfy {MIN_YEAR} <= from_year <= to_year <= {MAX_YEAR}"
+        )
+    for year in range(from_year, to_year + 1):
+        easter = orthodox_easter(year)
+        for feast in catalog.feasts:
+            resolve_feast_date(
+                feast,
+                year,
+                easter,
+                custom_rules=custom_rules,
+            )
+
+
 def _event_uid(day: date, names: Sequence[str]) -> str:
     identity = f"{day.isoformat()}|{'|'.join(names)}".encode("utf-8")
     digest = hashlib.sha256(identity).hexdigest()[:24]
@@ -230,6 +255,8 @@ def _print_generation_summary(
     output_path: Path,
     selection_label: str,
     statistics: Sequence[_YearStatistics],
+    *,
+    dry_run_size: int | None = None,
 ) -> None:
     headers = (
         "Year",
@@ -284,7 +311,11 @@ def _print_generation_summary(
         if len(statistics) == 1
         else f"{statistics[0].year}-{statistics[-1].year}"
     )
-    print(f"Generated: {output_path} ({output_path.stat().st_size:,} bytes)")
+    if dry_run_size is None:
+        print(f"Generated: {output_path} ({output_path.stat().st_size:,} bytes)")
+    else:
+        print("Dry run: no file written")
+        print(f"Would generate: {output_path} ({dry_run_size:,} bytes)")
     print(f"Years: {years}")
     print(f"Selection: {selection_label}")
     print()
@@ -296,7 +327,8 @@ def _print_generation_summary(
 
 def _argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Generate an iCalendar of Greek Orthodox namedays and feasts."
+        description="Generate an iCalendar of Greek Orthodox namedays and feasts.",
+        epilog="Run 'grecal validate' to validate YAML data and feast rules.",
     )
     selection = parser.add_mutually_exclusive_group(required=True)
     selection.add_argument(
@@ -331,27 +363,84 @@ def _argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--to-year", type=int)
     parser.add_argument("--output", type=Path, default=Path("grecal.ics"))
     parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="calculate and report without writing an ICS file",
+    )
+    _add_data_path_arguments(parser, suppress_help=True)
+    return parser
+
+
+def _add_data_path_arguments(
+    parser: argparse.ArgumentParser,
+    *,
+    suppress_help: bool,
+) -> None:
+    feasts_help = (
+        argparse.SUPPRESS if suppress_help else "path to feast definitions YAML"
+    )
+    names_help = argparse.SUPPRESS if suppress_help else "path to namedays YAML"
+    observances_help = (
+        argparse.SUPPRESS if suppress_help else "path to church observances YAML"
+    )
+    parser.add_argument(
         "--feasts",
         type=Path,
         default=DEFAULT_FEASTS_PATH,
-        help=argparse.SUPPRESS,
+        help=feasts_help,
     )
     parser.add_argument(
         "--names",
         type=Path,
         default=DEFAULT_NAMES_PATH,
-        help=argparse.SUPPRESS,
+        help=names_help,
     )
     parser.add_argument(
         "--observances",
         type=Path,
         default=DEFAULT_OBSERVANCES_PATH,
-        help=argparse.SUPPRESS,
+        help=observances_help,
     )
+
+
+def _validation_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="grecal validate",
+        description=(
+            "Validate YAML data and resolve every feast rule for 1900-2100."
+        ),
+    )
+    _add_data_path_arguments(parser, suppress_help=False)
     return parser
 
 
-def main(argv: Sequence[str] | None = None) -> int:
+def _validate_main(argv: Sequence[str]) -> int:
+    parser = _validation_argument_parser()
+    args = parser.parse_args(argv)
+    try:
+        catalog = load_catalog(args.feasts, args.names, args.observances)
+        validate_catalog(catalog)
+    except (
+        DataValidationError,
+        OSError,
+        UnsupportedFeastRuleError,
+        ValueError,
+    ) as exc:
+        parser.error(str(exc))
+
+    print("Validation successful")
+    print(f"Years checked: {MIN_YEAR}-{MAX_YEAR}")
+    print(f"Feast definitions: {len(catalog.feasts)}")
+    print(f"Identity groups: {len(catalog.namedays)}")
+    print(
+        "Display names: "
+        f"{sum(len(nameday.names) for nameday in catalog.namedays)}"
+    )
+    print(f"Church feasts: {len(catalog.observances)}")
+    return 0
+
+
+def _generate_main(argv: Sequence[str]) -> int:
     parser = _argument_parser()
     args = parser.parse_args(argv)
     if args.feasts_only and args.include_feasts:
@@ -388,7 +477,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             grouped_names,
             grouped_observances=grouped_observances,
         )
-        write_calendar(calendar, args.output)
+        dry_run_size = len(calendar.to_ical()) if args.dry_run else None
+        if not args.dry_run:
+            write_calendar(calendar, args.output)
         statistics = _year_statistics(
             selected_namedays,
             grouped_names,
@@ -405,6 +496,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.output,
             _selection_label(args),
             statistics,
+            dry_run_size=dry_run_size,
         )
     except (
         DataValidationError,
@@ -414,3 +506,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     ) as exc:
         parser.error(str(exc))
     return 0
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    arguments = tuple(sys.argv[1:] if argv is None else argv)
+    if arguments[:1] == ("validate",):
+        return _validate_main(arguments[1:])
+    return _generate_main(arguments)

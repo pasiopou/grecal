@@ -3,7 +3,12 @@ from datetime import date, datetime, timezone
 from icalendar import Calendar
 import pytest
 
-from grecal.generator import build_calendar, generate_namedays, select_namedays
+from grecal.generator import (
+    build_calendar,
+    generate_namedays,
+    select_namedays,
+    validate_catalog,
+)
 from grecal.models import Catalog, Feast, FeastType, Nameday
 
 
@@ -57,6 +62,19 @@ def test_names_on_the_same_day_are_grouped_in_one_result() -> None:
     assert grouped == {
         date(2026, 11, 30): ("Ανδρέας", "Ανδριανή", "Άντρια")
     }
+
+
+def test_validate_catalog_checks_each_year_in_the_range() -> None:
+    catalog = Catalog(
+        feasts=(Feast("leap_day", FeastType.FIXED, month=2, day=29),),
+        namedays=(),
+    )
+
+    validate_catalog(catalog, 2024, 2024)
+    # CPython 3.14 made the date() error more specific; the wording is not part
+    # of the public API, so test the validation failure rather than its text.
+    with pytest.raises(ValueError):
+        validate_catalog(catalog, 2024, 2025)
 
 
 def test_ics_contains_one_all_day_event_without_description_or_location() -> None:
