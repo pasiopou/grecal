@@ -1,11 +1,12 @@
 """Grecal: generate Greek Orthodox calendar files."""
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 from .generator import (
     build_calendar,
     generate_namedays,
     generate_observances,
+    validate_catalog,
     write_calendar,
 )
 from .models import Catalog, Feast, FeastType, Nameday, Observance
@@ -21,6 +22,7 @@ __all__ = [
     "generate_namedays",
     "generate_observances",
     "load_catalog",
+    "validate_catalog",
     "write_calendar",
     "__version__",
 ]
