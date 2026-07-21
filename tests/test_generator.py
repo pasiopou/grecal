@@ -171,3 +171,39 @@ def test_ics_contains_one_all_day_event_without_description_or_location() -> Non
     assert "DESCRIPTION" not in event
     assert "LOCATION" not in event
     assert "Ανδρέας".encode("utf-8") in payload
+
+
+def test_calendar_contains_standard_and_compatibility_metadata() -> None:
+    stamp = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    calendar = build_calendar(
+        {date(2026, 1, 1): ("Ανδρέας",)},
+        generated_at=stamp,
+        calendar_name="Οικογενειακές γιορτές",
+        calendar_description="Ονομαστικές εορτές της οικογένειας",
+        calendar_color="blue",
+    )
+
+    assert str(calendar["NAME"]) == "Οικογενειακές γιορτές"
+    assert str(calendar["X-WR-CALNAME"]) == "Οικογενειακές γιορτές"
+    assert str(calendar["DESCRIPTION"]) == "Ονομαστικές εορτές της οικογένειας"
+    assert str(calendar["X-WR-CALDESC"]) == "Ονομαστικές εορτές της οικογένειας"
+    assert calendar.decoded("LAST-MODIFIED") == stamp
+    assert str(calendar["COLOR"]) == "blue"
+
+
+def test_calendar_metadata_can_be_omitted_and_rejects_empty_values() -> None:
+    calendar = build_calendar(
+        {},
+        calendar_name=None,
+        calendar_description=None,
+    )
+
+    assert "NAME" not in calendar
+    assert "X-WR-CALNAME" not in calendar
+    assert "DESCRIPTION" not in calendar
+    assert "X-WR-CALDESC" not in calendar
+    assert "COLOR" not in calendar
+    assert "LAST-MODIFIED" in calendar
+
+    with pytest.raises(ValueError, match="calendar_name must be a non-empty"):
+        build_calendar({}, calendar_name="  ")

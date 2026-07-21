@@ -28,8 +28,9 @@ For installation and CLI examples, see
 - single-year or multi-year output
 - full data and feast-rule validation with `grecal validate`
 - generation previews with `--dry-run`
+- calendar name, description, modification time, and optional display color metadata
 - UTF-8 RFC 5545 output with CRLF line endings and folded content lines
-- minimal events with no description or location
+- minimal `VEVENT` components with no event description or location
 - importable by Apple Calendar, Google Calendar, and Outlook
 
 ## Project structure
@@ -129,6 +130,9 @@ grecal generate
     [--from-year YEAR]
     [--to-year YEAR]
     [--output PATH]
+    [--calendar-name TEXT]
+    [--calendar-description TEXT]
+    [--calendar-color COLOR]
     [--dry-run]
     [catalog options]
 ```
@@ -151,6 +155,9 @@ Other generation options:
 | `--from-year YEAR` | Current year | First generated year |
 | `--to-year YEAR` | Same as `--from-year` | Last generated year |
 | `--output PATH` | `grecal.ics` | Destination ICS file |
+| `--calendar-name TEXT` | Depends on the selection | Calendar display name |
+| `--calendar-description TEXT` | Depends on the selection and years | Calendar description |
+| `--calendar-color COLOR` | Omitted | Suggested display color, such as `blue` or `#3f51b5` |
 | `--dry-run` | Off | Calculate and report without writing a file or creating its directory |
 | `-h`, `--help` | — | Show generation help |
 
@@ -179,6 +186,15 @@ grecal generate --feasts-only --from-year 2026 --output grecal-feasts-2026.ics
 # A personal calendar containing two names
 grecal generate --names Γιώργος,Μαρία --from-year 2026 --output personal.ics
 
+# A personal calendar with custom display metadata
+grecal generate \
+  --names Γιώργος,Μαρία \
+  --from-year 2026 \
+  --calendar-name "Οικογενειακές γιορτές" \
+  --calendar-description "Ονομαστικές εορτές της οικογένειας" \
+  --calendar-color blue \
+  --output family.ics
+
 # Preview the full pipeline without writing the output
 grecal generate --all --from-year 2026 --output grecal-2026.ics --dry-run
 ```
@@ -187,6 +203,20 @@ Personal-name matching ignores capitalization and Greek diacritics. Event
 summaries contain only the requested canonical spellings: selecting `Γιώργος`
 does not also add `Γεώργιος` or `Γεωργία`. Spaces around commas are accepted
 when the whole value is quoted. Unknown and empty names are errors.
+
+Grecal chooses a calendar name that reflects the selection mode:
+
+| Selection | Default calendar name |
+| --- | --- |
+| Namedays | `Grecal — Greek Orthodox Namedays` |
+| `--names` | `Grecal — Personal Namedays` |
+| `--feasts-only` | `Grecal — Greek Orthodox Feasts` |
+| Namedays with `--include-feasts` | `Grecal — Greek Orthodox Calendar` |
+
+The default description similarly identifies the selection and generated year
+or inclusive year range. `--calendar-name` and `--calendar-description`
+replace those defaults. `--calendar-color` is optional because calendar
+applications may ignore or override a suggested color.
 
 Output paths may be absolute or relative. Quote paths containing spaces:
 
@@ -518,7 +548,13 @@ personal_names = generate_personal_namedays(
 )
 matches = search_names(catalog, "αασΑνδρεας", limit=3)
 day = lookup_date(catalog, date(2026, 8, 15))
-calendar = build_calendar(names, grouped_observances=observances)
+calendar = build_calendar(
+    names,
+    grouped_observances=observances,
+    calendar_name="Grecal — My Calendar",
+    calendar_description="Greek Orthodox namedays and feasts for 2026.",
+    calendar_color="blue",
+)
 write_calendar(calendar, Path("grecal-2026.ics"))
 ```
 
@@ -526,7 +562,9 @@ write_calendar(calendar, Path("grecal-2026.ics"))
 once. `generate_observances` does the same for titles. `build_calendar` combines
 the mappings while retaining at most one event per date. Omitting the third
 path from `load_catalog` and omitting `grouped_observances` produces a
-nameday-only calendar.
+nameday-only calendar. `calendar_name`, `calendar_description`, and
+`calendar_color` control the same top-level metadata as the corresponding CLI
+options. Passing `None` for the name or description omits that property.
 
 `generate_personal_namedays` uses the same date-keyed shape but includes only
 the requested display names. Like the CLI, its matching is case- and
@@ -670,9 +708,22 @@ SUMMARY:Κοίμηση της Θεοτόκου — Μαρία, Μαριέττα,
 Multiple observances on one date are separated by ` · ` and remain in the same
 event. Nameday-only summaries are unchanged.
 
-`DTEND` is exclusive, as required for an all-day event. The serializer also
-emits `PRODID`, `VERSION:2.0`, and `CALSCALE:GREGORIAN`. It deliberately omits
-`DESCRIPTION`, `LOCATION`, time zones, alarms, and timed-event fields.
+`DTEND` is exclusive, as required for an all-day event. At `VCALENDAR` level,
+the serializer emits `PRODID`, `VERSION:2.0`, and `CALSCALE:GREGORIAN`, plus:
+
+| Property | Emitted | Purpose |
+| --- | --- | --- |
+| `NAME` and `X-WR-CALNAME` | Always by the CLI | Standard display name plus compatibility form |
+| `DESCRIPTION` and `X-WR-CALDESC` | Always by the CLI | Standard calendar description plus compatibility form |
+| `LAST-MODIFIED` | Always | UTC generation timestamp |
+| `COLOR` | With `--calendar-color` | Suggested display color |
+
+`NAME`, calendar-level `DESCRIPTION`, `LAST-MODIFIED`, and `COLOR` follow
+[RFC 7986](https://www.rfc-editor.org/rfc/rfc7986.html). The `X-WR-*`
+properties are emitted alongside their standard equivalents for calendar-app
+compatibility. Individual `VEVENT` components remain intentionally minimal:
+they omit event-level `DESCRIPTION`, `LOCATION`, time zones, alarms, and timed
+event fields.
 
 ## Validation
 
@@ -688,7 +739,8 @@ checks include:
 - one `VEVENT` per date
 - date-valued `DTSTART` and exclusive next-day `DTEND`
 - required `UID`, `DTSTAMP`, and `SUMMARY`
-- no `DESCRIPTION` or `LOCATION`
+- standard and compatibility calendar metadata
+- no event-level `DESCRIPTION` or `LOCATION`
 
 The packaged console command and bundled YAML are additionally tested from a
 built wheel outside the repository before release.

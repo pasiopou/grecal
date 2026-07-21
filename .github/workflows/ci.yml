@@ -86,6 +86,9 @@ jobs:
             --all \
             --include-feasts \
             --from-year 2026 \
+            --calendar-name "Grecal CI" \
+            --calendar-description "Distribution smoke test" \
+            --calendar-color blue \
             --output "$RUNNER_TEMP/grecal-smoke.ics" \
             --dry-run
           test ! -e "$RUNNER_TEMP/grecal-smoke.ics"

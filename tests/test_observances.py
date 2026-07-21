@@ -160,6 +160,7 @@ def test_feasts_only_cli_generates_22_events(tmp_path: Path, capsys) -> None:
     parsed = Calendar.from_ical(output.read_bytes())
     events = _events(parsed)
     assert len(events) == 22
+    assert str(parsed["NAME"]) == "Grecal — Greek Orthodox Feasts"
     assert any(str(event["SUMMARY"]) == "Πεντηκοστή" for event in events)
     report = capsys.readouterr().out
     assert "Selection: church feasts only" in report
@@ -184,6 +185,7 @@ def test_include_feasts_cli_merges_titles_with_names(tmp_path: Path) -> None:
     parsed = Calendar.from_ical(output.read_bytes())
     events = _events(parsed)
     assert len(events) == 228
+    assert str(parsed["NAME"]) == "Grecal — Greek Orthodox Calendar"
     assert len({event.decoded("DTSTART") for event in events}) == len(events)
     dormition = next(
         event
