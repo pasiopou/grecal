@@ -1,0 +1,1320 @@
+# Standalone commemoration collection; not consumed by the CLI, ICS, or website.
+# Feast rules reference canonical commemoration IDs through the `feasts` mapping.
+commemorations:
+  - id: seraphim_of_sarov
+    title: Όσιος Σεραφείμ του Σάρωφ
+  - id: anastasios_the_persian
+    title: Άγιος Οσιομάρτυρας Αναστάσιος ο Πέρσης
+  - id: dionysios_of_olympus
+    title: Όσιος Διονύσιος ο εν Ολύμπω
+  - id: clement_of_ancyra_and_agathangelos
+    title: Άγιοι Κλήμης Επίσκοπος Αγκύρας και Αγαθάγγελος
+  - id: neophytos_the_recluse
+    title: Όσιος Νεόφυτος ο Έγκλειστος
+  - id: translation_relics_john_chrysostom
+    title: Ανακομιδή λειψάνου Αγίου Ιωάννου του Χρυσοστόμου
+  - id: photios_the_great
+    title: Άγιος Φώτιος ο Μέγας, Πατριάρχης Κωνσταντινουπόλεως
+  - id: luke_of_steiris
+    title: Όσιος Λουκάς ο εν Στειρίω
+  - id: martyrs_martha_and_mary
+    title: Αγίες Μάρθα και Μαρία οι Μάρτυρες
+  - id: eusebios_february
+    title: Όσιος Ευσέβιος
+  - id: theodore_tyron
+    title: Άγιος Μεγαλομάρτυρας Θεόδωρος ο Τήρων
+  - id: marcian_and_pulcheria
+    title: Άγιοι Μαρκιανός και Πουλχερία οι Βασιλείς
+  - id: eustathios_of_antioch
+    title: Άγιος Ευστάθιος, Πατριάρχης Αντιοχείας
+  - id: polychronios
+    title: Όσιος Πολυχρόνιος
+  - id: kassianos_the_roman
+    title: Όσιος Κασσιανός ο Ρωμαίος
+  - id: gerasimos_of_the_jordan
+    title: Όσιος Γεράσιμος ο Ιορδανίτης
+  - id: hieromartyrs_bishops_of_cherson
+    title: Άγιοι Ιερομάρτυρες Επίσκοποι Χερσώνος
+  - id: gregory_palamas
+    title: Άγιος Γρηγόριος ο Παλαμάς
+  - id: theodora_of_arta
+    title: Οσία Θεοδώρα η Βασίλισσα Άρτης
+  - id: synaxis_archangel_gabriel
+    title: Σύναξη Αρχαγγέλου Γαβριήλ
+  - id: titus_the_wonderworker
+    title: Όσιος Τίτος ο Θαυματουργός
+  - id: new_martyrs_raphael_nicholas_irene
+    title: Άγιοι Νεομάρτυρες Ραφαήλ, Νικόλαος και Ειρήνη
+  - id: brothers_apostolos_and_theocharis
+    title: Όσιοι Απόστολος και Θεοχάρης οι αυτάδελφοι
+  - id: isidora_fool_for_christ
+    title: Οσία Ισιδώρα η διά Χριστόν σαλή
+  - id: tamara_of_georgia
+    title: Αγία Ταμάρα η βασίλισσα της Γεωργίας
+  - id: translation_relics_athanasius_the_great
+    title: Ανακομιδή λειψάνων Αγίου Αθανασίου του Μεγάλου
+  - id: martyrs_hesperus_zoe_cyriacus_theodulus
+    title: Άγιοι Μάρτυρες Έσπερος, Ζωή, Κυριακός και Θεόδουλος
+  - id: martyrs_timothy_and_mavra
+    title: Άγιοι Μάρτυρες Τιμόθεος και Μαύρα
+  - id: xenia_the_great_martyr
+    title: Αγία Μεγαλομάρτυς Ξενία
+  - id: martyrs_diodorus_and_rhodopianus
+    title: Άγιοι Μάρτυρες Διόδωρος και Ροδοπιανός
+  - id: pelagia_of_tarsus
+    title: Αγία Μάρτυς Πελαγία της Ταρσού
+  - id: irene_the_great_martyr
+    title: Αγία Ειρήνη η Μεγαλομάρτυς
+  - id: martyrs_irenaeus_peregrinus_and_irene
+    title: Άγιοι Μάρτυρες Ειρηναίος, Περεγρίνος και Ειρήνη
+  - id: ephraim_of_nea_makri
+    title: Άγιος Εφραίμ ο εν Νέα Μάκρη Αττικής
+  - id: seraphim_of_domvous
+    title: Όσιος Σεραφείμ ο εν τω όρει Δομβούς
+  - id: john_the_theologian
+    title: Άγιος Απόστολος και Ευαγγελιστής Ιωάννης ο Θεολόγος
+  - id: milos_the_hymnographer
+    title: Όσιος Μήλος ή Μαλλός ο Υμνωδός
+  - id: arsenius_the_great
+    title: Όσιος Αρσένιος ο Μέγας
+  - id: christopher_the_great_martyr
+    title: Άγιος Χριστόφορος ο Μεγαλομάρτυρας
+  - id: prophet_isaiah
+    title: Προφήτης Ησαΐας
+  - id: simon_the_zealot
+    title: Άγιος Απόστολος Σίμων ο Ζηλωτής
+  - id: olympia_and_euphrosyne_of_lesbos
+    title: Αγίες Οσιομάρτυρες Ολυμπία και Ευφροσύνη
+  - id: argyrios_of_epanomi
+    title: Άγιος Νεομάρτυρας Αργύριος ο Επανομίτης
+  - id: theodore_of_cythera
+    title: Όσιος Θεόδωρος ο εν Κυθήροις
+  - id: glykeria_the_martyr
+    title: Αγία Μάρτυς Γλυκερία
+  - id: sergios_the_confessor
+    title: Όσιος Σέργιος ο Ομολογητής
+  - id: martyrs_aristotle_and_leander
+    title: Άγιοι Μάρτυρες Αριστοτέλης και Λέανδρος
+  - id: isidore_of_chios
+    title: Άγιος Μάρτυρας Ισίδωρος ο εν Χίω
+  - id: kali_the_venerable
+    title: Οσία Καλή
+  - id: achillios_of_larissa
+    title: Άγιος Αχίλλιος, επίσκοπος Λαρίσης
+  - id: andrew_the_hermit
+    title: Όσιος Ανδρέας ο Ερημίτης και Θαυματουργός
+  - id: apostles_andronikos_and_junia
+    title: Άγιοι Απόστολοι Ανδρόνικος και Ιουνία
+  - id: solochon_the_martyr
+    title: Άγιος Μάρτυρας Σολόχων
+  - id: virgin_martyrs_of_ancyra
+    title: Αγίες Παρθενομάρτυρες της Άγκυρας
+  - id: galaktia_the_martyr
+    title: Αγία Μάρτυς Γαλακτία
+  - id: kantara_monastery_martyrs
+    title: Άγιοι Οσιομάρτυρες της Μονής Παναγίας Καντάρας
+  - id: patrikios_and_companions
+    title: Άγιος Ιερομάρτυρας Πατρίκιος και οι συν αυτώ
+  - id: lydia_of_philippi
+    title: Αγία Λυδία η Φιλιππησία
+  - id: constantine_and_helen
+    title: Άγιοι Ισαπόστολοι Κωνσταντίνος και Ελένη
+  - id: martyrs_aemilius_and_castus
+    title: Άγιοι Μάρτυρες Αιμίλιος και Κάστος
+  - id: meletios_and_companion_martyrs
+    title: Άγιος Μελέτιος και οι συν αυτώ Μάρτυρες
+  - id: theodosia_of_caesarea
+    title: Αγία Παρθενομάρτυς Θεοδοσία της Καισαρείας
+  - id: emmeleia_of_caesarea
+    title: Οσία Εμμέλεια
+  - id: hierax_the_martyr
+    title: Άγιος Μάρτυρας Ιέραξ
+  - id: pyrrhos_the_venerable
+    title: Όσιος Πύρρος
+  - id: marinos_of_vaana
+    title: Όσιος Μαρίνος ο Βαάνης
+  - id: hypatios_the_martyr
+    title: Άγιος Μάρτυρας Υπάτιος
+  - id: martha_and_mary_of_bethany
+    title: Αγίες Μάρθα και Μαρία, αδελφές του Λαζάρου
+  - id: dorotheos_of_tyros
+    title: Άγιος Ιερομάρτυρας Δωρόθεος, επίσκοπος Τύρου
+  - id: apollon_nikandros_selini_and_companions
+    title: Άγιοι Μάρτυρες Απόλλων, Νίκανδρος, Σεληνιάς και οι συν αυτώ
+  - id: sevastiani_the_wonderworker
+    title: Οσία Σεβαστιανή η Θαυματουργός
+  - id: kalliope_the_martyr
+    title: Αγία Μάρτυς Καλλιόπη
+  - id: rhodon_the_martyr
+    title: Άγιος Μάρτυρας Ρόδων
+  - id: cyril_of_alexandria
+    title: Άγιος Κύριλλος, Αρχιεπίσκοπος Αλεξανδρείας
+  - id: zafeirios_the_new_martyr
+    title: Άγιος Νεομάρτυρας Ζαφείριος
+  - id: luke_of_crimea
+    title: Άγιος Λουκάς, Αρχιεπίσκοπος Συμφερουπόλεως και Κριμαίας
+  - id: onuphrius_the_great
+    title: Όσιος Ονούφριος ο Αιγύπτιος
+  - id: prophet_elisha
+    title: Προφήτης Ελισσαίος
+  - id: monica_the_venerable
+    title: Οσία Μόνικα
+  - id: augustine_of_hippo
+    title: Άγιος Αυγουστίνος, επίσκοπος Ιππώνος
+  - id: paisios_the_great
+    title: Όσιος Παΐσιος ο Μέγας
+  - id: zosimos_the_martyr
+    title: Άγιος Μάρτυρας Ζώσιμος
+  - id: eusebios_of_samosata
+    title: Άγιος Ιερομάρτυρας Ευσέβιος, επίσκοπος Σαμοσάτων
+  - id: martyrs_zenon_and_zenas
+    title: Άγιοι Μάρτυρες Ζήνων και Ζηνάς
+  - id: febronia_the_martyr
+    title: Αγία Οσιομάρτυς Φεβρωνία
+  - id: david_of_thessaloniki
+    title: Όσιος Δαυίδ ο εν Θεσσαλονίκη
+  - id: translation_relics_cyrus_and_john
+    title: Ανακομιδή λειψάνων Αγίων Αναργύρων Κύρου και Ιωάννου
+  - id: apostles_peter_and_paul
+    title: Άγιοι Απόστολοι Πέτρος και Παύλος
+  - id: synaxis_of_the_twelve_apostles
+    title: Σύναξη των Αγίων Δώδεκα Αποστόλων
+  - id: unmercenaries_cosmas_and_damian
+    title: Άγιοι Ανάργυροι Κοσμάς και Δαμιανός
+  - id: hyacinth_the_martyr
+    title: Άγιος Μάρτυρας Υάκινθος ο Κουβικουλάριος
+  - id: kyriaki_the_great_martyr
+    title: Αγία Κυριακή η Μεγαλομάρτυς
+  - id: theophilos_of_zichni
+    title: Όσιος Θεόφιλος ο Μυροβλύτης εκ Ζίχνης
+  - id: procopius_the_great_martyr
+    title: Άγιος Προκόπιος ο Μεγαλομάρτυρας
+  - id: amalia_of_maubeuge
+    title: Οσία Αμαλία του Μομπέζ
+  - id: olga_equal_to_the_apostles
+    title: Αγία Όλγα η Ισαπόστολος
+  - id: euphemia_the_great_martyr
+    title: Αγία Ευφημία η Μεγαλομάρτυς
+  - id: veronica_the_woman_with_issue_of_blood
+    title: Αγία Βερονίκη η Αιμορροούσα
+  - id: paisios_the_athonite
+    title: Όσιος Παΐσιος ο Αγιορείτης
+  - id: sarah_the_venerable
+    title: Οσία Σάρρα
+  - id: nicodemus_the_hagiorite
+    title: Όσιος Νικόδημος ο Αγιορείτης
+  - id: vladimir_equal_to_the_apostles
+    title: Άγιος Βλαδίμηρος ο Ισαπόστολος
+  - id: julitta_and_cyricus
+    title: Αγία Ιουλίττα και Άγιος Κήρυκος οι Μεγαλομάρτυρες
+  - id: riginos_disciple_of_athenogenes
+    title: Άγιος Μάρτυρας Ριγίνος, μαθητής του Αγίου Αθηνογένους
+  - id: marina_the_great_martyr
+    title: Αγία Μαρίνα η Μεγαλομάρτυς
+  - id: alexandra_feodorovna_born_alix
+    title: Αγία Αλεξάνδρα Φεοντόροβνα, η γεννηθείσα Αλίξ
+  - id: aemilian_the_martyr
+    title: Άγιος Μάρτυρας Αιμιλιανός
+  - id: dios_the_venerable_garyfallia_names
+    title: Όσιος Δίος
+  - id: macrina_the_younger
+    title: Οσία Μακρίνα, αδελφή του Μεγάλου Βασιλείου
+  - id: prophet_elijah
+    title: Προφήτης Ηλίας ο Θεσβίτης
+  - id: mary_magdalene
+    title: Αγία Μαρία η Μαγδαληνή
+  - id: markella_of_chios
+    title: Αγία Μαρκέλλα η Παρθενομάρτυς η Χιοπολίτιδα
+  - id: menelaos_the_venerable
+    title: Όσιος Μενέλαος
+  - id: christina_the_great_martyr
+    title: Αγία Χριστίνα η Μεγαλομάρτυς
+  - id: eupraxia_the_venerable
+    title: Οσία Ευπραξία
+  - id: dormition_of_saint_anna
+    title: Κοίμηση της Αγίας Άννας
+  - id: olympia_the_deaconess
+    title: Οσία Ολυμπιάδα η Διακόνισσα
+  - id: paraskevi_the_martyr
+    title: Αγία Παρασκευή η Οσιομάρτυς
+  - id: oraiozili_the_martyr
+    title: Αγία Μάρτυς Ωραιοζήλη
+  - id: hermolaos_the_hieromartyr
+    title: Άγιος Ιερομάρτυρας Ερμόλαος
+  - id: panteleimon_the_healer
+    title: Άγιος Παντελεήμων ο Μεγαλομάρτυρας και Ιαματικός
+  - id: irene_chrysovalantou
+    title: Οσία Ειρήνη Χρυσοβαλάντου
+  - id: drosida_the_martyr
+    title: Αγία Μάρτυς Δροσίδα
+  - id: theodoti_the_martyr
+    title: Αγία Μάρτυς Θεοδότη
+  - id: apostles_andronikos_and_companions_july
+    title: Άγιοι Απόστολοι Ανδρόνικος, Σίλας, Σιλουανός, Επαινετός και Κρήσκης
+  - id: frederick_of_utrecht_old_calendar
+    title: Άγιος Φρειδερίκος Ουτρέχτης κατά το παλαιό ημερολόγιο
+  - id: joseph_of_arimathea
+    title: Άγιος Ιωσήφ ο από Αριμαθαίας
+  - id: salome_the_myrrh_bearer
+    title: Αγία Σαλώμη η Μυροφόρος
+  - id: ia_violetta_the_martyr
+    title: Αγία Μάρτυς Ία ή Βιολέττα
+  - id: seven_sleepers_of_ephesus
+    title: Άγιοι Επτά Παίδες εν Εφέσω
+  - id: asterios_the_wonderworker
+    title: Άγιος Οσιομάρτυρας Αστέριος ο Θαυματουργός
+  - id: triantafyllos_of_zagora
+    title: Άγιος Νεομάρτυρας Τριαντάφυλλος ο εκ Ζαγοράς
+  - id: heron_the_saint
+    title: Άγιος Ήρων
+  - id: hippolytus_the_martyr
+    title: Άγιος Μάρτυρας Ιππόλυτος
+  - id: lawrence_the_archdeacon
+    title: Άγιος Μάρτυρας Λαυρέντιος ο Αρχιδιάκονος
+  - id: dormition_panagia_soumela
+    title: Κοίμηση της Θεοτόκου — Παναγία Σουμελά
+  - id: dormition_panagia_krystallou
+    title: Κοίμηση της Θεοτόκου — Παναγία Κρυσταλλώ
+  - id: dormition_gethsemane
+    title: Κοίμηση της Θεοτόκου στη Γεθσημανή
+  - id: dormition_presveia
+    title: Κοίμηση της Θεοτόκου — Πρέσβεια της Θεοτόκου
+  - id: gerasimos_the_new_ascetic
+    title: Όσιος Γεράσιμος ο Νέος Ασκητής
+  - id: alkiviadis_the_martyr
+    title: Άγιος Μάρτυρας Αλκιβιάδης
+  - id: finding_relics_seraphim_sarantis
+    title: Εύρεση Τιμίων Λειψάνων Αγίων Σεραφείμ και Σαράντη
+  - id: apostolos_the_new_martyr
+    title: Άγιος Νεομάρτυρας Απόστολος ο Νέος
+  - id: stamatios_of_volos
+    title: Άγιος Νεομάρτυρας Σταμάτιος ο εκ Βόλου
+  - id: leukios_the_martyr
+    title: Άγιος Μάρτυρας Λεύκιος
+  - id: straton_the_martyr
+    title: Άγιος Μάρτυρας Στράτων
+  - id: florus_and_laurus
+    title: Άγιοι Μάρτυρες Φλώρος και Λαύρος
+  - id: arsenius_of_paros
+    title: Όσιος Αρσένιος ο Νέος ο εν Πάρω
+  - id: reginos_and_orestes_of_cyprus
+    title: Άγιοι Μάρτυρες Ρηγίνος και Ορέστης οι εν Κύπρω
+  - id: theocharis_of_neapolis
+    title: Άγιος Θεοχάρης ο Νεαπολίτης
+  - id: panagia_malamateni
+    title: Σύναξη της Παναγίας της Μαλαματένιας στην Τήνο
+  - id: irenaeus_of_lyons
+    title: Άγιος Ιερομάρτυρας Ειρηναίος, Επίσκοπος Λυώνος
+  - id: eutychios_the_hieromartyr_august
+    title: Άγιος Ιερομάρτυρας Ευτυχής
+  - id: kosmas_of_aetolia
+    title: Άγιος Ιερομάρτυρας Κοσμάς ο Αιτωλός
+  - id: translation_relics_dionysios_of_zakynthos
+    title: Μετακομιδή λειψάνου Αγίου Διονυσίου Ζακύνθου
+  - id: apostle_titus
+    title: Άγιος Απόστολος Τίτος
+  - id: adrian_and_natalia
+    title: Άγιοι Μάρτυρες Αδριανός και Ναταλία
+  - id: fanourios_the_great_martyr
+    title: Άγιος Μεγαλομάρτυρας Φανούριος
+  - id: poemen_the_venerable
+    title: Όσιος Ποιμήν
+  - id: alexander_of_constantinople
+    title: Άγιος Αλέξανδρος, Πατριάρχης Κωνσταντινουπόλεως
+  - id: eulalios_of_cyprus
+    title: Άγιος Ευλάλιος, Ιεράρχης εν Κύπρω
+  - id: ammon_and_forty_virgin_martyrs
+    title: Άγιος Αμμούν και Αγίες Τεσσαράκοντα Παρθένες και Ασκήτριες
+  - id: symeon_the_stylite
+    title: Όσιος Συμεών ο Στυλίτης
+  - id: meletios_the_new
+    title: Όσιος Μελέτιος ο Νέος
+  - id: aristion_the_hieromartyr
+    title: Άγιος Ιερομάρτυρας Αριστίων
+  - id: archontion_the_martyr
+    title: Άγιος Μάρτυρας Αρχοντίων
+  - id: anthimos_of_nicomedia
+    title: Άγιος Ιερομάρτυρας Άνθιμος, επίσκοπος Νικομηδείας
+  - id: phoebe_the_deaconess
+    title: Αγία Φοίβη η Διακόνισσα
+  - id: polydoros_the_new_martyr
+    title: Άγιος Νεομάρτυρας Πολύδωρος ο Νεοεφέσιος
+  - id: hermione_daughter_of_philip
+    title: Αγία Ερμιόνη, θυγατέρα του Αποστόλου Φιλίππου
+  - id: prophet_moses
+    title: Προφήτης Μωυσής
+  - id: prophet_zacharias_forerunner_father
+    title: Προφήτης Ζαχαρίας, πατέρας του Τιμίου Προδρόμου
+  - id: andronikos_the_soldier
+    title: Άγιος Μάρτυρας Ανδρόνικος ο Στρατιώτης
+  - id: eudoxios_the_martyr
+    title: Άγιος Μάρτυρας Ευδόξιος
+  - id: lygeri_of_chios
+    title: Αγία Νεομάρτυς Λυγερή η Χιοπολίτισσα
+  - id: kassiani_the_hymnographer
+    title: Οσία Κασσιανή η Υμνογράφος
+  - id: nativity_theotokos_tsambika
+    title: Γενέσιο της Θεοτόκου — Παναγία Τσαμπίκα
+  - id: joachim_and_anna
+    title: Σύναξη των Αγίων και Δικαίων Θεοπατόρων Ιωακείμ και Άννας
+  - id: apostle_clement
+    title: Άγιος Απόστολος Κλήμης
+  - id: menodora_metrodora_nymphodora
+    title: Αγίες Μάρτυρες Μηνοδώρα, Μητροδώρα και Νυμφοδώρα
+  - id: pulcheria_the_empress
+    title: Αγία Πουλχερία η Παρθένος και Αυγούστα
+  - id: euanthia_the_martyr
+    title: Αγία Μάρτυς Ευανθία
+  - id: theodora_of_vasta
+    title: Οσία Θεοδώρα η εν Βάστα
+  - id: aristides_the_martyr
+    title: Άγιος Μάρτυρας Αριστείδης
+  - id: cornelius_the_centurion
+    title: Άγιος Ιερομάρτυρας Κορνήλιος ο Εκατόνταρχος
+  - id: theokles_the_martyr
+    title: Άγιος Μάρτυρας Θεοκλής
+  - id: niketas_the_great_martyr
+    title: Άγιος Μεγαλομάρτυρας Νικήτας
+  - id: bessarion_of_larissa
+    title: Άγιος Βησσαρίων, Αρχιεπίσκοπος Λαρίσης
+  - id: euphemia_the_great_martyr_september
+    title: Αγία Μεγαλομάρτυς Ευφημία
+  - id: melitina_the_martyr
+    title: Αγία Μάρτυς Μελιτινή
+  - id: sophia_faith_hope_love
+    title: Αγίες Σοφία, Πίστη, Ελπίδα και Αγάπη
+  - id: agathocleia_the_martyr
+    title: Αγία Μάρτυς Αγαθόκλεια
+  - id: anastasios_of_peristeronopigi
+    title: Όσιος Αναστάσιος ο εν Περιστερωνοπηγή Κύπρου
+  - id: ariadne_the_martyr
+    title: Αγία Μάρτυς Αριάδνη
+  - id: trophimos_sabbatios_dorymedon
+    title: Άγιοι Μάρτυρες Τρόφιμος, Σαββάτιος και Δορυμέδων
+  - id: eustathios_and_family
+    title: Άγιοι Ευστάθιος, Θεοπίστη, Αγάπιος και Θεόπιστος
+  - id: lautus_of_coutances
+    title: Άγιος Λάουτο, επίσκοπος Κουτάνς
+  - id: kosmas_the_zographite
+    title: Όσιος Κοσμάς ο Ζωγραφίτης
+  - id: rhais_the_virgin_martyr
+    title: Αγία Παρθενομάρτυς Ραΐς
+  - id: xanthippe_and_polyxena
+    title: Όσιες Ξανθίππη και Πολυξένη
+  - id: panagia_myrtidiotissa
+    title: Παναγία Μυρτιδιώτισσα
+  - id: persis_the_martyr
+    title: Αγία Μάρτυς Πέρσις
+  - id: thekla_the_protomartyr
+    title: Αγία Πρωτομάρτυς και Ισαπόστολος Θέκλα
+  - id: euphrosyne_of_alexandria
+    title: Οσία Ευφροσύνη η Αλεξανδρινή
+  - id: apostle_zeno_september
+    title: Άγιος Απόστολος Ζήνων
+  - id: finding_relics_neophytos
+    title: Εύρεση Τιμίου Λειψάνου Αγίου Νεοφύτου του Εγκλείστου
+  - id: kyriakos_the_anchorite
+    title: Όσιος Κυριάκος ο Αναχωρητής
+  - id: therese_of_lisieux
+    title: Αγία Θηρεσία του Λιζιέ
+  - id: dionysios_the_areopagite
+    title: Άγιος Διονύσιος ο Αρεοπαγίτης
+  - id: hierotheos_of_athens
+    title: Άγιος Ιερόθεος, Επίσκοπος Αθηνών
+  - id: audaktos_and_kallisthene
+    title: Άγιοι Αύδακτος και Καλλισθένη
+  - id: charitine_the_martyr
+    title: Αγία Μάρτυς Χαριτίνη
+  - id: apostle_thomas
+    title: Άγιος Απόστολος Θωμάς
+  - id: polychronios_the_hieromartyr
+    title: Άγιος Ιερομάρτυρας Πολυχρόνιος
+  - id: sergios_and_bacchus
+    title: Άγιοι Μάρτυρες Σέργιος και Βάκχος
+  - id: pelagia_the_venerable
+    title: Οσία Πελαγία
+  - id: righteous_abraham_and_lot
+    title: Δίκαιοι Αβραάμ και Λωτ
+  - id: eulampios_and_eulampia
+    title: Άγιοι Μάρτυρες Ευλάμπιος και Ευλαμπία
+  - id: andromachos_and_diodoros
+    title: Άγιοι Μάρτυρες Ανδρόμαχος και Διόδωρος
+  - id: symeon_the_new_theologian
+    title: Όσιος Συμεών ο Νέος Θεολόγος
+  - id: florentios_of_thessaloniki
+    title: Άγιος Μάρτυρας Φλωρέντιος ο Θεσσαλονικεύς
+  - id: karpos_papylos_agathodoros_agathoniki
+    title: Άγιοι Μάρτυρες Κάρπος, Πάπυλος, Αγαθόδωρος και Αγαθονίκη
+  - id: chrysi_the_new_martyr
+    title: Αγία Νεομάρτυς Χρυσή
+  - id: ignatios_agallianos
+    title: Άγιος Ιγνάτιος Αγαλλιανός, Αρχιεπίσκοπος Μηθύμνης
+  - id: luke_the_evangelist
+    title: Άγιος Απόστολος και Ευαγγελιστής Λουκάς
+  - id: marinos_the_elder
+    title: Άγιος Μάρτυρας Μαρίνος ο Γέρων
+  - id: cleopatra_the_venerable
+    title: Οσία Κλεοπάτρα
+  - id: artemios_the_great_martyr
+    title: Άγιος Αρτέμιος ο Μεγαλομάρτυρας
+  - id: matrona_of_chios
+    title: Οσία Ματρώνα η Χιοπολίτισσα
+  - id: translation_relics_christodoulos
+    title: Ανακομιδή λειψάνων Οσίου Χριστοδούλου του εν Πάτμω
+  - id: ursula_and_companion_virgins
+    title: Αγία Ούρσουλα και οι συν αυτή Παρθενομάρτυρες
+  - id: socrates_the_hieromartyr
+    title: Άγιος Ιερομάρτυρας Σωκράτης ο Πρεσβύτερος
+  - id: aberkios_equal_to_apostles
+    title: Άγιος Αβέρκιος ο Ισαπόστολος
+  - id: james_the_brother_of_god
+    title: Άγιος Απόστολος Ιάκωβος ο Αδελφόθεος
+  - id: sebastiane_the_martyr_october
+    title: Αγία Μάρτυς Σεβαστιανή
+  - id: demetrios_the_myrrh_streamer
+    title: Άγιος Δημήτριος ο Μυροβλύτης
+  - id: nestor_the_martyr
+    title: Άγιος Μάρτυρας Νέστωρ
+  - id: anastasia_the_roman
+    title: Αγία Αναστασία η Ρωμαία, η Οσιομάρτυς
+  - id: melitine_the_martyr_october
+    title: Αγία Μελιτινή η Μάρτυς (29 Οκτωβρίου)
+  - id: asterios_claudius_neon_neonilla
+    title: Άγιοι Μάρτυρες Αστέριος, Κλαύδιος, Νέων και Νεονίλλα
+  - id: zenobios_and_zenobia
+    title: Άγιοι Μάρτυρες Ζηνόβιος και Ζηνοβία
+  - id: unmercenaries_cosmas_damian_asia
+    title: Άγιοι Ανάργυροι Κοσμάς και Δαμιανός οι εξ Ασίας
+  - id: david_of_euboea
+    title: Όσιος Δαβίδ ο εν Ευβοία
+  - id: akindynos_pegasios_aphthonios_elpidophoros_anempodistos
+    title: Άγιοι Μάρτυρες Ακίνδυνος, Πηγάσιος, Αφθόνιος, Ελπιδοφόρος και Ανεμπόδιστος
+  - id: galaktion_and_episteme
+    title: Άγιοι Μάρτυρες Γαλακτίων και Επιστήμη
+  - id: silvanos_and_companion_martyrs
+    title: Άγιος Μάρτυρας Σιλβανός και οι συν αυτώ Μάρτυρες
+  - id: leonard_of_noblac
+    title: Άγιος Λεονάρδος του Νομπλάκ
+  - id: athenodoros_the_martyr_november
+    title: Άγιος Μάρτυρας Αθηνόδωρος
+  - id: auxtos_taurion_thessaloniki
+    title: Άγιοι Μάρτυρες Αύκτος, Ταυρίων και Θεσσαλονίκη
+  - id: synaxis_archangels_bodiless_powers
+    title: Σύναξη Αρχαγγέλων Μιχαήλ και Γαβριήλ και λοιπών Ασωμάτων Δυνάμεων
+  - id: nectarios_of_pentapolis
+    title: Άγιος Νεκτάριος, Μητροπολίτης Πενταπόλεως
+  - id: christopher_and_mavra
+    title: Άγιοι Μάρτυρες Χριστόφορος και Μαύρα
+  - id: orestes_the_martyr
+    title: Άγιος Μάρτυρας Ορέστης
+  - id: apostles_olympas_rodion_sosipatros
+    title: Άγιοι Απόστολοι Ολυμπάς, Ροδίων και Σωσίπατρος
+  - id: arsenios_of_cappadocia
+    title: Όσιος Αρσένιος ο Καππαδόκης
+  - id: menas_victor_vincent
+    title: Άγιοι Μάρτυρες Μηνάς, Βίκτωρ και Βικέντιος
+  - id: john_chrysostom
+    title: Άγιος Ιωάννης ο Χρυσόστομος
+  - id: apostle_philip
+    title: Άγιος Απόστολος Φίλιππος
+  - id: iphigenia_the_virgin_martyr
+    title: Αγία Ιφιγένεια η Παρθενομάρτυς
+  - id: matthew_the_evangelist
+    title: Άγιος Απόστολος και Ευαγγελιστής Ματθαίος
+  - id: sosanna_november
+    title: Αγία Σωσάνα (20 Νοεμβρίου)
+  - id: apostle_philemon_and_companions
+    title: Άγιος Απόστολος Φιλήμων και οι συν αυτώ
+  - id: catherine_the_great_martyr
+    title: Αγία Αικατερίνη η Μεγαλομάρτυς
+  - id: mercury_the_great_martyr
+    title: Άγιος Μερκούριος ο Μεγαλομάρτυρας
+  - id: stylianos_of_paphlagonia
+    title: Όσιος Στυλιανός ο Παφλαγών
+  - id: dedication_saint_george_at_cypress
+    title: Εγκαίνια Ναού Αγίου Γεωργίου εν τω Κυπαρίσσω
+  - id: phaedros_and_370_martyrs
+    title: Άγιος Μάρτυρας Φαίδρος και οι συν αυτώ 370 Μάρτυρες
+  - id: philoumenos_of_jacobs_well
+    title: Άγιος Νεοϊερομάρτυρας Φιλούμενος ο Κύπριος
+  - id: andrew_the_first_called
+    title: Άγιος Απόστολος Ανδρέας ο Πρωτόκλητος
+  - id: prophet_nahum
+    title: Προφήτης Ναούμ
+  - id: philaretos_the_merciful
+    title: Άγιος Φιλάρετος ο Ελεήμων
+  - id: barbara_the_great_martyr
+    title: Αγία Βαρβάρα η Μεγαλομάρτυς
+  - id: savvas_the_sanctified
+    title: Όσιος Σάββας ο Ηγιασμένος
+  - id: nicholas_of_myra
+    title: Άγιος Νικόλαος, Αρχιεπίσκοπος Μύρων της Λυκίας
+  - id: conception_of_saint_anna
+    title: Σύλληψη της Αγίας Άννας, μητέρας της Θεοτόκου
+  - id: spyridon_the_wonderworker
+    title: Άγιος Σπυρίδων ο Θαυματουργός
+  - id: lucy_the_virgin_martyr
+    title: Αγία Λουκία η Παρθενομάρτυς
+  - id: prophet_daniel
+    title: Προφήτης Δανιήλ
+  - id: dionysios_of_aegina
+    title: Άγιος Διονύσιος ο Ζακυνθινός, Αρχιεπίσκοπος Αιγίνης
+  - id: aris_the_martyr
+    title: Άγιος Μάρτυρας Άρης
+  - id: ignatius_the_god_bearer
+    title: Άγιος Ιγνάτιος ο Θεοφόρος
+  - id: juliana_the_martyr
+    title: Αγία Μάρτυς Ιουλιανή
+  - id: themistocles_the_martyr
+    title: Άγιος Μάρτυρας Θεμιστοκλής
+  - id: anastasia_pharmakolytria
+    title: Αγία Αναστασία η Φαρμακολύτρια
+  - id: eugenia_the_martyr
+    title: Αγία Ευγενία η Οσιομάρτυς
+  - id: stephen_the_first_martyr
+    title: Άγιος Στέφανος ο Πρωτομάρτυρας
+  - id: anysia_the_martyr
+    title: Αγία Ανυσία η Οσιομάρτυς
+  - id: melania_the_younger
+    title: Οσία Μελάνη η Ρωμαία
+feasts:
+  feast_serafeim_sarov:
+    - seraphim_of_sarov
+  feast_anastasios_persian:
+    - anastasios_the_persian
+  feast_dionysis_olympus:
+    - dionysios_of_olympus
+  feast_clement_ancyra_agathangelos:
+    - clement_of_ancyra_and_agathangelos
+  feast_neofytos_recluse:
+    - neophytos_the_recluse
+  feast_chrysostomos_relics:
+    - translation_relics_john_chrysostom
+  feast_fotis_february:
+    - photios_the_great
+  feast_loykas_february:
+    - luke_of_steiris
+  feast_martha_february:
+    - martyrs_martha_and_mary
+  feast_eysevios_february:
+    - eusebios_february
+  feast_theodoros_february:
+    - theodore_tyron
+  feast_poylcheria_february:
+    - marcian_and_pulcheria
+  feast_eystathios:
+    - eustathios_of_antioch
+  feast_polychronis_february:
+    - polychronios
+  feast_kassianos:
+    - kassianos_the_roman
+  feast_gerasimos_march:
+    - gerasimos_of_the_jordan
+  feast_eygenios:
+    - hieromartyrs_bishops_of_cherson
+  feast_theodora_march:
+    - theodora_of_arta
+  feast_gavriil_march:
+    - synaxis_archangel_gabriel
+  feast_titos:
+    - titus_the_wonderworker
+  feast_bright_tuesday:
+    - new_martyrs_raphael_nicholas_irene
+  feast_bright_wednesday:
+    - brothers_apostolos_and_theocharis
+  feast_isidora:
+    - isidora_fool_for_christ
+  feast_tamara:
+    - tamara_of_georgia
+  feast_athanasius_relics:
+    - translation_relics_athanasius_the_great
+  feast_aygerinos:
+    - martyrs_hesperus_zoe_cyriacus_theodulus
+  feast_timothy_and_mavra:
+    - martyrs_timothy_and_mavra
+  feast_xenia_may:
+    - xenia_the_great_martyr
+  feast_rodopi:
+    - martyrs_diodorus_and_rhodopianus
+  feast_pelagia_may:
+    - pelagia_of_tarsus
+  feast_eirini:
+    - irene_the_great_martyr
+  feast_eirinaios_may:
+    - martyrs_irenaeus_peregrinus_and_irene
+  feast_ephraim_nea_makri:
+    - ephraim_of_nea_makri
+  feast_serafeim:
+    - seraphim_of_domvous
+  feast_theologos:
+    - john_the_theologian
+  feast_milios:
+    - milos_the_hymnographer
+  feast_arsenios_may:
+    - arsenius_the_great
+  feast_christoforos:
+    - christopher_the_great_martyr
+  feast_isaias:
+    - prophet_isaiah
+  feast_simonas:
+    - simon_the_zealot
+  feast_olympia:
+    - olympia_and_euphrosyne_of_lesbos
+  feast_argyris:
+    - argyrios_of_epanomi
+  feast_theodoros_kithira:
+    - theodore_of_cythera
+  feast_glykeria:
+    - glykeria_the_martyr
+  feast_sergios_may:
+    - sergios_the_confessor
+  feast_aristotelis:
+    - martyrs_aristotle_and_leander
+  feast_isidoros_may:
+    - isidore_of_chios
+  feast_kali:
+    - kali_the_venerable
+  feast_kali_may22:
+    - kali_the_venerable
+  feast_bright_saturday:
+    - kali_the_venerable
+  feast_achillios_may:
+    - achillios_of_larissa
+  feast_andreas_may:
+    - andrew_the_hermit
+  feast_andronikos:
+    - apostles_andronikos_and_junia
+  feast_solon:
+    - solochon_the_martyr
+  feast_ioylia:
+    - virgin_martyrs_of_ancyra
+  feast_galateia:
+    - galaktia_the_martyr
+  feast_theognostos:
+    - kantara_monastery_martyrs
+  feast_patrikios:
+    - patrikios_and_companions
+  feast_lydia:
+    - lydia_of_philippi
+  feast_konstantinos:
+    - constantine_and_helen
+  feast_aimilios:
+    - martyrs_aemilius_and_castus
+  feast_meletios_martyrs:
+    - meletios_and_companion_martyrs
+  feast_theodosia:
+    - theodosia_of_caesarea
+  feast_saint_emmeleia:
+    - emmeleia_of_caesarea
+  feast_gerakina:
+    - hierax_the_martyr
+  feast_pyrros:
+    - pyrrhos_the_venerable
+  feast_marinos:
+    - marinos_of_vaana
+  feast_ypatios_june:
+    - hypatios_the_martyr
+  feast_martha:
+    - martha_and_mary_of_bethany
+  feast_dorotheos:
+    - dorotheos_of_tyros
+  feast_selini:
+    - apollon_nikandros_selini_and_companions
+  feast_apollon:
+    - apollon_nikandros_selini_and_companions
+  feast_nikandros_june:
+    - apollon_nikandros_selini_and_companions
+  feast_sevastiani:
+    - sevastiani_the_wonderworker
+  feast_kalliopi:
+    - kalliope_the_martyr
+  feast_rodanthi:
+    - rhodon_the_martyr
+  feast_kyrillos_june:
+    - cyril_of_alexandria
+  feast_zafeirios:
+    - zafeirios_the_new_martyr
+  feast_luke_crimea:
+    - luke_of_crimea
+  feast_onoyfrios:
+    - onuphrius_the_great
+  feast_elissaios:
+    - prophet_elisha
+  feast_monika:
+    - monica_the_venerable
+  feast_aygoysta:
+    - augustine_of_hippo
+  feast_aygoystinos:
+    - augustine_of_hippo
+  feast_paisios:
+    - paisios_the_great
+  feast_zosimos_june:
+    - zosimos_the_martyr
+  feast_eysevios:
+    - eusebios_of_samosata
+  feast_zenon_zenas:
+    - martyrs_zenon_and_zenas
+  feast_fevronia:
+    - febronia_the_martyr
+  feast_david:
+    - david_of_thessaloniki
+  feast_anargyros:
+    - translation_relics_cyrus_and_john
+  feast_petros:
+    - apostles_peter_and_paul
+  feast_paylos:
+    - apostles_peter_and_paul
+  feast_apostolos:
+    - synaxis_of_the_twelve_apostles
+  feast_kosmas:
+    - unmercenaries_cosmas_and_damian
+  feast_anargyros_july:
+    - unmercenaries_cosmas_and_damian
+  feast_damianos:
+    - unmercenaries_cosmas_and_damian
+  feast_zoympoylia:
+    - hyacinth_the_martyr
+  feast_yakinthos:
+    - hyacinth_the_martyr
+  feast_kyriaki:
+    - kyriaki_the_great_martyr
+  feast_theofilos:
+    - theophilos_of_zichni
+  feast_theofili_july:
+    - theophilos_of_zichni
+  feast_prokopis:
+    - procopius_the_great_martyr
+  feast_amalia:
+    - amalia_of_maubeuge
+  feast_olga:
+    - olga_equal_to_the_apostles
+  feast_eyfimia:
+    - euphemia_the_great_martyr
+  feast_veroniki:
+    - veronica_the_woman_with_issue_of_blood
+  feast_paisios_athonite:
+    - paisios_the_athonite
+  feast_sara:
+    - sarah_the_venerable
+  feast_nikodimos:
+    - nicodemus_the_hagiorite
+  feast_vladimiros:
+    - vladimir_equal_to_the_apostles
+  feast_ioylitta:
+    - julitta_and_cyricus
+  feast_kirykos:
+    - julitta_and_cyricus
+  feast_riginos_july:
+    - riginos_disciple_of_athenogenes
+  feast_marina:
+    - marina_the_great_martyr
+  feast_marinos_july:
+    - marina_the_great_martyr
+  feast_aliki:
+    - alexandra_feodorovna_born_alix
+  feast_aimilianos_july:
+    - aemilian_the_martyr
+  feast_garyfallia:
+    - dios_the_venerable_garyfallia_names
+  feast_makrina:
+    - macrina_the_younger
+  feast_ilias:
+    - prophet_elijah
+  feast_magdalini:
+    - mary_magdalene
+  feast_markella:
+    - markella_of_chios
+  feast_menelaos:
+    - menelaos_the_venerable
+  feast_christina:
+    - christina_the_great_martyr
+  feast_eypraxia:
+    - eupraxia_the_venerable
+  feast_anna_dormition:
+    - dormition_of_saint_anna
+  feast_olympia_deaconess:
+    - olympia_the_deaconess
+  feast_paraskeyi:
+    - paraskevi_the_martyr
+  feast_paraskeyas_july:
+    - paraskevi_the_martyr
+  feast_ersi:
+    - paraskevi_the_martyr
+  feast_oraiozili:
+    - oraiozili_the_martyr
+  feast_ermolaos:
+    - hermolaos_the_hieromartyr
+  feast_pantelis:
+    - panteleimon_the_healer
+  feast_chrysovalantis:
+    - irene_chrysovalantou
+  feast_eirini_chrysovalantou:
+    - irene_chrysovalantou
+  feast_drosida_july:
+    - drosida_the_martyr
+  feast_theodoti:
+    - theodoti_the_martyr
+  feast_andronikos_july:
+    - apostles_andronikos_and_companions_july
+  feast_freideriki:
+    - frederick_of_utrecht_old_calendar
+  feast_iosif_arimatheas:
+    - joseph_of_arimathea
+  feast_salomi:
+    - salome_the_myrrh_bearer
+  feast_violeta:
+    - ia_violetta_the_martyr
+  feast_exakoystodianos:
+    - seven_sleepers_of_ephesus
+  feast_asterios:
+    - asterios_the_wonderworker
+  feast_astero:
+    - asterios_the_wonderworker
+  feast_astrini:
+    - asterios_the_wonderworker
+  feast_triantafyllos:
+    - triantafyllos_of_zagora
+  feast_triantafyllia:
+    - triantafyllos_of_zagora
+  feast_iro:
+    - heron_the_saint
+  feast_ippolytos:
+    - hippolytus_the_martyr
+  feast_layrentios:
+    - lawrence_the_archdeacon
+  feast_lora:
+    - lawrence_the_archdeacon
+  feast_symela:
+    - dormition_panagia_soumela
+  feast_krystallo:
+    - dormition_panagia_krystallou
+  feast_gesthimani:
+    - dormition_gethsemane
+  feast_presveia:
+    - dormition_presveia
+  feast_gerasimos:
+    - gerasimos_the_new_ascetic
+  feast_alkiviadis:
+    - alkiviadis_the_martyr
+  feast_serafeim_august:
+    - finding_relics_seraphim_sarantis
+  feast_apostolos_august:
+    - apostolos_the_new_martyr
+  feast_stamatios_august:
+    - stamatios_of_volos
+  feast_leykothea:
+    - leukios_the_martyr
+  feast_straton_august:
+    - straton_the_martyr
+  feast_floros:
+    - florus_and_laurus
+  feast_arsenios:
+    - arsenius_of_paros
+  feast_laurus_august:
+    - florus_and_laurus
+  feast_riginos_august:
+    - reginos_and_orestes_of_cyprus
+  feast_orestis_august:
+    - reginos_and_orestes_of_cyprus
+  feast_theocharis:
+    - theocharis_of_neapolis
+  feast_malamati:
+    - panagia_malamateni
+  feast_eirinaios:
+    - irenaeus_of_lyons
+  feast_eytychios_august:
+    - eutychios_the_hieromartyr_august
+  feast_kosmas_aitolos:
+    - kosmas_of_aetolia
+  feast_dionysis_relics_august:
+    - translation_relics_dionysios_of_zakynthos
+  feast_titos_august:
+    - apostle_titus
+  feast_natalia:
+    - adrian_and_natalia
+  feast_adriani:
+    - adrian_and_natalia
+  feast_adrianos:
+    - adrian_and_natalia
+  feast_fanoyris:
+    - fanourios_the_great_martyr
+  feast_osios:
+    - poemen_the_venerable
+  feast_alexandros:
+    - alexander_of_constantinople
+  feast_eylalios:
+    - eulalios_of_cyprus
+  feast_afroditi:
+    - ammon_and_forty_virgin_martyrs
+  feast_akrivi:
+    - ammon_and_forty_virgin_martyrs
+  feast_antigoni:
+    - ammon_and_forty_virgin_martyrs
+  feast_aspasia:
+    - ammon_and_forty_virgin_martyrs
+  feast_athina:
+    - ammon_and_forty_virgin_martyrs
+  feast_chaido:
+    - ammon_and_forty_virgin_martyrs
+  feast_charikleia:
+    - ammon_and_forty_virgin_martyrs
+  feast_diamanto:
+    - ammon_and_forty_virgin_martyrs
+  feast_elpiniki:
+    - ammon_and_forty_virgin_martyrs
+  feast_erasmia:
+    - ammon_and_forty_virgin_martyrs
+  feast_erato:
+    - ammon_and_forty_virgin_martyrs
+  feast_eyterpi:
+    - ammon_and_forty_virgin_martyrs
+  feast_ismini:
+    - ammon_and_forty_virgin_martyrs
+  feast_kalliroi:
+    - ammon_and_forty_virgin_martyrs
+  feast_kleoniki:
+    - ammon_and_forty_virgin_martyrs
+  feast_kleopatra:
+    - ammon_and_forty_virgin_martyrs
+  feast_koralia:
+    - ammon_and_forty_virgin_martyrs
+  feast_margarita:
+    - ammon_and_forty_virgin_martyrs
+  feast_melpomeni:
+    - ammon_and_forty_virgin_martyrs
+  feast_moscho:
+    - ammon_and_forty_virgin_martyrs
+  feast_oyrania:
+    - ammon_and_forty_virgin_martyrs
+  feast_pandora:
+    - ammon_and_forty_virgin_martyrs
+  feast_pinelopi:
+    - ammon_and_forty_virgin_martyrs
+  feast_polymnia:
+    - ammon_and_forty_virgin_martyrs
+  feast_polyniki:
+    - ammon_and_forty_virgin_martyrs
+  feast_polytimi:
+    - ammon_and_forty_virgin_martyrs
+  feast_rallia:
+    - ammon_and_forty_virgin_martyrs
+  feast_rallis:
+    - ammon_and_forty_virgin_martyrs
+  feast_sapfo:
+    - ammon_and_forty_virgin_martyrs
+  feast_symeon_september:
+    - symeon_the_stylite
+  feast_terpsichori:
+    - ammon_and_forty_virgin_martyrs
+  feast_thaleia:
+    - ammon_and_forty_virgin_martyrs
+  feast_theano:
+    - ammon_and_forty_virgin_martyrs
+  feast_theonymfi:
+    - ammon_and_forty_virgin_martyrs
+  feast_meletios_september:
+    - meletios_the_new
+  feast_aristea:
+    - aristion_the_hieromartyr
+  feast_archontia:
+    - archontion_the_martyr
+  feast_anthimos:
+    - anthimos_of_nicomedia
+  feast_foivos:
+    - phoebe_the_deaconess
+  feast_polydoros:
+    - polydoros_the_new_martyr
+  feast_ermioni:
+    - hermione_daughter_of_philip
+  feast_moysis:
+    - prophet_moses
+  feast_zacharias_september:
+    - prophet_zacharias_forerunner_father
+  feast_andronikos_september:
+    - andronikos_the_soldier
+  feast_eydoxios:
+    - eudoxios_the_martyr
+  feast_lygeri:
+    - lygeri_of_chios
+  feast_kassiani:
+    - kassiani_the_hymnographer
+  feast_tsampika:
+    - nativity_theotokos_tsambika
+  feast_anna_september:
+    - joachim_and_anna
+  feast_ioakeim:
+    - joachim_and_anna
+  feast_klimentini:
+    - apostle_clement
+  feast_klimis:
+    - apostle_clement
+  feast_mitrodora:
+    - menodora_metrodora_nymphodora
+  feast_poylcheria:
+    - pulcheria_the_empress
+  feast_eyanthia:
+    - euanthia_the_martyr
+  feast_theodora_september:
+    - theodora_of_vasta
+  feast_aristeidis:
+    - aristides_the_martyr
+  feast_kornilios:
+    - cornelius_the_centurion
+  feast_theoklis:
+    - theokles_the_martyr
+  feast_nikitas:
+    - niketas_the_great_martyr
+  feast_vissarion:
+    - bessarion_of_larissa
+  feast_eyfimia_september:
+    - euphemia_the_great_martyr_september
+  feast_melina:
+    - melitina_the_martyr
+  feast_agapi:
+    - sophia_faith_hope_love
+  feast_agathoklis:
+    - agathocleia_the_martyr
+  feast_anastasios_september:
+    - anastasios_of_peristeronopigi
+  feast_elpida:
+    - sophia_faith_hope_love
+  feast_sofia:
+    - sophia_faith_hope_love
+  feast_sonia:
+    - sophia_faith_hope_love
+  feast_ariadni:
+    - ariadne_the_martyr
+  feast_savvatios:
+    - trophimos_sabbatios_dorymedon
+  feast_agapios_eustathios:
+    - eustathios_and_family
+  feast_eystathios_september:
+    - eustathios_and_family
+  feast_theopisti:
+    - eustathios_and_family
+  feast_loyiza:
+    - lautus_of_coutances
+  feast_zografia:
+    - kosmas_the_zographite
+  feast_iris:
+    - rhais_the_virgin_martyr
+  feast_polyxeni:
+    - xanthippe_and_polyxena
+  feast_xanthippi:
+    - xanthippe_and_polyxena
+  feast_myrsini:
+    - panagia_myrtidiotissa
+  feast_myrto:
+    - panagia_myrtidiotissa
+  feast_persefoni:
+    - persis_the_martyr
+  feast_thekla:
+    - thekla_the_protomartyr
+  feast_eyfrosyni:
+    - euphrosyne_of_alexandria
+  feast_zinon_september:
+    - apostle_zeno_september
+  feast_neofytos_september:
+    - finding_relics_neophytos
+  feast_kyriakos:
+    - kyriakos_the_anchorite
+  feast_thiresia:
+    - therese_of_lisieux
+  feast_dionysis:
+    - dionysios_the_areopagite
+  feast_ierotheos:
+    - hierotheos_of_athens
+  feast_kallisthenis:
+    - audaktos_and_kallisthene
+  feast_charitini:
+    - charitine_the_martyr
+  feast_thomas:
+    - apostle_thomas
+  feast_polychronis:
+    - polychronios_the_hieromartyr
+  feast_sergios:
+    - sergios_and_bacchus
+  feast_pelagia:
+    - pelagia_the_venerable
+  feast_avraam:
+    - righteous_abraham_and_lot
+  feast_eylampia:
+    - eulampios_and_eulampia
+  feast_amaryllis:
+    - eulampios_and_eulampia
+  feast_andromachi:
+    - andromachos_and_diodoros
+  feast_symeon_new_theologian:
+    - symeon_the_new_theologian
+  feast_florentia:
+    - florentios_of_thessaloniki
+  feast_agathoniki:
+    - karpos_papylos_agathodoros_agathoniki
+  feast_chrysi_october:
+    - chrysi_the_new_martyr
+  feast_ignatios:
+    - ignatios_agallianos
+  feast_loykas:
+    - luke_the_evangelist
+  feast_marinos_october:
+    - marinos_the_elder
+  feast_kleopatra_october:
+    - cleopatra_the_venerable
+  feast_artemis:
+    - artemios_the_great_martyr
+  feast_kerasia:
+    - matrona_of_chios
+  feast_ntiana:
+    - artemios_the_great_martyr
+  feast_artemios:
+    - artemios_the_great_martyr
+  feast_gerasimos_october:
+    - gerasimos_the_new_ascetic
+  feast_orsalia:
+    - ursula_and_companion_virgins
+  feast_sokratis_october:
+    - socrates_the_hieromartyr
+  feast_christodoylos_october:
+    - translation_relics_christodoulos
+  feast_averkios:
+    - aberkios_equal_to_apostles
+  feast_iakovos:
+    - james_the_brother_of_god
+  feast_sevastiani_october:
+    - sebastiane_the_martyr_october
+  feast_dimitris:
+    - demetrios_the_myrrh_streamer
+  feast_dimitra:
+    - demetrios_the_myrrh_streamer
+  feast_nestor:
+    - nestor_the_martyr
+  feast_anastasia_roman:
+    - anastasia_the_roman
+  feast_melitini_october:
+    - melitine_the_martyr_october
+  feast_asterios_october:
+    - asterios_claudius_neon_neonilla
+  feast_zinovia:
+    - zenobios_and_zenobia
+  feast_anargyroi_november:
+    - unmercenaries_cosmas_damian_asia
+  feast_david_evia:
+    - david_of_euboea
+  feast_afthonios:
+    - akindynos_pegasios_aphthonios_elpidophoros_anempodistos
+  feast_epistimi:
+    - galaktion_and_episteme
+  feast_silvanos_november:
+    - silvanos_and_companion_martyrs
+  feast_leonardos:
+    - leonard_of_noblac
+  feast_athinodoros:
+    - athenodoros_the_martyr_november
+  feast_thessaloniki:
+    - auxtos_taurion_thessaloniki
+  feast_synaxis_archangels:
+    - synaxis_archangels_bodiless_powers
+  feast_aggelos:
+    - synaxis_archangels_bodiless_powers
+  feast_michail:
+    - synaxis_archangels_bodiless_powers
+  feast_metaxia:
+    - synaxis_archangels_bodiless_powers
+  feast_gavriil:
+    - synaxis_archangels_bodiless_powers
+  feast_michaela:
+    - synaxis_archangels_bodiless_powers
+  feast_stratigos:
+    - synaxis_archangels_bodiless_powers
+  feast_taxiarchis:
+    - synaxis_archangels_bodiless_powers
+  feast_nektarios:
+    - nectarios_of_pentapolis
+  feast_mayra:
+    - christopher_and_mavra
+  feast_orestis:
+    - orestes_the_martyr
+  feast_rodion:
+    - apostles_olympas_rodion_sosipatros
+  feast_arsinoi:
+    - arsenios_of_cappadocia
+  feast_arsenios_cappadocia:
+    - arsenios_of_cappadocia
+  feast_viktoras:
+    - menas_victor_vincent
+  feast_minas:
+    - menas_victor_vincent
+  feast_minos:
+    - menas_victor_vincent
+  feast_vikentios:
+    - menas_victor_vincent
+  feast_chrysostomos:
+    - john_chrysostom
+  feast_gregory_palamas_november:
+    - gregory_palamas
+  feast_filippos:
+    - apostle_philip
+  feast_filippa:
+    - apostle_philip
+  feast_ifigeneia:
+    - iphigenia_the_virgin_martyr
+  feast_matthaios:
+    - matthew_the_evangelist
+  feast_sossana_november:
+    - sosanna_november
+  feast_filimon:
+    - apostle_philemon_and_companions
+  feast_aikaterini:
+    - catherine_the_great_martyr
+  feast_merkoyris:
+    - mercury_the_great_martyr
+  feast_stylianos:
+    - stylianos_of_paphlagonia
+  feast_stergios:
+    - stylianos_of_paphlagonia
+  feast_kyparissia:
+    - dedication_saint_george_at_cypress
+  feast_faidra:
+    - phaedros_and_370_martyrs
+  feast_filomeni:
+    - philoumenos_of_jacobs_well
+  feast_andreas:
+    - andrew_the_first_called
+  feast_naoym:
+    - prophet_nahum
+  feast_filaretos:
+    - philaretos_the_merciful
+  feast_varvara:
+    - barbara_the_great_martyr
+  feast_savvas:
+    - savvas_the_sanctified
+  feast_nikolaos:
+    - nicholas_of_myra
+  feast_anna:
+    - conception_of_saint_anna
+  feast_spyridon:
+    - spyridon_the_wonderworker
+  feast_loykia:
+    - lucy_the_virgin_martyr
+  feast_daniil:
+    - prophet_daniel
+  feast_dionysis_zakynthos:
+    - dionysios_of_aegina
+  feast_aris_december:
+    - aris_the_martyr
+  feast_ignatios_december:
+    - ignatius_the_god_bearer
+  feast_ioylia_december:
+    - juliana_the_martyr
+  feast_themistoklis_december:
+    - themistocles_the_martyr
+  feast_anastasia_pharmakolytria:
+    - anastasia_pharmakolytria
+  feast_eygenia:
+    - eugenia_the_martyr
+  feast_stefanos:
+    - stephen_the_first_martyr
+  feast_anysios:
+    - anysia_the_martyr
+  feast_melani:
+    - melania_the_younger

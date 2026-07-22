@@ -30,6 +30,7 @@ from grecal import (  # noqa: E402
     validate_catalog,
 )
 from grecal.easter import MAX_YEAR, MIN_YEAR, orthodox_easter  # noqa: E402
+from grecal.parser import DataValidationError, _load_yaml  # noqa: E402
 from grecal.rules import resolve_feast_date  # noqa: E402
 
 
@@ -39,6 +40,7 @@ ATHENS = ZoneInfo("Europe/Athens")
 DEFAULT_FEASTS_PATH = PROJECT_ROOT / "data" / "feasts.yaml"
 DEFAULT_NAMES_PATH = PROJECT_ROOT / "data" / "names.yaml"
 DEFAULT_OBSERVANCES_PATH = PROJECT_ROOT / "data" / "observances.yaml"
+DEFAULT_COMMEMORATIONS_PATH = PROJECT_ROOT / "data" / "commemorations.yaml"
 DEFAULT_WEB_PATH = PROJECT_ROOT / "web"
 FRONTEND_FILES = ("styles.css", "app.js", "branding.json")
 
@@ -176,12 +178,130 @@ def _copy_frontend(destination: Path, branding: Mapping[str, Any]) -> None:
     _render_index(destination, branding)
 
 
+def _load_commemoration_collection(
+    path: Path = DEFAULT_COMMEMORATIONS_PATH,
+) -> tuple[dict[str, str], dict[str, tuple[str, ...]]]:
+    raw = _load_yaml(path)
+    if not isinstance(raw, Mapping) or set(raw) != {"commemorations", "feasts"}:
+        raise DataValidationError(
+            "commemorations.yaml must contain commemorations and feasts"
+        )
+
+    raw_entries = raw["commemorations"]
+    if not isinstance(raw_entries, list):
+        raise DataValidationError("commemorations must be a list")
+    titles: dict[str, str] = {}
+    seen_titles: set[str] = set()
+    for index, entry in enumerate(raw_entries):
+        context = f"commemorations[{index}]"
+        if not isinstance(entry, Mapping) or set(entry) != {"id", "title"}:
+            raise DataValidationError(f"{context} must contain id and title")
+        commemoration_id = entry["id"]
+        title = entry["title"]
+        if not isinstance(commemoration_id, str) or not commemoration_id.strip():
+            raise DataValidationError(f"{context}.id must be a non-empty string")
+        if not isinstance(title, str) or not title.strip():
+            raise DataValidationError(f"{context}.title must be a non-empty string")
+        commemoration_id = commemoration_id.strip()
+        title = title.strip()
+        if commemoration_id in titles:
+            raise DataValidationError(
+                f"duplicate commemoration id: {commemoration_id}"
+            )
+        if title in seen_titles:
+            raise DataValidationError(f"duplicate commemoration title: {title}")
+        titles[commemoration_id] = title
+        seen_titles.add(title)
+
+    raw_mappings = raw["feasts"]
+    if not isinstance(raw_mappings, Mapping):
+        raise DataValidationError("commemoration feasts must be a mapping")
+    mappings: dict[str, tuple[str, ...]] = {}
+    referenced_ids: set[str] = set()
+    for feast_id, commemoration_ids in raw_mappings.items():
+        if not isinstance(feast_id, str) or not feast_id.strip():
+            raise DataValidationError(
+                "every commemoration feast id must be a non-empty string"
+            )
+        if not isinstance(commemoration_ids, list) or not commemoration_ids:
+            raise DataValidationError(
+                f"commemoration feast {feast_id!r} must reference a non-empty list"
+            )
+        if not all(
+            isinstance(commemoration_id, str) and commemoration_id.strip()
+            for commemoration_id in commemoration_ids
+        ):
+            raise DataValidationError(
+                f"commemoration feast {feast_id!r} has an invalid reference"
+            )
+        cleaned_ids = tuple(
+            commemoration_id.strip() for commemoration_id in commemoration_ids
+        )
+        if len(cleaned_ids) != len(set(cleaned_ids)):
+            raise DataValidationError(
+                f"commemoration feast {feast_id!r} has duplicate references"
+            )
+        unknown_ids = set(cleaned_ids) - set(titles)
+        if unknown_ids:
+            unknown = ", ".join(sorted(unknown_ids))
+            raise DataValidationError(
+                f"commemoration feast {feast_id!r} references unknown ids: {unknown}"
+            )
+        cleaned_feast_id = feast_id.strip()
+        mappings[cleaned_feast_id] = cleaned_ids
+        referenced_ids.update(cleaned_ids)
+
+    unreferenced_ids = set(titles) - referenced_ids
+    if unreferenced_ids:
+        unreferenced = ", ".join(sorted(unreferenced_ids))
+        raise DataValidationError(
+            f"commemorations are not mapped to feast rules: {unreferenced}"
+        )
+    return titles, mappings
+
+
+def _generate_commemorations(
+    catalog: Catalog,
+    from_year: int,
+    to_year: int,
+    *,
+    path: Path = DEFAULT_COMMEMORATIONS_PATH,
+) -> dict[date, tuple[str, ...]]:
+    titles, mappings = _load_commemoration_collection(path)
+    feasts = catalog.feast_map()
+    unknown_feasts = set(mappings) - set(feasts)
+    if unknown_feasts:
+        unknown = ", ".join(sorted(unknown_feasts))
+        raise DataValidationError(
+            f"commemorations reference unknown feast rules: {unknown}"
+        )
+
+    ids_by_day: dict[date, set[str]] = defaultdict(set)
+    for year in range(from_year, to_year + 1):
+        easter = orthodox_easter(year)
+        for feast_id, commemoration_ids in mappings.items():
+            day = resolve_feast_date(feasts[feast_id], year, easter)
+            if day is not None:
+                ids_by_day[day].update(commemoration_ids)
+
+    return {
+        day: tuple(
+            title
+            for commemoration_id, title in titles.items()
+            if commemoration_id in commemoration_ids
+        )
+        for day, commemoration_ids in sorted(ids_by_day.items())
+    }
+
+
 def _calendar_year_payload(
     catalog: Catalog,
     year: int,
     grouped_names: Mapping[date, Sequence[str]],
     grouped_observances: Mapping[date, Sequence[str]],
+    grouped_commemorations: Mapping[date, Sequence[str]] | None = None,
 ) -> dict[str, Any]:
+    commemorations = grouped_commemorations or {}
     easter = orthodox_easter(year)
     feasts = catalog.feast_map()
     primary_names_by_day: dict[date, set[str]] = defaultdict(set)
@@ -191,12 +311,13 @@ def _calendar_year_payload(
             year,
             easter,
         )
-        primary_names_by_day[primary_day].update(nameday.names)
+        if primary_day is not None:
+            primary_names_by_day[primary_day].update(nameday.names)
 
     days = []
     occupied_days = sorted(
         day
-        for day in set(grouped_names) | set(grouped_observances)
+        for day in set(grouped_names) | set(grouped_observances) | set(commemorations)
         if day.year == year
     )
     for day in occupied_days:
@@ -211,6 +332,7 @@ def _calendar_year_payload(
                     if name in primary_names_by_day[day]
                 ],
                 "observances": list(grouped_observances.get(day, ())),
+                "commemorations": list(commemorations.get(day, ())),
             }
         )
     return {
@@ -243,23 +365,31 @@ def _search_index_payload(
 
     easter = orthodox_easter(year)
     feasts = catalog.feast_map()
-    primary_dates = {
-        nameday.id: resolve_feast_date(
+    primary_dates: dict[str, str | None] = {}
+    for nameday in catalog.namedays:
+        primary_day = resolve_feast_date(
             feasts[nameday.feast],
             year,
             easter,
-        ).isoformat()
-        for nameday in catalog.namedays
-    }
+        )
+        primary_dates[nameday.id] = (
+            primary_day.isoformat() if primary_day is not None else None
+        )
 
     entries: list[dict[str, Any]] = []
     for nameday in catalog.namedays:
         for name in nameday.names:
             chronological_dates = sorted(dates_by_name[name])
             primary_date = primary_dates[nameday.id]
-            ordered_dates = [primary_date]
-            ordered_dates.extend(
-                value for value in chronological_dates if value != primary_date
+            ordered_dates = (
+                [primary_date]
+                + [
+                    value
+                    for value in chronological_dates
+                    if value != primary_date
+                ]
+                if primary_date is not None
+                else chronological_dates
             )
             entries.append(
                 {
@@ -360,6 +490,7 @@ def build_site(
     stamp = _utc_timestamp(generated_at)
     grouped_names = generate_namedays(source, from_year, to_year)
     grouped_observances = generate_observances(source, from_year, to_year)
+    grouped_commemorations = _generate_commemorations(source, from_year, to_year)
     top_names = generate_namedays(source, from_year, to_year, top=100)
 
     output = output.resolve()
@@ -385,6 +516,7 @@ def build_site(
                     year,
                     grouped_names,
                     grouped_observances,
+                    grouped_commemorations,
                 ),
             )
         _write_json(

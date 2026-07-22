@@ -19,12 +19,14 @@ def _catalog():
 def test_movable_and_fixed_groups_use_their_configured_dates() -> None:
     grouped = generate_namedays(_catalog(), 2026, 2026)
 
-    assert sum(len(names) for names in grouped.values()) == 642
+    # Display-name occurrences exceed the unique catalog names when an
+    # identity group intentionally celebrates on more than one feast.
+    assert sum(len(names) for names in grouped.values()) == 2635
     assert {"Λαμπρινή", "Λάμπρος", "Λίνα"} <= set(
         grouped[date(2026, 4, 12)]
     )
     assert {"Αλεξάνδρα", "Αλέκα"} <= set(grouped[date(2026, 4, 21)])
-    assert grouped[date(2026, 5, 30)] == ("Εμμέλεια",)
+    assert grouped[date(2026, 5, 30)] == ("Εμμέλεια", "Εμμελεία")
     assert {"Μαρία", "Μαριέττα", "Μάρω"} <= set(
         grouped[date(2026, 8, 15)]
     )
@@ -67,7 +69,7 @@ def test_cli_generates_requested_year_and_reports_statistics(
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = [component for component in parsed.walk() if component.name == "VEVENT"]
-    assert len(events) == 226
+    assert len(events) == 259
     assert all(event.decoded("dtstart").year == 2026 for event in events)
     assert str(parsed["UID"]) == (
         "urn:uuid:f97354e3-24ba-55ff-86cb-7cffe0f1e94a"
@@ -94,9 +96,9 @@ def test_cli_generates_requested_year_and_reports_statistics(
             "Calendar events",
         )
     )
-    assert re.search(r"^2026\s+457\s+642\s+0\s+226$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+465\s+1755\s+0\s+259$", report, re.MULTILINE)
     assert re.search(
-        r"^Total occurrences\s+457\s+642\s+0\s+226$",
+        r"^Total occurrences\s+465\s+1755\s+0\s+259$",
         report,
         re.MULTILINE,
     )
@@ -125,15 +127,15 @@ def test_cli_reports_yearly_totals_and_averages_for_multiple_years(
     report = capsys.readouterr().out
     assert "Years: 2025-2026" in report
     assert "Selection: top 100 nameday groups" in report
-    assert re.search(r"^2025\s+100\s+208\s+0\s+77$", report, re.MULTILINE)
-    assert re.search(r"^2026\s+100\s+208\s+0\s+76$", report, re.MULTILINE)
+    assert re.search(r"^2025\s+100\s+589\s+0\s+110$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+100\s+589\s+0\s+110$", report, re.MULTILINE)
     assert re.search(
-        r"^Total occurrences\s+200\s+416\s+0\s+153$",
+        r"^Total occurrences\s+200\s+1178\s+0\s+220$",
         report,
         re.MULTILINE,
     )
     assert re.search(
-        r"^Average/year\s+100\.0\s+208\.0\s+0\.0\s+76\.5$",
+        r"^Average/year\s+100\.0\s+589\.0\s+0\.0\s+110\.0$",
         report,
         re.MULTILINE,
     )
@@ -188,7 +190,7 @@ def test_cli_dry_run_reports_without_writing_or_creating_directories(
     report = capsys.readouterr().out
     assert "Dry run: no file written" in report
     assert f"Would generate: {output}" in report
-    assert re.search(r"^2026\s+457\s+642\s+0\s+226$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+465\s+1755\s+0\s+259$", report, re.MULTILINE)
 
 
 def test_validate_command_checks_all_production_data(capsys) -> None:
@@ -197,10 +199,10 @@ def test_validate_command_checks_all_production_data(capsys) -> None:
     report = capsys.readouterr().out
     assert "Validation successful" in report
     assert "Years checked: 1900-2100" in report
-    assert "Feast definitions: 453" in report
-    assert "Identity groups: 457" in report
-    assert "Display names: 642" in report
-    assert "Church feasts: 22" in report
+    assert "Feast definitions: 584" in report
+    assert "Identity groups: 465" in report
+    assert "Display names: 1755" in report
+    assert "Church feasts: 35" in report
 
 
 def test_validate_command_reports_rule_errors_without_a_traceback(
@@ -279,8 +281,10 @@ def test_cli_generates_a_personal_calendar(tmp_path: Path, capsys) -> None:
         event.decoded("dtstart"): str(event["SUMMARY"]) for event in events
     }
     assert summaries == {
+        date(2026, 2, 2): "Μαρία",
         date(2026, 4, 23): "Γιώργος",
         date(2026, 8, 15): "Μαρία",
+        date(2026, 11, 21): "Μαρία",
     }
     assert str(parsed["NAME"]) == "Οικογενειακές γιορτές"
     assert str(parsed["X-WR-CALNAME"]) == "Οικογενειακές γιορτές"
@@ -292,7 +296,7 @@ def test_cli_generates_a_personal_calendar(tmp_path: Path, capsys) -> None:
     )
     report = capsys.readouterr().out
     assert "Selection: 2 personal names" in report
-    assert re.search(r"^2026\s+2\s+2\s+0\s+2$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+2\s+2\s+0\s+4$", report, re.MULTILINE)
 
 
 def test_personal_calendar_has_selection_aware_default_metadata(
@@ -450,7 +454,7 @@ def test_cli_date_returns_namedays_and_observances(capsys) -> None:
 
     output = capsys.readouterr().out
     assert "Date: 2026-08-15" in output
-    assert "Namedays: Μαρία, Μαριέττα" in output
+    assert "Namedays: Μαρία, Μαργέτα, Μαριέττα" in output
     assert "Church observances: Κοίμηση της Θεοτόκου" in output
 
 

@@ -306,6 +306,8 @@ def _generate_selected_namedays(
                     easter,
                     custom_rules=custom_rules,
                 )
+                if celebration is None:
+                    continue
                 for name in nameday.names:
                     if name not in grouped[celebration]:
                         grouped[celebration].append(name)
@@ -379,6 +381,8 @@ def generate_observances(
                 easter,
                 custom_rules=custom_rules,
             )
+            if celebration is None:
+                continue
             if observance.title not in grouped[celebration]:
                 grouped[celebration].append(observance.title)
     return {day: tuple(titles) for day, titles in sorted(grouped.items())}

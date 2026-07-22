@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Optional
 
 import pytest
 
@@ -63,6 +64,27 @@ def test_sunday_on_or_after_custom_rule(year: int, expected: date) -> None:
         month=12,
         day=11,
         rule="sunday_on_or_after",
+    )
+    assert resolve_feast_date(feast, year, orthodox_easter(year)) == expected
+
+
+@pytest.mark.parametrize(
+    ("year", "expected"),
+    [
+        (2024, date(2024, 2, 29)),
+        (2025, None),
+        (2100, None),
+    ],
+)
+def test_leap_day_only_custom_rule(
+    year: int, expected: Optional[date]
+) -> None:
+    feast = Feast(
+        "kassianos",
+        FeastType.CUSTOM,
+        month=2,
+        day=29,
+        rule="leap_day_only",
     )
     assert resolve_feast_date(feast, year, orthodox_easter(year)) == expected
 

@@ -5,10 +5,17 @@ from pathlib import Path
 from icalendar import Calendar
 import pytest
 
-from grecal import Catalog, Feast, FeastType, Nameday, generate_namedays
+from grecal import (
+    Catalog,
+    Feast,
+    FeastType,
+    Nameday,
+    generate_namedays,
+)
 from scripts.build_site import (
     OUTPUT_MARKER,
     _calendar_year_payload,
+    _generate_commemorations,
     _search_index_payload,
     build_site,
     main,
@@ -106,9 +113,12 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert "padding: 1.75rem 0 2.75rem" in styles
     assert 'loadJson("branding.json")' in script
     assert 'loadJson("data/config.json")' in script
+    assert 'fetch(path, { cache: "no-store" })' in script
     assert "TRANSLATIONS" in script
     assert "state.branding.language_storage_key" in script
     assert "damerauLevenshtein" in script
+    assert "data.commemorations" in script
+    assert 'appendEvents(container, dayData(isoDate), t("noEventsOnDate"), true)' in script
     assert 'scrollTo({ top: today.offsetTop, behavior: behavior })' in script
     assert "position: relative" in styles
     assert "Europe/Athens" in script
@@ -120,7 +130,7 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["event_count"] == 228
+    assert payload["event_count"] == 263
     assert [item["date"] for item in payload["days"]] == sorted(
         item["date"] for item in payload["days"]
     )
@@ -130,12 +140,56 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
         item for item in payload["days"] if item["date"] == "2026-08-15"
     )
     assert "Κοίμηση της Θεοτόκου" in dormition["observances"]
+    assert "Κοίμηση της Υπεραγίας Θεοτόκου" not in dormition["commemorations"]
     assert "Μαρία" in dormition["namedays"]
     assert "Παναγιώτης" in dormition["namedays"]
+
+    transfiguration = next(
+        item for item in payload["days"] if item["date"] == "2026-08-06"
+    )
+    assert transfiguration["observances"] == ["Μεταμόρφωση του Σωτήρος"]
+    assert transfiguration["commemorations"] == []
+
+    today = next(item for item in payload["days"] if item["date"] == "2026-07-22")
+    assert "Αγία Μαρία η Μαγδαληνή" in today["commemorations"]
+
+    archangels = next(
+        item for item in payload["days"] if item["date"] == "2026-11-08"
+    )
+    archangels_title = (
+        "Σύναξη Αρχαγγέλων Μιχαήλ και Γαβριήλ "
+        "και λοιπών Ασωμάτων Δυνάμεων"
+    )
+    assert archangels["commemorations"].count(archangels_title) == 1
 
     raw_payload = (output / "data" / "calendar-2026.json").read_bytes()
     assert not raw_payload.startswith(b"\xef\xbb\xbf")
     assert "Κοίμηση της Θεοτόκου".encode("utf-8") in raw_payload
+
+
+def test_future_year_date_lookup_data_contains_every_name_variant(built_site) -> None:
+    output, _ = built_site
+    payload = _read_json(output / "data" / "calendar-2027.json")
+    new_year = next(
+        item for item in payload["days"] if item["date"] == "2027-01-01"
+    )
+
+    assert {
+        "Βάσια",
+        "Βιβή",
+        "Βίβιαν",
+        "Βασιλίνα",
+        "Βασίλης",
+        "Βάσος",
+        "Βασίλας",
+        "Τηλεμάχη",
+        "Εμμέλεια",
+        "Εμμελεία",
+    } <= set(new_year["namedays"])
+    assert set(new_year["primary_namedays"]) == set(new_year["namedays"]) - {
+        "Εμμέλεια",
+        "Εμμελεία",
+    }
 
 
 def test_search_index_contains_names_and_feasts_for_the_current_year(
@@ -146,13 +200,16 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["entry_count"] == 664
-    assert len(payload["entries"]) == 664
+    assert payload["entry_count"] == 1790
+    assert len(payload["entries"]) == 1790
     assert payload["entries"] == sorted(
         payload["entries"],
         key=lambda item: (item["normalized"], item["kind"], item["id"]),
     )
-    assert all(item["dates"] for item in payload["entries"])
+    assert all(
+        item["dates"] or item["id"] == "kassianos"
+        for item in payload["entries"]
+    )
 
     george = next(item for item in payload["entries"] if item["label"] == "Γιώργος")
     assert george == {
@@ -163,6 +220,54 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
         "dates": ["2026-04-23"],
         "popularity": 100,
     }
+    anastasia = next(
+        item for item in payload["entries"] if item["label"] == "Αναστασία"
+    )
+    anastasios = next(
+        item for item in payload["entries"] if item["label"] == "Αναστάσιος"
+    )
+    assert anastasia["dates"] == [
+        "2026-04-12",
+        "2026-01-22",
+        "2026-10-29",
+        "2026-12-22",
+    ]
+    assert anastasios["dates"] == [
+        "2026-04-12",
+        "2026-01-22",
+        "2026-09-17",
+    ]
+    kassiani = next(
+        item for item in payload["entries"] if item["label"] == "Κασσιανή"
+    )
+    kassianos = next(
+        item for item in payload["entries"] if item["label"] == "Κασσιανός"
+    )
+    assert kassiani["dates"] == ["2026-09-07"]
+    assert kassianos["dates"] == []
+    maria = next(item for item in payload["entries"] if item["label"] == "Μαρία")
+    eystathios = next(
+        item for item in payload["entries"] if item["label"] == "Ευστάθιος"
+    )
+    assert maria["dates"] == [
+        "2026-08-15",
+        "2026-02-02",
+        "2026-11-21",
+    ]
+    assert eystathios["dates"] == ["2026-09-20", "2026-02-21"]
+    primary_first = {
+        "Τίτος": ["2026-08-25", "2026-04-02"],
+        "Σωκράτης": ["2026-10-21", "2026-04-10"],
+        "Θωμάς": ["2026-04-19", "2026-10-06"],
+        "Ιάκωβος": ["2026-04-30", "2026-10-23"],
+        "Θεοχάρης": ["2026-08-20", "2026-04-15"],
+        "Καλή": ["2026-05-15", "2026-04-18", "2026-05-22"],
+    }
+    for label, dates in primary_first.items():
+        entry = next(
+            item for item in payload["entries"] if item["label"] == label
+        )
+        assert entry["dates"] == dates
     dormition = next(
         item
         for item in payload["entries"]
@@ -176,6 +281,33 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
         "dates": ["2026-08-15"],
         "popularity": None,
     }
+    assert all(
+        item["label"] != "Αγία Μαρία η Μαγδαληνή"
+        for item in payload["entries"]
+    )
+
+
+def test_commemorations_resolve_from_their_mapped_feast_rules(
+    tmp_path: Path,
+) -> None:
+    catalog = Catalog(
+        feasts=(Feast("saint", FeastType.FIXED, month=7, day=22),),
+        namedays=(),
+    )
+    path = tmp_path / "commemorations.yaml"
+
+    path.write_text(
+        "commemorations:\n"
+        "  - id: saint\n"
+        "    title: Saint title\n"
+        "feasts:\n"
+        "  saint:\n"
+        "    - saint\n",
+        encoding="utf-8",
+    )
+    grouped = _generate_commemorations(catalog, 2026, 2026, path=path)
+
+    assert grouped == {date(2026, 7, 22): ("Saint title",)}
 
 
 def test_multi_date_name_payload_marks_and_orders_primary_feast() -> None:
@@ -205,6 +337,7 @@ def test_multi_date_name_payload_marks_and_orders_primary_feast() -> None:
     days = {item["date"]: item for item in calendar_payload["days"]}
     assert days["2026-12-25"]["primary_namedays"] == ["Χριστίνα"]
     assert days["2026-07-24"]["primary_namedays"] == []
+    assert days["2026-07-24"]["commemorations"] == []
 
     search_payload = _search_index_payload(
         catalog,
@@ -238,8 +371,8 @@ def test_subscription_calendars_have_the_expected_ranges_and_identities(
     )
     assert str(complete["NAME"]) == branding["subscriptions"]["complete"]["name"]
     assert str(popular["NAME"]) == branding["subscriptions"]["top_100"]["name"]
-    assert len(complete_events) == 917
-    assert len(popular_events) == 304
+    assert len(complete_events) == 1063
+    assert len(popular_events) == 436
     assert {event.decoded("DTSTART").year for event in complete_events} == {
         2025,
         2026,

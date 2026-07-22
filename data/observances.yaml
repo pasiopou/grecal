@@ -1,18 +1,54 @@
 # Greek Orthodox Church observances.
 # The referenced feast controls the date; details are reference notes and are
 # deliberately not emitted as ICS descriptions.
+- id: circumcision_lord
+  feast: feast_circumcision_lord
+  title: Περιτομή του Κυρίου
+  details: Δεσποτική εορτή
+- id: sunday_of_meatfare
+  feast: feast_sunday_of_meatfare
+  title: Κυριακή της Απόκρεω
+  details: Τρίτη Κυριακή του Τριωδίου
+- id: sunday_of_cheesefare
+  feast: feast_sunday_of_cheesefare
+  title: Κυριακή της Τυρινής
+  details: Τελευταία Κυριακή πριν από τη Μεγάλη Τεσσαρακοστή
+- id: clean_monday
+  feast: feast_clean_monday
+  title: Καθαρά Δευτέρα
+  details: Πρώτη ημέρα της Μεγάλης Τεσσαρακοστής
 - id: sunday_of_orthodoxy
   feast: feast_sunday_of_orthodoxy
   title: Κυριακή της Ορθοδοξίας
   details: 1η Κυριακή της Μεγάλης Τεσσαρακοστής
+- id: sunday_of_gregory_palamas
+  feast: feast_sunday_of_gregory_palamas
+  title: Κυριακή του Αγίου Γρηγορίου του Παλαμά
+  details: 2η Κυριακή της Μεγάλης Τεσσαρακοστής
 - id: sunday_of_cross_veneration
   feast: feast_sunday_of_cross_veneration
   title: Κυριακή της Σταυροπροσκυνήσεως
   details: 3η Κυριακή της Μεγάλης Τεσσαρακοστής
+- id: sunday_of_john_climacus
+  feast: feast_sunday_of_john_climacus
+  title: Κυριακή του Αγίου Ιωάννη της Κλίμακος
+  details: 4η Κυριακή της Μεγάλης Τεσσαρακοστής
+- id: friday_of_akathist_hymn
+  feast: feast_friday_of_akathist_hymn
+  title: Παρασκευή Ακάθιστου Ύμνου
+  details: 5η Παρασκευή της Μεγάλης Τεσσαρακοστής
+- id: sunday_of_mary_of_egypt
+  feast: feast_sunday_of_mary_of_egypt
+  title: Κυριακή της Οσίας Μαρίας της Αιγυπτίας
+  details: 5η Κυριακή της Μεγάλης Τεσσαρακοστής
 - id: palm_sunday
   feast: feast_palm_sunday
   title: Κυριακή των Βαΐων
   details: Κυριακή πριν από το Πάσχα
+- id: great_friday
+  feast: feast_great_friday
+  title: Μεγάλη Παρασκευή - Τα άγια πάθη του Κυρίου και η Σταύρωση
+  details: Παρασκευή πριν από το Πάσχα
 - id: orthodox_easter
   feast: feast_orthodox_easter
   title: Πάσχα (Ανάσταση)
@@ -21,6 +57,22 @@
   feast: feast_sunday_of_thomas
   title: Κυριακή του Θωμά
   details: 1η Κυριακή μετά το Πάσχα
+- id: sunday_of_myrrh_bearers
+  feast: feast_sunday_of_myrrh_bearers
+  title: Κυριακή των Μυροφόρων
+  details: Αφιερωμένη στις γυναίκες που επισκέφθηκαν το μνήμα του Χριστού
+- id: sunday_of_paralytic
+  feast: feast_sunday_of_paralytic
+  title: Κυριακή του Παραλύτου
+  details: Το θαύμα της θεραπείας του παραλύτου στην κολυμβήθρα της Βηθεσδά
+- id: sunday_of_samaritan_woman
+  feast: feast_samaritan_woman_sunday
+  title: Κυριακή της Σαμαρείτιδος
+  details: Η συνάντηση του Ιησού με τη Σαμαρείτισσα στο πηγάδι του Ιακώβ
+- id: sunday_of_blind_man
+  feast: feast_sunday_of_blind_man
+  title: Κυριακή του Τυφλού
+  details: Η θεραπεία του εκ γενετής τυφλού
 - id: ascension
   feast: feast_ascension
   title: Ανάληψη του Κυρίου
@@ -29,6 +81,10 @@
   feast: feast_pentecost
   title: Πεντηκοστή
   details: 50ή ημέρα από το Πάσχα, με την Κυριακή του Πάσχα ως 1η ημέρα
+- id: holy_spirit
+  feast: feast_holy_spirit
+  title: Του Αγίου Πνεύματος
+  details: Δευτέρα μετά την Πεντηκοστή
 - id: sunday_of_all_saints
   feast: feast_sunday_of_all_saints
   title: Κυριακή των Αγίων Πάντων
@@ -61,6 +117,10 @@
   feast: feast_dormition
   title: Κοίμηση της Θεοτόκου
   details: Θεομητορική εορτή
+- id: deposition_belt_theotokos
+  feast: feast_deposition_belt_theotokos
+  title: Κατάθεσις της Τιμίας Ζώνης της Θεοτόκου
+  details: Θεομητορική εορτή
 - id: nativity_theotokos
   feast: feast_nativity_theotokos
   title: Γέννηση της Θεοτόκου
@@ -69,6 +129,10 @@
   feast: feast_entry_theotokos
   title: Εισόδια της Θεοτόκου
   details: Θεομητορική εορτή
+- id: synaxis_theotokos
+  feast: feast_synaxis_theotokos
+  title: Σύναξις της Υπεραγίας Θεοτόκου
+  details: Η επομένη της Γεννήσεως του Χριστού
 - id: three_hierarchs
   feast: feast_three_hierarchs
   title: Οι Τρεις Ιεράρχες
@@ -76,12 +140,3 @@
   feast: feast_saint_george
   title: Άγιος Γεώργιος
   details: 23 Απριλίου ή Δευτέρα του Πάσχα όταν απαιτείται μετάθεση
-- id: saint_demetrios
-  feast: feast_saint_demetrios
-  title: Άγιος Δημήτριος
-- id: saints_peter_paul
-  feast: feast_saints_peter_paul
-  title: Άγιοι Πέτρος και Παύλος
-- id: saint_nicholas
-  feast: feast_saint_nicholas
-  title: Άγιος Νικόλαος

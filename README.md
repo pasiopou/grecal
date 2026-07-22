@@ -49,7 +49,8 @@ grecal/
 ├── data/
 │   ├── names.yaml               # bundled names
 │   ├── feasts.yaml              # bundled dates and rules
-│   └── observances.yaml         # optional church feast titles
+│   ├── observances.yaml         # optional church feast titles
+│   └── commemorations.yaml      # website commemoration titles and mappings
 ├── scripts/
 │   └── build_site.py            # website data and subscription builder
 ├── tests/
@@ -326,11 +327,14 @@ Website branding is defined entirely in `web/branding.json`, keeping the
 frontend reusable without coupling the Grecal library to a particular public
 site. The website presents a 31-day agenda spanning 15 days before and after
 today; today opens as the first visible row, while the earlier dates remain
-available by scrolling upward. It also provides date lookup across the
-configured range, typo-tolerant search for the current year, and links for both
-calendar subscriptions. Greek is the default language, with a clearly visible
-English switch whose selection is stored only in the visitor's browser. To
-browse a build locally, start a static server:
+available by scrolling upward. In that agenda, collected saint commemorations
+appear together with configured observances under the existing church-feast
+label. They are not added to date lookup, search, or either ICS subscription.
+The site also provides date lookup across the configured range, typo-tolerant
+search for the current year, and links for both calendar subscriptions. Greek
+is the default language, with a clearly visible English switch whose selection
+is stored only in the visitor's browser. To browse a build locally, start a
+static server:
 
 ```bash
 .venv/bin/python -m http.server 8000 --directory _site
@@ -782,6 +786,26 @@ Observance IDs and titles must be unique, and every entry must reference an
 existing feast. The bundled observances use the Church of
 Greece/revised-calendar convention.
 
+`data/commemorations.yaml` is a separate website collection. Canonical
+commemorations are defined once and feast rules map back to their IDs, allowing
+multiple nameday rules to share one displayed commemoration:
+
+```yaml
+commemorations:
+  - id: mary_magdalene
+    title: Αγία Μαρία η Μαγδαληνή
+feasts:
+  feast_magdalini:
+    - mary_magdalene
+```
+
+The website builder resolves these mappings through `feasts.yaml`, removes
+same-day duplicates, and includes the resulting titles only in the 31-day
+agenda and date lookup. Events already declared in `observances.yaml` must not
+be repeated here; nameday groups for those events should reuse the observance's
+feast rule. The Grecal library, CLI, search index, and generated ICS calendars
+continue to use `names.yaml` and `observances.yaml` independently.
+
 ## Adding names and feasts
 
 For a name that uses an existing observance, add only a group to `names.yaml`
@@ -853,7 +877,7 @@ date in a different feed receives a different UID.
 ## Validation
 
 The automated suite covers known Orthodox Easter dates and range limits, every
-feast-rule type, all eight movable church observances, Saint George transfer
+feast-rule type, all movable church observances, Saint George transfer
 boundaries, custom-rule injection, filtering, same-day grouping, YAML schema
 failures, final dataset counts, validation, dry runs, exact lookup, fuzzy
 search, reverse date lookup, and every CLI generation mode. The final ICS

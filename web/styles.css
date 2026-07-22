@@ -729,6 +729,12 @@ a:focus-visible {
   font-weight: 600;
 }
 
+.search-result-no-date {
+  padding: 0.5rem;
+  color: var(--color-secondary);
+  font-size: 0.76rem;
+}
+
 .search-result-date:hover {
   border-color: var(--color-green);
   background: var(--color-green-soft);

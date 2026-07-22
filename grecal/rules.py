@@ -12,7 +12,7 @@ class UnsupportedFeastRuleError(NotImplementedError):
     """Raised when a feast refers to an unknown or unsupported rule."""
 
 
-CustomRule = Callable[[Feast, int, date], date]
+CustomRule = Callable[[Feast, int, date], date | None]
 
 
 def _require_nominal_date(feast: Feast, year: int) -> date:
@@ -36,11 +36,27 @@ def _sunday_on_or_after(feast: Feast, year: int, easter: date) -> date:
     return nominal + timedelta(days=(6 - nominal.weekday()) % 7)
 
 
+def _leap_day_only(feast: Feast, year: int, easter: date) -> date | None:
+    """Return 29 February in leap years and no occurrence otherwise."""
+
+    del easter
+    if feast.month != 2 or feast.day != 29:
+        raise ValueError(
+            f"feast {feast.id!r} requires the nominal date 29 February"
+        )
+    try:
+        return date(year, 2, 29)
+    except ValueError:
+        return None
+
+
 def _builtin_custom_rule(rule: str) -> CustomRule | None:
     if rule == "saint_mark":
         return _saint_mark
     if rule == "sunday_on_or_after":
         return _sunday_on_or_after
+    if rule == "leap_day_only":
+        return _leap_day_only
     return None
 
 
@@ -50,8 +66,8 @@ def resolve_feast_date(
     easter: date,
     *,
     custom_rules: Mapping[str, CustomRule] | None = None,
-) -> date:
-    """Resolve one feast for a year using built-in or injected custom rules."""
+) -> date | None:
+    """Resolve a feast, returning ``None`` when it has no occurrence that year."""
 
     if feast.type is FeastType.FIXED:
         return _require_nominal_date(feast, year)

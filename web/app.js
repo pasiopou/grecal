@@ -58,6 +58,7 @@
       calendarDates: "ημερολογιακές ημερομηνίες",
       primaryFeastDate: "Κύρια εορτή",
       additionalFeastDate: "Επιπλέον εορτή",
+      notCelebratedThisYear: "Δεν εορτάζεται αυτό το έτος.",
       chooseDateFirst: "Επιλέξτε πρώτα μια ημερομηνία.",
       dateOutsideRange: "Η ημερομηνία βρίσκεται εκτός του διαθέσιμου εύρους.",
       fileServerError: "Ανοίξτε τον ιστότοπο μέσω τοπικού web server και όχι απευθείας ως αρχείο.",
@@ -117,6 +118,7 @@
       calendarDates: "calendar dates",
       primaryFeastDate: "Primary feast",
       additionalFeastDate: "Additional feast",
+      notCelebratedThisYear: "Not celebrated this year.",
       chooseDateFirst: "Choose a date first.",
       dateOutsideRange: "That date is outside the available calendar range.",
       fileServerError: "Open the site through a local web server instead of as a file.",
@@ -238,7 +240,7 @@
   }
 
   function loadJson(path) {
-    return fetch(path).then(function (response) {
+    return fetch(path, { cache: "no-store" }).then(function (response) {
       if (!response.ok) {
         throw new Error("Could not load " + path + " (HTTP " + response.status + ")");
       }
@@ -308,7 +310,7 @@
   }
 
   function emptyDay() {
-    return { namedays: [], primary_namedays: [], observances: [] };
+    return { namedays: [], primary_namedays: [], observances: [], commemorations: [] };
   }
 
   function dayData(isoDate) {
@@ -346,8 +348,16 @@
     container.appendChild(group);
   }
 
-  function appendEvents(container, data, emptyMessage) {
-    if (!data.namedays.length && !data.observances.length) {
+  function appendEvents(container, data, emptyMessage, includeCommemorations) {
+    var feastValues = data.observances.slice();
+    if (includeCommemorations) {
+      (data.commemorations || []).forEach(function (title) {
+        if (feastValues.indexOf(title) === -1) {
+          feastValues.push(title);
+        }
+      });
+    }
+    if (!data.namedays.length && !feastValues.length) {
       container.appendChild(element("p", "empty-copy", emptyMessage));
       return;
     }
@@ -359,7 +369,7 @@
       "nameday",
       data.primary_namedays
     );
-    appendEventGroup(groups, t("churchFeast"), data.observances, "feast", []);
+    appendEventGroup(groups, t("churchFeast"), feastValues, "feast", []);
     container.appendChild(groups);
   }
 
@@ -399,7 +409,7 @@
     if (isoDate === state.today) {
       events.appendChild(element("span", "today-badge", t("today")));
     }
-    appendEvents(events, dayData(isoDate), t("noEvents"));
+    appendEvents(events, dayData(isoDate), t("noEvents"), true);
     article.appendChild(events);
     return article;
   }
@@ -432,7 +442,7 @@
     state.selectedDate = isoDate;
     var container = element("section", "result-panel");
     container.appendChild(element("h3", null, fullDateFormatter.format(parseIsoDate(isoDate))));
-    appendEvents(container, dayData(isoDate), t("noEventsOnDate"));
+    appendEvents(container, dayData(isoDate), t("noEventsOnDate"), true);
     elements.dateResult.replaceChildren(container);
   }
 
@@ -592,6 +602,13 @@
       match.entry.dates.forEach(function (value, index) {
         dates.appendChild(resultDateButton(value, index === 0));
       });
+      if (!match.entry.dates.length) {
+        dates.appendChild(element(
+          "span",
+          "search-result-no-date",
+          t("notCelebratedThisYear")
+        ));
+      }
       card.appendChild(dates);
       item.appendChild(card);
       list.appendChild(item);

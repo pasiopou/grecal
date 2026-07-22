@@ -21,7 +21,7 @@ def test_movable_rules_match_expected_2026_dates(catalog) -> None:
     assert "Θεόδωρος" in grouped[date(2026, 2, 28)]
     assert "Ρωξάνη" in grouped[date(2026, 3, 1)]
     assert "Λάζαρος" in grouped[date(2026, 4, 4)]
-    assert {"Βάϊα", "Βάϊος", "Βάγια", "Δάφνη"} <= set(
+    assert {"Βαΐα", "Βάιος", "Βάγια", "Δάφνη"} <= set(
         grouped[date(2026, 4, 5)]
     )
     assert {
@@ -68,9 +68,28 @@ def test_movable_rules_follow_easter_in_2024(catalog) -> None:
     assert "Αναστασία" in grouped[date(2024, 5, 5)]
     assert "Γιώργος" in grouped[date(2024, 5, 6)]
     assert "Μάρκος" in grouped[date(2024, 5, 7)]
+    assert "Θεοχάρης" in grouped[date(2024, 5, 8)]
+    assert "Θεοχάρης" in grouped[date(2024, 8, 20)]
+    assert "Θεοχάρης" not in grouped.get(date(2024, 4, 15), ())
     assert "Νεφέλη" in grouped[date(2024, 6, 13)]
     assert "Τριάδα" in grouped[date(2024, 6, 24)]
     assert "Αδάμ" in grouped[date(2024, 12, 15)]
+
+
+@pytest.mark.parametrize(
+    ("year", "expected"),
+    [
+        (2024, date(2024, 6, 2)),
+        (2025, date(2025, 5, 18)),
+        (2026, date(2026, 5, 10)),
+    ],
+)
+def test_samaritan_woman_sunday_is_four_weeks_after_easter(
+    catalog, year: int, expected: date
+) -> None:
+    grouped = generate_namedays(catalog, year, year)
+
+    assert "Φωτεινή" in grouped[expected]
 
 
 def test_saint_george_moves_when_april_23_is_easter(catalog) -> None:
