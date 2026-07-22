@@ -29,12 +29,12 @@ def _events(calendar: Calendar):
     return [component for component in calendar.walk() if component.name == "VEVENT"]
 
 
-def test_production_catalog_has_35_unique_observances() -> None:
+def test_production_catalog_has_38_unique_observances() -> None:
     catalog = _catalog()
 
-    assert len(catalog.observances) == 35
-    assert len({item.id for item in catalog.observances}) == 35
-    assert len({item.title for item in catalog.observances}) == 35
+    assert len(catalog.observances) == 38
+    assert len({item.id for item in catalog.observances}) == 38
+    assert len({item.title for item in catalog.observances}) == 38
     referenced_feasts = {
         feast_id for item in catalog.namedays for feast_id in item.feasts
     } | {
@@ -80,6 +80,10 @@ def test_all_movable_observances_resolve_from_easter() -> None:
     assert "Πεντηκοστή" in grouped[date(2026, 5, 31)]
     assert "Του Αγίου Πνεύματος" in grouped[date(2026, 6, 1)]
     assert "Κυριακή των Αγίων Πάντων" in grouped[date(2026, 6, 7)]
+    assert "Σάββατο των Αγίων Θεοδώρων" in grouped[date(2026, 2, 28)]
+    assert "Σάββατο του Λαζάρου" in grouped[date(2026, 4, 4)]
+    assert "Ζωοδόχος Πηγή" in grouped[date(2026, 4, 17)]
+    assert "Κυριακή των Προπατόρων" in grouped[date(2026, 12, 13)]
 
 
 @pytest.mark.parametrize(
@@ -133,13 +137,6 @@ def test_all_fixed_observances_resolve_to_the_supplied_dates(
     assert title in grouped[day]
 
 
-def test_saint_george_observance_uses_the_transfer_rule() -> None:
-    grouped = generate_observances(_catalog(), 2024, 2024)
-
-    assert "Άγιος Γεώργιος" not in grouped.get(date(2024, 4, 23), ())
-    assert "Άγιος Γεώργιος" in grouped[date(2024, 5, 6)]
-
-
 def test_combined_summary_puts_observances_before_names() -> None:
     day = date(2026, 8, 15)
     calendar = build_calendar(
@@ -180,7 +177,7 @@ def test_nameday_only_generation_excludes_observance_titles() -> None:
         generated_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
     )
 
-    assert len(_events(calendar)) == 259
+    assert len(_events(calendar)) == 265
     easter_event = next(
         event
         for event in _events(calendar)
@@ -193,7 +190,7 @@ def test_nameday_only_generation_excludes_observance_titles() -> None:
     assert "Ορθόδοξο Πάσχα" not in easter_summary
 
 
-def test_feasts_only_cli_generates_35_events(tmp_path: Path, capsys) -> None:
+def test_feasts_only_cli_generates_38_events(tmp_path: Path, capsys) -> None:
     output = tmp_path / "feasts-2026.ics"
 
     assert main(
@@ -209,7 +206,7 @@ def test_feasts_only_cli_generates_35_events(tmp_path: Path, capsys) -> None:
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = _events(parsed)
-    assert len(events) == 35
+    assert len(events) == 38
     assert str(parsed["UID"]) == (
         "urn:uuid:4ea6860e-3df1-5f49-8098-dc834e9a093b"
     )
@@ -220,7 +217,7 @@ def test_feasts_only_cli_generates_35_events(tmp_path: Path, capsys) -> None:
     )
     report = capsys.readouterr().out
     assert "Selection: church feasts only" in report
-    assert re.search(r"^2026\s+0\s+0\s+35\s+35$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+0\s+0\s+38\s+38$", report, re.MULTILINE)
 
 
 def test_include_feasts_cli_merges_titles_with_names(tmp_path: Path) -> None:
@@ -240,7 +237,7 @@ def test_include_feasts_cli_merges_titles_with_names(tmp_path: Path) -> None:
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = _events(parsed)
-    assert len(events) == 263
+    assert len(events) == 269
     assert str(parsed["UID"]) == (
         "urn:uuid:209a65ff-4de0-5814-bd78-e273c944ae52"
     )

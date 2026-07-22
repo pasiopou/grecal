@@ -11,6 +11,7 @@ from grecal import (
     FeastType,
     Nameday,
     generate_namedays,
+    load_catalog,
 )
 from scripts.build_site import (
     OUTPUT_MARKER,
@@ -133,7 +134,7 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["event_count"] == 263
+    assert payload["event_count"] == 269
     assert [item["date"] for item in payload["days"]] == sorted(
         item["date"] for item in payload["days"]
     )
@@ -165,9 +166,52 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
     )
     assert archangels["commemorations"].count(archangels_title) == 1
 
+    cyprian_and_justina = next(
+        item for item in payload["days"] if item["date"] == "2026-10-02"
+    )
+    assert {
+        "Κυπριανός",
+        "Κυπριανή",
+        "Ιουστίνη",
+        "Ιούστα",
+    } <= set(cyprian_and_justina["namedays"])
+    assert cyprian_and_justina["commemorations"] == [
+        "Αγίων Κυπριανού επισκόπου Καρθαγένης και Ιουστίνης της παρθένου"
+    ]
+
+    porphyrios = next(
+        item for item in payload["days"] if item["date"] == "2026-12-02"
+    )
+    assert {"Πορφύριος", "Πορφυρία", "Πορφυρούλα"} <= set(
+        porphyrios["namedays"]
+    )
+    assert "Όσιος Πορφύριος ο Καυσοκαλυβίτης" in porphyrios[
+        "commemorations"
+    ]
+
+    judas_thaddeus = next(
+        item for item in payload["days"] if item["date"] == "2026-06-19"
+    )
+    assert "Ιούδας" in judas_thaddeus["namedays"]
+    assert "Αγίου Ιούδα του Θαδδαίου" in judas_thaddeus["commemorations"]
+
     raw_payload = (output / "data" / "calendar-2026.json").read_bytes()
     assert not raw_payload.startswith(b"\xef\xbb\xbf")
     assert "Κοίμηση της Θεοτόκου".encode("utf-8") in raw_payload
+
+
+def test_saint_george_is_a_commemoration_and_keeps_its_transfer_rule() -> None:
+    root = Path(__file__).resolve().parents[1]
+    catalog = load_catalog(
+        root / "data" / "feasts.yaml",
+        root / "data" / "names.yaml",
+        root / "data" / "observances.yaml",
+    )
+    grouped = _generate_commemorations(catalog, 2024, 2024)
+
+    title = "Άγιος Γεώργιος ο Μεγαλομάρτυρας"
+    assert title not in grouped.get(date(2024, 4, 23), ())
+    assert title in grouped[date(2024, 5, 6)]
 
 
 def test_future_year_date_lookup_data_contains_every_name_variant(built_site) -> None:
@@ -203,8 +247,8 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["entry_count"] == 1790
-    assert len(payload["entries"]) == 1790
+    assert payload["entry_count"] == 1831
+    assert len(payload["entries"]) == 1831
     assert payload["entries"] == sorted(
         payload["entries"],
         key=lambda item: (item["normalized"], item["kind"], item["id"]),
@@ -374,7 +418,7 @@ def test_subscription_calendars_have_the_expected_ranges_and_identities(
     )
     assert str(complete["NAME"]) == branding["subscriptions"]["complete"]["name"]
     assert str(popular["NAME"]) == branding["subscriptions"]["top_100"]["name"]
-    assert len(complete_events) == 1063
+    assert len(complete_events) == 1085
     assert len(popular_events) == 436
     assert {event.decoded("DTSTART").year for event in complete_events} == {
         2025,

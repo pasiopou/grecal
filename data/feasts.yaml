@@ -27,46 +27,14 @@ feast_genovefa:
   type: fixed
   month: 1
   day: 3
+feast_akakios:
+  type: fixed
+  month: 1
+  day: 3
 feast_theoni:
   type: fixed
   month: 1
   day: 5
-feast_foteini:
-  type: fixed
-  month: 1
-  day: 6
-feast_fani:
-  type: fixed
-  month: 1
-  day: 6
-feast_fotis:
-  type: fixed
-  month: 1
-  day: 6
-feast_theofanis:
-  type: fixed
-  month: 1
-  day: 6
-feast_iordanis:
-  type: fixed
-  month: 1
-  day: 6
-feast_peristera:
-  type: fixed
-  month: 1
-  day: 6
-feast_theopoyla:
-  type: fixed
-  month: 1
-  day: 6
-feast_oyrania_epiphany:
-  type: fixed
-  month: 1
-  day: 6
-feast_faidon:
-  type: fixed
-  month: 1
-  day: 6
 feast_ioannis:
   type: fixed
   month: 1
@@ -128,6 +96,10 @@ feast_eythymios:
   month: 1
   day: 20
 feast_agni:
+  type: fixed
+  month: 1
+  day: 21
+feast_maximos:
   type: fixed
   month: 1
   day: 21
@@ -203,10 +175,6 @@ feast_chrysi:
   type: fixed
   month: 1
   day: 30
-feast_grammatiki:
-  type: fixed
-  month: 1
-  day: 30
 feast_mayros:
   type: fixed
   month: 1
@@ -231,10 +199,6 @@ feast_tryfonas:
   type: fixed
   month: 2
   day: 1
-feast_ypapanti:
-  type: fixed
-  month: 2
-  day: 2
 feast_stamatia:
   type: fixed
   month: 2
@@ -307,6 +271,10 @@ feast_meletios:
   type: fixed
   month: 2
   day: 12
+feast_ioulianos:
+  type: fixed
+  month: 2
+  day: 16
 feast_eysevios_february:
   type: fixed
   month: 2
@@ -399,6 +367,10 @@ feast_theofylaktos:
   type: fixed
   month: 3
   day: 8
+feast_ermis:
+  type: fixed
+  month: 3
+  day: 8
 feast_iliana:
   type: fixed
   month: 3
@@ -451,6 +423,10 @@ feast_alexios:
   type: fixed
   month: 3
   day: 17
+feast_chrysanthos:
+  type: fixed
+  month: 3
+  day: 19
 feast_edoyardos:
   type: fixed
   month: 3
@@ -467,10 +443,6 @@ feast_drosos:
   type: fixed
   month: 3
   day: 22
-feast_eyaggelos:
-  type: fixed
-  month: 3
-  day: 25
 feast_gavriil_march:
   type: fixed
   month: 3
@@ -488,6 +460,10 @@ feast_lida:
   month: 3
   day: 27
 feast_ypatia:
+  type: fixed
+  month: 3
+  day: 31
+feast_menandros:
   type: fixed
   month: 3
   day: 31
@@ -575,6 +551,18 @@ feast_filopoimin:
   type: fixed
   month: 4
   day: 10
+feast_anaximenis:
+  type: fixed
+  month: 4
+  day: 10
+feast_dimosthenis:
+  type: fixed
+  month: 4
+  day: 10
+feast_eteoklis:
+  type: fixed
+  month: 4
+  day: 10
 feast_thomais:
   type: fixed
   month: 4
@@ -612,6 +600,10 @@ feast_achilleas:
   month: 4
   day: 24
 feast_doykas:
+  type: fixed
+  month: 4
+  day: 24
+feast_valentini:
   type: fixed
   month: 4
   day: 24
@@ -695,6 +687,10 @@ feast_isaias:
   type: fixed
   month: 5
   day: 9
+feast_armodios:
+  type: fixed
+  month: 5
+  day: 9
 feast_simonas:
   type: fixed
   month: 5
@@ -707,7 +703,15 @@ feast_argyris:
   type: fixed
   month: 5
   day: 11
+feast_dioskoros:
+  type: fixed
+  month: 5
+  day: 11
 feast_theodoros_kithira:
+  type: fixed
+  month: 5
+  day: 12
+feast_epifaneios:
   type: fixed
   month: 5
   day: 12
@@ -724,6 +728,10 @@ feast_aristotelis:
   month: 5
   day: 14
 feast_isidoros_may:
+  type: fixed
+  month: 5
+  day: 14
+feast_therapon:
   type: fixed
   month: 5
   day: 14
@@ -767,19 +775,7 @@ feast_patrikios:
   type: fixed
   month: 5
   day: 19
-feast_eleni:
-  type: fixed
-  month: 5
-  day: 21
 feast_konstantinos:
-  type: fixed
-  month: 5
-  day: 21
-feast_konstantina:
-  type: fixed
-  month: 5
-  day: 21
-feast_nantia:
   type: fixed
   month: 5
   day: 21
@@ -795,6 +791,10 @@ feast_meletios_martyrs:
   type: fixed
   month: 5
   day: 24
+feast_therapon_may27:
+  type: fixed
+  month: 5
+  day: 27
 feast_theodosia:
   type: fixed
   month: 5
@@ -808,6 +808,10 @@ feast_pyrros:
   month: 6
   day: 1
 feast_marinos:
+  type: fixed
+  month: 6
+  day: 2
+feast_nikiforos:
   type: fixed
   month: 6
   day: 2
@@ -835,6 +839,10 @@ feast_nikandros_june:
   type: fixed
   month: 6
   day: 5
+feast_ploutarchos:
+  type: fixed
+  month: 6
+  day: 5
 feast_sevastiani:
   type: fixed
   month: 6
@@ -859,11 +867,19 @@ feast_luke_crimea:
   type: fixed
   month: 6
   day: 11
+feast_vartholomaios:
+  type: fixed
+  month: 6
+  day: 11
 feast_onoyfrios:
   type: fixed
   month: 6
   day: 12
 feast_elissaios:
+  type: fixed
+  month: 6
+  day: 14
+feast_methodios_confessor:
   type: fixed
   month: 6
   day: 14
@@ -883,10 +899,18 @@ feast_paisios:
   type: fixed
   month: 6
   day: 19
+feast_judas_thaddeus:
+  type: fixed
+  month: 6
+  day: 19
 feast_zosimos_june:
   type: fixed
   month: 6
   day: 19
+feast_methodios:
+  type: fixed
+  month: 6
+  day: 20
 feast_eysevios:
   type: fixed
   month: 6
@@ -1243,6 +1267,10 @@ feast_titos_august:
   type: fixed
   month: 8
   day: 25
+feast_vartholomaios_relics:
+  type: fixed
+  month: 8
+  day: 25
 feast_natalia:
   type: fixed
   month: 8
@@ -1411,7 +1439,15 @@ feast_rallis:
   type: fixed
   month: 9
   day: 1
+feast_mamas:
+  type: fixed
+  month: 9
+  day: 2
 feast_aristea:
+  type: fixed
+  month: 9
+  day: 3
+feast_theoktistos:
   type: fixed
   month: 9
   day: 3
@@ -1575,6 +1611,10 @@ feast_zografia:
   type: fixed
   month: 9
   day: 22
+feast_fokas:
+  type: fixed
+  month: 9
+  day: 22
 feast_polyxeni:
   type: fixed
   month: 9
@@ -1623,6 +1663,10 @@ feast_thiresia:
   type: fixed
   month: 10
   day: 1
+feast_cyprian_and_justina:
+  type: fixed
+  month: 10
+  day: 2
 feast_dionysis:
   type: fixed
   month: 10
@@ -1967,6 +2011,10 @@ feast_meropi:
   type: fixed
   month: 12
   day: 2
+feast_porphyrios_kafsokalyvitis:
+  type: fixed
+  month: 12
+  day: 2
 feast_varvara:
   type: fixed
   month: 12
@@ -2095,34 +2143,6 @@ feast_achmet:
   type: fixed
   month: 12
   day: 24
-feast_christos:
-  type: fixed
-  month: 12
-  day: 25
-feast_chrysoyla:
-  type: fixed
-  month: 12
-  day: 25
-feast_emmanoyil:
-  type: fixed
-  month: 12
-  day: 26
-feast_emmanoyela:
-  type: fixed
-  month: 12
-  day: 26
-feast_chrysa:
-  type: fixed
-  month: 12
-  day: 25
-feast_chrysaygi:
-  type: fixed
-  month: 12
-  day: 25
-feast_vithleem:
-  type: fixed
-  month: 12
-  day: 25
 feast_konstantios:
   type: fixed
   month: 12

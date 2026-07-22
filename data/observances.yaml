@@ -136,7 +136,19 @@
 - id: three_hierarchs
   feast: feast_three_hierarchs
   title: Οι Τρεις Ιεράρχες
-- id: saint_george
-  feast: feast_saint_george
-  title: Άγιος Γεώργιος
-  details: 23 Απριλίου ή Δευτέρα του Πάσχα όταν απαιτείται μετάθεση
+- id: saturday_of_saint_theodore
+  feast: feast_saint_theodore_saturday
+  title: Σάββατο των Αγίων Θεοδώρων
+  details: Πρώτο Σάββατο της Μεγάλης Τεσσαρακοστής
+- id: lazarus_saturday
+  feast: feast_lazarus_saturday
+  title: Σάββατο του Λαζάρου
+  details: Σάββατο πριν από την Κυριακή των Βαΐων
+- id: life_giving_spring
+  feast: feast_life_giving_spring
+  title: Ζωοδόχος Πηγή
+  details: Παρασκευή της Διακαινησίμου
+- id: sunday_of_forefathers
+  feast: feast_sunday_of_forefathers
+  title: Κυριακή των Προπατόρων
+  details: Κυριακή μεταξύ 11 και 17 Δεκεμβρίου

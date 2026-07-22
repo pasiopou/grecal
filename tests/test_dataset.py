@@ -17,9 +17,9 @@ def _catalog():
 
 def test_production_dataset_has_expected_size() -> None:
     catalog = _catalog()
-    assert len(catalog.feasts) == 584
-    assert len(catalog.namedays) == 465
-    assert sum(len(item.names) for item in catalog.namedays) == 1755
+    assert len(catalog.feasts) == 589
+    assert len(catalog.namedays) == 492
+    assert sum(len(item.names) for item in catalog.namedays) == 1793
     assert {feast.type for feast in catalog.feasts} == set(FeastType)
 
 
@@ -34,6 +34,45 @@ def test_common_variants_are_present() -> None:
     assert {"Γεώργιος", "Γιώργος", "Γεωργία"} <= set(
         by_id["georgios"].names
     )
+    assert {"Θάλεια", "Θάλλεια"} <= set(by_id["thaleia"].names)
+
+    all_names = {name for item in catalog.namedays for name in item.names}
+    assert {"Λενίτσα", "Ελενάκι", "Χριστινάκι", "Μανουσάκι"}.isdisjoint(
+        all_names
+    )
+
+
+def test_source_backed_name_additions_use_their_verified_dates() -> None:
+    grouped = generate_namedays(_catalog(), 2026, 2026)
+
+    expected = {
+        date(2026, 1, 3): {"Ακάκιος"},
+        date(2026, 1, 21): {"Μάξιμος"},
+        date(2026, 2, 16): {"Ιουλιανός"},
+        date(2026, 2, 28): {"Μαριάννα"},
+        date(2026, 3, 8): {"Ερμής"},
+        date(2026, 3, 19): {"Χρύσανθος"},
+        date(2026, 3, 31): {"Μένανδρος"},
+        date(2026, 4, 10): {"Αναξιμένης", "Δημοσθένης", "Ετεοκλής"},
+        date(2026, 4, 24): {"Βαλεντίνη"},
+        date(2026, 5, 9): {"Αρμόδιος"},
+        date(2026, 5, 11): {"Διόσκορος"},
+        date(2026, 5, 12): {"Επιφάνειος"},
+        date(2026, 5, 14): {"Θεράπων"},
+        date(2026, 5, 27): {"Θεράπων"},
+        date(2026, 6, 2): {"Νικηφόρος"},
+        date(2026, 6, 5): {"Πλούταρχος"},
+        date(2026, 6, 11): {"Βαρθολομαίος"},
+        date(2026, 6, 14): {"Μεθόδιος"},
+        date(2026, 6, 20): {"Μεθόδιος"},
+        date(2026, 8, 15): {"Δέσποινα"},
+        date(2026, 8, 25): {"Βαρθολομαίος"},
+        date(2026, 9, 2): {"Μάμας"},
+        date(2026, 9, 3): {"Θεόκτιστος"},
+        date(2026, 9, 22): {"Φωκάς"},
+    }
+    for celebration_date, names in expected.items():
+        assert names <= set(grouped[celebration_date])
 
 
 def test_known_fixed_namedays_are_generated_and_grouped() -> None:
@@ -55,7 +94,46 @@ def test_known_fixed_namedays_are_generated_and_grouped() -> None:
     assert {"Σπυρίδων", "Σπύρος"} <= set(grouped[date(2026, 12, 12)])
 
 
-def test_panagiotis_group_celebrates_on_dormition_and_palm_sunday() -> None:
+def test_requested_cyprian_justina_and_porphyrios_names_are_generated() -> None:
+    catalog = _catalog()
+    by_id = {item.id: item for item in catalog.namedays}
+    grouped = generate_namedays(catalog, 2026, 2026)
+
+    assert {
+        "Κυπριανός",
+        "Κυπριανή",
+        "Ιουστίνη",
+        "Ιούστα",
+        "Γιούστα",
+        "Ιουστίνα",
+        "Γιουστίνα",
+        "Γιουστίνη",
+    } <= set(grouped[date(2026, 10, 2)])
+    assert {
+        "Πορφύριος",
+        "Πορφυρός",
+        "Πορφύρης",
+        "Πορφυρή",
+        "Πορφυρία",
+        "Πορφύρα",
+        "Πορφυρώ",
+        "Πορφυρούλα",
+    } <= set(grouped[date(2026, 12, 2)])
+    assert by_id["kyprianos"].popularity == 55
+    assert by_id["ioystini"].popularity == 45
+    assert by_id["porfyrios"].popularity == 40
+
+
+def test_requested_judas_thaddeus_name_is_generated() -> None:
+    catalog = _catalog()
+    by_id = {item.id: item for item in catalog.namedays}
+    grouped = generate_namedays(catalog, 2026, 2026)
+
+    assert "Ιούδας" in grouped[date(2026, 6, 19)]
+    assert by_id["ioydas"].popularity == 20
+
+
+def test_panagiotis_and_despoina_use_verified_theotokos_feasts() -> None:
     grouped = generate_namedays(_catalog(), 2026, 2026)
     panagiotis_names = {
         "Παναγιώτα",
@@ -65,8 +143,19 @@ def test_panagiotis_group_celebrates_on_dormition_and_palm_sunday() -> None:
         "Τούλα",
     }
 
-    assert panagiotis_names <= set(grouped[date(2026, 8, 15)])
-    assert panagiotis_names <= set(grouped[date(2026, 4, 5)])
+    theotokos_dates = {
+        date(2026, 2, 2),
+        date(2026, 8, 15),
+        date(2026, 9, 8),
+        date(2026, 11, 21),
+        date(2026, 12, 26),
+    }
+    for celebration_date in theotokos_dates:
+        assert panagiotis_names <= set(grouped[celebration_date])
+        assert "Δέσποινα" in grouped[celebration_date]
+
+    assert not panagiotis_names & set(grouped[date(2026, 4, 5)])
+    assert "Δέσποινα" not in grouped[date(2026, 4, 5)]
 
 
 def test_christina_has_primary_and_additional_celebrations() -> None:
@@ -102,7 +191,6 @@ def test_existing_names_include_their_supported_july_celebrations() -> None:
         date(2026, 7, 18): {"Αιμιλιανή", "Αιμιλιανός"},
         date(2026, 7, 20): {"Λιάκος", "Ηλιάνα"},
         date(2026, 7, 25): {"Άννα", "Ολυμπία"},
-        date(2026, 7, 24): {"Χριστινάκι"},
         date(2026, 7, 26): {"Παρασκευάς", "Πάρης", "Ζήλια"},
         date(2026, 7, 28): {"Ειρήνη", "Δρόσος", "Χρυσοβαλαντία"},
         date(2026, 7, 29): {"Θεόδοτος", "Θεοδότης"},
@@ -337,7 +425,7 @@ def test_existing_names_include_their_supported_february_celebrations() -> None:
     for celebration_date, names in expected.items():
         assert names <= set(grouped[celebration_date])
 
-    assert by_id["foteini"].feast == "feast_foteini"
+    assert by_id["foteini"].feast == "feast_theophany"
     assert by_id["eystathios"].feast == "feast_eystathios_september"
     assert by_id["theodoros"].feast == "feast_saint_theodore_saturday"
     assert by_id["teo"].feast == "feast_saint_theodore_saturday"
@@ -514,7 +602,7 @@ def test_existing_names_include_their_supported_april_celebrations() -> None:
     expected = {
         date(2026, 4, 2): {"Τίτος", "Τίτα"},
         date(2026, 4, 4): {"Λάζαρος", "Λαζαρούλα"},
-        date(2026, 4, 5): {"Παναγιώτης", "Βάιος", "Δάφνης"},
+        date(2026, 4, 5): {"Βάιος", "Δάφνης"},
         date(2026, 4, 6): {"Ευτύχιος", "Ευτυχίτσα", "Έφη"},
         date(2026, 4, 10): {"Διονύσιος", "Ξενοφών", "Σωκράτης"},
         date(2026, 4, 12): {"Νατάσα", "Νεόφυτος", "Λαμπρίνα"},
@@ -682,12 +770,12 @@ def test_documented_selection_examples_match_the_production_data() -> None:
     top_100 = select_namedays(catalog.namedays, top=100)
     minimum_80 = select_namedays(catalog.namedays, min_popularity=80)
 
-    assert (len(top_100), sum(len(item.names) for item in top_100)) == (100, 589)
+    assert (len(top_100), sum(len(item.names) for item in top_100)) == (100, 580)
     assert (len(minimum_80), sum(len(item.names) for item in minimum_80)) == (
-        164,
-        803,
+        166,
+        801,
     )
     assert len(generate_namedays(catalog, 2026, 2026, top=100)) == 110
     assert len(
         generate_namedays(catalog, 2026, 2026, min_popularity=80)
-    ) == 155
+    ) == 156

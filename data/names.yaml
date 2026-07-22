@@ -42,6 +42,11 @@
   names:
   - Γενοβέφα
   - Γενεβιέβη
+- id: akakios
+  feast: feast_akakios
+  popularity: 35
+  names:
+  - Ακάκιος
 - id: theoni
   feast: feast_theoni
   additional_feasts:
@@ -55,7 +60,7 @@
   names:
   - Θεωνάς
 - id: foteini
-  feast: feast_foteini
+  feast: feast_theophany
   additional_feasts:
   - feast_fotis_february
   - feast_foteini_february
@@ -70,7 +75,7 @@
   - Φωφώ
   - Φαίη
 - id: fani
-  feast: feast_fani
+  feast: feast_theophany
   additional_feasts:
   - feast_fotis_february
   - feast_theofanis_0312
@@ -81,7 +86,7 @@
   - Φένια
   - Φάνια
 - id: fotis
-  feast: feast_fotis
+  feast: feast_theophany
   additional_feasts:
   - feast_fotis_february
   popularity: 92
@@ -91,7 +96,7 @@
   - Φώτης
   - Φώτις
 - id: theofanis
-  feast: feast_theofanis
+  feast: feast_theophany
   additional_feasts:
   - feast_theofanis_0312
   popularity: 84
@@ -99,7 +104,7 @@
   - Θεοφάνης
   - Φάνης
 - id: iordanis
-  feast: feast_iordanis
+  feast: feast_theophany
   popularity: 80
   names:
   - Ιορδάνης
@@ -109,18 +114,18 @@
   - Ντάνα
   - Δάνα
 - id: peristera
-  feast: feast_peristera
+  feast: feast_theophany
   popularity: 71
   names:
   - Περιστέρα
 - id: theopoyla
-  feast: feast_theopoyla
+  feast: feast_theophany
   popularity: 64
   names:
   - Θεοπούλα
   - Θεόπη
 - id: faidon
-  feast: feast_faidon
+  feast: feast_theophany
   popularity: 2
   names:
   - Φαίδων
@@ -284,6 +289,11 @@
   names:
   - Αγνή
   - Αγνούλα
+- id: maximos
+  feast: feast_maximos
+  popularity: 70
+  names:
+  - Μάξιμος
 - id: eygenios
   feast: feast_eygenios
   additional_feasts:
@@ -417,7 +427,7 @@
   - Χρυστάλλα
   - Χρυσταλλία
 - id: grammatiki
-  feast: feast_grammatiki
+  feast: feast_three_hierarchs
   popularity: 69
   names:
   - Γραμματική
@@ -458,7 +468,7 @@
   - Τρύφωνας
   - Τρυφωνία
 - id: ypapanti
-  feast: feast_ypapanti
+  feast: feast_presentation_of_christ
   popularity: 40
   names:
   - Υπαπαντή
@@ -637,6 +647,11 @@
   - Μελετία
   - Μελετούλα
   - Μελετίνα
+- id: ioulianos
+  feast: feast_ioulianos
+  popularity: 50
+  names:
+  - Ιουλιανός
 - id: filothei
   feast: feast_filothei
   popularity: 45
@@ -713,6 +728,11 @@
   - Κυράτσα
   - Κυράτση
   - Κυρατσούδα
+- id: marianna
+  feast: feast_kyra
+  popularity: 85
+  names:
+  - Μαριάννα
 - id: eydokia
   feast: feast_eydokia
   popularity: 90
@@ -757,6 +777,11 @@
   - Θεοφυλάκτη
   - Φυλάκτη
   - Φυλαχτή
+- id: ermis
+  feast: feast_ermis
+  popularity: 25
+  names:
+  - Ερμής
 - id: iliana
   feast: feast_iliana
   additional_feasts:
@@ -807,7 +832,7 @@
   - Σωφρόνης
   - Σωφρόνη
 - id: theofanis_0312
-  feast: feast_theofanis
+  feast: feast_theophany
   additional_feasts:
   - feast_theofanis_0312
   popularity: 64
@@ -854,6 +879,11 @@
   - Αλέκος
   - Αλέξα
   - Αλέξο
+- id: chrysanthos
+  feast: feast_chrysanthos
+  popularity: 50
+  names:
+  - Χρύσανθος
 - id: edoyardos
   feast: feast_edoyardos
   popularity: 16
@@ -894,7 +924,7 @@
   names:
   - Δρόσος
 - id: eyaggelos
-  feast: feast_eyaggelos
+  feast: feast_annunciation
   popularity: 99
   names:
   - Ευαγγελία
@@ -935,6 +965,11 @@
   - Υπατή
   - Υπατούλα
   - Πατούλα
+- id: menandros
+  feast: feast_menandros
+  popularity: 35
+  names:
+  - Μένανδρος
 - id: titos
   feast: feast_titos_august
   additional_feasts:
@@ -947,7 +982,10 @@
 - id: panagiotis
   feast: feast_dormition
   additional_feasts:
-  - feast_palm_sunday
+  - feast_presentation_of_christ
+  - feast_nativity_theotokos
+  - feast_entry_theotokos
+  - feast_synaxis_theotokos
   popularity: 98
   names:
   - Παναγιώτα
@@ -964,6 +1002,16 @@
   - Νάγια
   - Πανυχρούλα
   - Τούλα
+- id: despoina
+  feast: feast_dormition
+  additional_feasts:
+  - feast_presentation_of_christ
+  - feast_nativity_theotokos
+  - feast_entry_theotokos
+  - feast_synaxis_theotokos
+  popularity: 94
+  names:
+  - Δέσποινα
 - id: argyro
   feast: feast_argyro
   additional_feasts:
@@ -1077,6 +1125,21 @@
   names:
   - Φιλοποίμην
   - Φίλης
+- id: anaximenis
+  feast: feast_anaximenis
+  popularity: 5
+  names:
+  - Αναξιμένης
+- id: dimosthenis
+  feast: feast_dimosthenis
+  popularity: 55
+  names:
+  - Δημοσθένης
+- id: eteoklis
+  feast: feast_eteoklis
+  popularity: 20
+  names:
+  - Ετεοκλής
 - id: thomais
   feast: feast_thomais
   additional_feasts:
@@ -1147,6 +1210,11 @@
   - Δούκας
   - Δούκισσα
   - Δουκίτσα
+- id: valentini
+  feast: feast_valentini
+  popularity: 65
+  names:
+  - Βαλεντίνη
 - id: iason
   feast: feast_iason
   popularity: 56
@@ -1272,6 +1340,11 @@
   popularity: 58
   names:
   - Ησαΐας
+- id: armodios
+  feast: feast_armodios
+  popularity: 5
+  names:
+  - Αρμόδιος
 - id: simonas
   feast: feast_simonas
   popularity: 49
@@ -1298,6 +1371,17 @@
   names:
   - Αργύρης
   - Αργύριος
+- id: dioskoros
+  feast: feast_dioskoros
+  popularity: 10
+  names:
+  - Διόσκορος
+- id: epifaneios
+  feast: feast_epifaneios
+  popularity: 25
+  names:
+  - Επιφάνειος
+  - Επιφάνιος
 - id: glykeria
   feast: feast_glykeria
   popularity: 87
@@ -1309,6 +1393,13 @@
   names:
   - Αριστοτέλης
   - Τέλης
+- id: therapon
+  feast: feast_therapon
+  additional_feasts:
+  - feast_therapon_may27
+  popularity: 35
+  names:
+  - Θεράπων
 - id: kali
   feast: feast_kali
   additional_feasts:
@@ -1389,7 +1480,7 @@
   - Πατριτσία
   - Πατρίτσα
 - id: eleni
-  feast: feast_eleni
+  feast: feast_konstantinos
   popularity: 100
   names:
   - Ελένη
@@ -1402,11 +1493,9 @@
   - Νόρα
   - Ελίνα
   - Λένα
-  - Λενίτσα
   - Λένγκω
   - Λενιώ
   - Μαριλένα
-  - Ελενάκι
   - Νέλη
 - id: konstantinos
   feast: feast_konstantinos
@@ -1417,7 +1506,7 @@
   - Κωστής
   - Κωσταντίνος
 - id: konstantina
-  feast: feast_konstantina
+  feast: feast_konstantinos
   popularity: 98
   names:
   - Κωνσταντίνα
@@ -1425,7 +1514,7 @@
   - Κωστούλα
   - Ντίνα
 - id: nantia
-  feast: feast_nantia
+  feast: feast_konstantinos
   popularity: 8
   names:
   - Νάντια
@@ -1476,6 +1565,11 @@
   popularity: 70
   names:
   - Μαρίνος
+- id: nikiforos
+  feast: feast_nikiforos
+  popularity: 70
+  names:
+  - Νικηφόρος
 - id: martha
   feast: feast_martha
   additional_feasts:
@@ -1506,6 +1600,11 @@
   names:
   - Απόλλων
   - Απόλλωνας
+- id: ploutarchos
+  feast: feast_ploutarchos
+  popularity: 30
+  names:
+  - Πλούταρχος
 - id: sevastiani
   feast: feast_sevastiani
   additional_feasts:
@@ -1540,6 +1639,13 @@
   - Ζαφείρω
   - Ζαφείριος
   - Ζαφείρης
+- id: vartholomaios
+  feast: feast_vartholomaios
+  additional_feasts:
+  - feast_vartholomaios_relics
+  popularity: 45
+  names:
+  - Βαρθολομαίος
 - id: onoyfrios
   feast: feast_onoyfrios
   popularity: 34
@@ -1554,6 +1660,13 @@
   - Ελισσαίος
   - Ελισσώ
   - Ελισώ
+- id: methodios
+  feast: feast_methodios
+  additional_feasts:
+  - feast_methodios_confessor
+  popularity: 35
+  names:
+  - Μεθόδιος
 - id: monika
   feast: feast_monika
   popularity: 25
@@ -1581,6 +1694,11 @@
   - Παΐσιος
   - Παΐσης
   - Παϊσία
+- id: ioydas
+  feast: feast_judas_thaddeus
+  popularity: 20
+  names:
+  - Ιούδας
 - id: eysevios
   feast: feast_eysevios
   additional_feasts:
@@ -1837,7 +1955,6 @@
   - Κρίστα
   - Χρίστη
   - Κρίστη
-  - Χριστινάκι
 - id: eypraxia
   feast: feast_eypraxia
   popularity: 70
@@ -2189,7 +2306,7 @@
 - id: oyrania
   feast: feast_oyrania
   additional_feasts:
-  - feast_oyrania_epiphany
+  - feast_theophany
   popularity: 94
   names:
   - Ουρανία
@@ -2273,6 +2390,7 @@
   popularity: 78
   names:
   - Θάλεια
+  - Θάλλεια
 - id: chaido
   feast: feast_chaido
   popularity: 78
@@ -2368,6 +2486,11 @@
   popularity: 5
   names:
   - Ράλλης
+- id: mamas
+  feast: feast_mamas
+  popularity: 30
+  names:
+  - Μάμας
 - id: aristea
   feast: feast_aristea
   additional_feasts:
@@ -2378,6 +2501,11 @@
   - Αρίστη
   - Αρέστια
   - Αρεστία
+- id: theoktistos
+  feast: feast_theoktistos
+  popularity: 20
+  names:
+  - Θεόκτιστος
 - id: archontia
   feast: feast_archontia
   popularity: 73
@@ -2644,6 +2772,11 @@
   popularity: 61
   names:
   - Ζωγραφιά
+- id: fokas
+  feast: feast_fokas
+  popularity: 45
+  names:
+  - Φωκάς
 - id: polyxeni
   feast: feast_polyxeni
   popularity: 92
@@ -2712,6 +2845,22 @@
   names:
   - Θηρεσία
   - Θηρέσιος
+- id: kyprianos
+  feast: feast_cyprian_and_justina
+  popularity: 55
+  names:
+  - Κυπριανός
+  - Κυπριανή
+- id: ioystini
+  feast: feast_cyprian_and_justina
+  popularity: 45
+  names:
+  - Ιουστίνη
+  - Ιούστα
+  - Γιούστα
+  - Ιουστίνα
+  - Γιουστίνα
+  - Γιουστίνη
 - id: dionysis
   feast: feast_dionysis
   additional_feasts:
@@ -2997,7 +3146,7 @@
 - id: aggelos
   feast: feast_aggelos
   additional_feasts:
-  - feast_eyaggelos
+  - feast_annunciation
   popularity: 98
   names:
   - Αγγελική
@@ -3357,6 +3506,18 @@
   names:
   - Μερόπη
   - Μυρόπη
+- id: porfyrios
+  feast: feast_porphyrios_kafsokalyvitis
+  popularity: 40
+  names:
+  - Πορφύριος
+  - Πορφυρός
+  - Πορφύρης
+  - Πορφυρή
+  - Πορφυρία
+  - Πορφύρα
+  - Πορφυρώ
+  - Πορφυρούλα
 - id: varvara
   feast: feast_varvara
   popularity: 92
@@ -3537,20 +3698,20 @@
   names:
   - Αχμέτ
 - id: christos
-  feast: feast_christos
+  feast: feast_nativity_christ
   popularity: 98
   names:
   - Χρήστος
   - Χρίστος
 - id: chrysoyla
-  feast: feast_chrysoyla
+  feast: feast_nativity_christ
   additional_feasts:
   - feast_chrysi
   popularity: 97
   names:
   - Χρυσούλα
 - id: emmanoyil
-  feast: feast_emmanoyil
+  feast: feast_synaxis_theotokos
   additional_feasts:
   - feast_nativity_christ
   popularity: 95
@@ -3562,9 +3723,8 @@
   - Μανουήλ
   - Μάνος
   - Μανουσάκης
-  - Μανουσάκι
 - id: emmanoyela
-  feast: feast_emmanoyela
+  feast: feast_synaxis_theotokos
   additional_feasts:
   - feast_nativity_christ
   popularity: 80
@@ -3574,28 +3734,28 @@
   - Μανουέλα
   - Μανωλία
 - id: chrysa
-  feast: feast_chrysa
+  feast: feast_nativity_christ
   additional_feasts:
   - feast_chrysi
   popularity: 80
   names:
   - Χρύσα
 - id: chrysaygi
-  feast: feast_chrysaygi
+  feast: feast_nativity_christ
   additional_feasts:
   - feast_chrysi
   popularity: 79
   names:
   - Χρυσαυγή
 - id: vithleem
-  feast: feast_vithleem
+  feast: feast_nativity_christ
   popularity: 59
   names:
   - Βηθλεέμ
 - id: konstantios
   feast: feast_konstantios
   additional_feasts:
-  - feast_konstantina
+  - feast_konstantinos
   popularity: 91
   names:
   - Κωνστάντιος
@@ -3713,7 +3873,7 @@
 - id: eya
   feast: feast_sunday_of_forefathers
   additional_feasts:
-  - feast_eyaggelos
+  - feast_annunciation
   popularity: 72
   names:
   - Εύα

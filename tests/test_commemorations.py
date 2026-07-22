@@ -45,7 +45,7 @@ def test_commemorations_are_a_standalone_validated_collection() -> None:
     assert len(ids) == len(set(ids))
     titles = [entry["title"] for entry in entries]
     assert len(titles) == len(set(titles))
-    assert len(entries) == 288
+    assert len(entries) == 408
 
     assert isinstance(mappings, dict)
     assert mappings
@@ -133,6 +133,43 @@ def test_namedays_reuse_canonical_observance_feast_rules() -> None:
     assert namedays["soyltana"].feast == "feast_entry_theotokos"
     assert namedays["virginia"].feast == "feast_entry_theotokos"
     assert namedays["lemonia"].feast == "feast_entry_theotokos"
+    assert namedays["foteini"].feast == "feast_theophany"
+    assert namedays["fani"].feast == "feast_theophany"
+    assert namedays["fotis"].feast == "feast_theophany"
+    assert namedays["theofanis"].feast == "feast_theophany"
+    assert namedays["ypapanti"].feast == "feast_presentation_of_christ"
+    assert namedays["eyaggelos"].feast == "feast_annunciation"
+    assert namedays["christos"].feast == "feast_nativity_christ"
+    assert namedays["emmanoyil"].feast == "feast_synaxis_theotokos"
+
+
+def test_feast_rules_have_explanatory_calendar_entries() -> None:
+    catalog = load_catalog(
+        ROOT / "data" / "feasts.yaml",
+        ROOT / "data" / "names.yaml",
+        ROOT / "data" / "observances.yaml",
+    )
+    covered = set(_feast_mappings()) | {
+        observance.feast for observance in catalog.observances
+    }
+    feast_ids = {feast.id for feast in catalog.feasts}
+
+    # These rules are deliberately left without a church label until their
+    # customary or conflicting associations can be corroborated.
+    assert feast_ids - covered == {
+        "feast_asimakis",
+        "feast_asimina",
+        "feast_aygi",
+        "feast_ayra",
+        "feast_chrysi",
+        "feast_iosif",
+        "feast_margarita_january",
+        "feast_mayros",
+        "feast_paraschos",
+        "feast_parthena",
+        "feast_revekka_december",
+        "feast_savvas_april",
+    }
 
 
 def test_requested_clement_and_ephraim_commemorations_are_mapped() -> None:
@@ -149,6 +186,32 @@ def test_requested_clement_and_ephraim_commemorations_are_mapped() -> None:
         "Άγιος Εφραίμ ο εν Νέα Μάκρη Αττικής"
     )
     assert mappings["feast_ephraim_nea_makri"] == ["ephraim_of_nea_makri"]
+
+
+def test_requested_cyprian_justina_and_porphyrios_are_mapped() -> None:
+    entries = {entry["id"]: entry["title"] for entry in _commemorations()}
+    mappings = _feast_mappings()
+
+    assert entries["cyprian_of_carthage_and_justina"] == (
+        "Αγίων Κυπριανού επισκόπου Καρθαγένης και Ιουστίνης της παρθένου"
+    )
+    assert mappings["feast_cyprian_and_justina"] == [
+        "cyprian_of_carthage_and_justina"
+    ]
+    assert entries["porphyrios_kafsokalyvitis"] == (
+        "Όσιος Πορφύριος ο Καυσοκαλυβίτης"
+    )
+    assert mappings["feast_porphyrios_kafsokalyvitis"] == [
+        "porphyrios_kafsokalyvitis"
+    ]
+
+
+def test_requested_judas_thaddeus_is_mapped() -> None:
+    entries = {entry["id"]: entry["title"] for entry in _commemorations()}
+    mappings = _feast_mappings()
+
+    assert entries["judas_thaddeus"] == "Αγίου Ιούδα του Θαδδαίου"
+    assert mappings["feast_judas_thaddeus"] == ["judas_thaddeus"]
 
 
 def test_may_nameday_rules_have_collected_commemorations() -> None:
@@ -526,3 +589,49 @@ def test_november_nameday_rules_have_collected_commemorations() -> None:
         "feast_vikentios",
         "feast_viktoras",
     } <= feast_ids
+
+
+def test_source_backed_name_additions_reference_commemorations() -> None:
+    mappings = _feast_mappings()
+
+    assert {
+        "feast_akakios",
+        "feast_maximos",
+        "feast_ioulianos",
+        "feast_kyra",
+        "feast_ermis",
+        "feast_chrysanthos",
+        "feast_menandros",
+        "feast_anaximenis",
+        "feast_dimosthenis",
+        "feast_eteoklis",
+        "feast_valentini",
+        "feast_armodios",
+        "feast_dioskoros",
+        "feast_epifaneios",
+        "feast_therapon",
+        "feast_therapon_may27",
+        "feast_nikiforos",
+        "feast_ploutarchos",
+        "feast_vartholomaios",
+        "feast_methodios",
+        "feast_methodios_confessor",
+        "feast_vartholomaios_relics",
+        "feast_mamas",
+        "feast_theoktistos",
+        "feast_fokas",
+    } <= mappings.keys()
+    assert mappings["feast_anaximenis"] == [
+        "martyrs_africanus_terentius_and_companions"
+    ]
+    assert mappings["feast_dimosthenis"] == [
+        "martyrs_africanus_terentius_and_companions"
+    ]
+    assert mappings["feast_eteoklis"] == [
+        "martyrs_africanus_terentius_and_companions"
+    ]
+    assert mappings["feast_vartholomaios"] == ["apostle_bartholomew"]
+    assert mappings["feast_vartholomaios_relics"] == [
+        "translation_relics_apostle_bartholomew"
+    ]
+    assert mappings["feast_fokas"] == ["phocas_the_hieromartyr"]

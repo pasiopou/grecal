@@ -21,7 +21,7 @@ def test_movable_and_fixed_groups_use_their_configured_dates() -> None:
 
     # Display-name occurrences exceed the unique catalog names when an
     # identity group intentionally celebrates on more than one feast.
-    assert sum(len(names) for names in grouped.values()) == 2635
+    assert sum(len(names) for names in grouped.values()) == 2721
     assert {"Λαμπρινή", "Λάμπρος", "Λίνα"} <= set(
         grouped[date(2026, 4, 12)]
     )
@@ -69,7 +69,7 @@ def test_cli_generates_requested_year_and_reports_statistics(
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = [component for component in parsed.walk() if component.name == "VEVENT"]
-    assert len(events) == 259
+    assert len(events) == 265
     assert all(event.decoded("dtstart").year == 2026 for event in events)
     assert str(parsed["UID"]) == (
         "urn:uuid:f97354e3-24ba-55ff-86cb-7cffe0f1e94a"
@@ -96,9 +96,9 @@ def test_cli_generates_requested_year_and_reports_statistics(
             "Calendar events",
         )
     )
-    assert re.search(r"^2026\s+465\s+1755\s+0\s+259$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+492\s+1793\s+0\s+265$", report, re.MULTILINE)
     assert re.search(
-        r"^Total occurrences\s+465\s+1755\s+0\s+259$",
+        r"^Total occurrences\s+492\s+1793\s+0\s+265$",
         report,
         re.MULTILINE,
     )
@@ -127,15 +127,15 @@ def test_cli_reports_yearly_totals_and_averages_for_multiple_years(
     report = capsys.readouterr().out
     assert "Years: 2025-2026" in report
     assert "Selection: top 100 nameday groups" in report
-    assert re.search(r"^2025\s+100\s+589\s+0\s+110$", report, re.MULTILINE)
-    assert re.search(r"^2026\s+100\s+589\s+0\s+110$", report, re.MULTILINE)
+    assert re.search(r"^2025\s+100\s+580\s+0\s+110$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+100\s+580\s+0\s+110$", report, re.MULTILINE)
     assert re.search(
-        r"^Total occurrences\s+200\s+1178\s+0\s+220$",
+        r"^Total occurrences\s+200\s+1160\s+0\s+220$",
         report,
         re.MULTILINE,
     )
     assert re.search(
-        r"^Average/year\s+100\.0\s+589\.0\s+0\.0\s+110\.0$",
+        r"^Average/year\s+100\.0\s+580\.0\s+0\.0\s+110\.0$",
         report,
         re.MULTILINE,
     )
@@ -190,7 +190,7 @@ def test_cli_dry_run_reports_without_writing_or_creating_directories(
     report = capsys.readouterr().out
     assert "Dry run: no file written" in report
     assert f"Would generate: {output}" in report
-    assert re.search(r"^2026\s+465\s+1755\s+0\s+259$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+492\s+1793\s+0\s+265$", report, re.MULTILINE)
 
 
 def test_validate_command_checks_all_production_data(capsys) -> None:
@@ -199,10 +199,10 @@ def test_validate_command_checks_all_production_data(capsys) -> None:
     report = capsys.readouterr().out
     assert "Validation successful" in report
     assert "Years checked: 1900-2100" in report
-    assert "Feast definitions: 584" in report
-    assert "Identity groups: 465" in report
-    assert "Display names: 1755" in report
-    assert "Church feasts: 35" in report
+    assert "Feast definitions: 589" in report
+    assert "Identity groups: 492" in report
+    assert "Display names: 1793" in report
+    assert "Church feasts: 38" in report
 
 
 def test_validate_command_reports_rule_errors_without_a_traceback(
