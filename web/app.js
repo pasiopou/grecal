@@ -30,8 +30,8 @@
       searchEyebrow: "Ονόματα και εορτές",
       searchTitle: "Αναζήτηση στο έτος",
       searchLabel: "Όνομα ή εορτή",
-      searchPlaceholder: "π.χ. Γιώργος ή Πάσχα",
-      searchGuidance: "Πληκτρολογήστε τουλάχιστον δύο χαρακτήρες.",
+      searchPlaceholder: "π.χ. Γιώργος ή Giorgos",
+      searchGuidance: "Πληκτρολογήστε τουλάχιστον δύο χαρακτήρες, στα ελληνικά ή με λατινικούς χαρακτήρες.",
       subscriptionsEyebrow: "Πάντα ενημερωμένο",
       subscriptionsTitle: "Προσθέστε το εορτολόγιο στο ημερολόγιό σας",
       subscriptionsIntro: "Εγγραφείτε μία φορά. Η εφαρμογή ημερολογίου σας θα ανανεώνει το ίδιο αρχείο καθώς προστίθενται νέα έτη.",
@@ -90,8 +90,8 @@
       searchEyebrow: "Names and feasts",
       searchTitle: "Search the year",
       searchLabel: "Name or feast",
-      searchPlaceholder: "Try Γιώργος or Πάσχα",
-      searchGuidance: "Type at least two characters.",
+      searchPlaceholder: "Try Γιώργος or Giorgos",
+      searchGuidance: "Type at least two characters using Greek or Latin letters.",
       subscriptionsEyebrow: "Always up to date",
       subscriptionsTitle: "Add the nameday calendar to your calendar",
       subscriptionsIntro: "Subscribe once. Your calendar app can refresh the same feed as new years are added.",
@@ -460,6 +460,78 @@
       .replace(/ς/g, "σ");
   }
 
+  var GREEK_LATIN_LETTERS = {
+    α: "a", β: "v", γ: "g", δ: "d", ε: "e", ζ: "z", η: "i",
+    θ: "th", ι: "i", κ: "k", λ: "l", μ: "m", ν: "n", ξ: "x",
+    ο: "o", π: "p", ρ: "r", σ: "s", τ: "t", υ: "y", φ: "f",
+    χ: "x", ψ: "ps", ω: "o",
+  };
+  var GREEK_LATIN_DIGRAPHS = {
+    αι: "ai", αυ: "av", ει: "ei", ευ: "ev", οι: "oi", ου: "ou",
+    υι: "yi", γγ: "gg", γκ: "gk", μπ: "mp", ντ: "nt", τσ: "ts",
+    τζ: "tz",
+  };
+  var GREEK_PHONETIC_DIGRAPHS = {
+    αι: "e", αυ: "av", ει: "i", ευ: "ev", οι: "i", ου: "ou",
+    υι: "i", γγ: "gg", γκ: "g", μπ: "b", ντ: "d", τσ: "ts",
+    τζ: "tz",
+  };
+
+  function normalizeLatinSearchText(value) {
+    return value
+      .toLocaleLowerCase("en-US")
+      .replace(/ch/g, "x")
+      .replace(/ph/g, "f")
+      .replace(/ks/g, "x")
+      .replace(/qu/g, "k")
+      .replace(/c/g, "k")
+      .replace(/w/g, "o")
+      .replace(/y/g, "i");
+  }
+
+  function transliterateGreek(value, phonetic) {
+    var normalized = normalizeSearchText(value);
+    var digraphs = phonetic ? GREEK_PHONETIC_DIGRAPHS : GREEK_LATIN_DIGRAPHS;
+    var output = "";
+    var index = 0;
+    while (index < normalized.length) {
+      var pair = normalized.slice(index, index + 2);
+      if (digraphs[pair]) {
+        output += digraphs[pair];
+        index += 2;
+      } else {
+        var letter = normalized.charAt(index);
+        output += GREEK_LATIN_LETTERS[letter] || letter;
+        index += 1;
+      }
+    }
+    return normalizeLatinSearchText(output);
+  }
+
+  function searchFormsForEntry(entry) {
+    var forms = [entry.normalized];
+    var orthographic = transliterateGreek(entry.label, false);
+    var phonetic = transliterateGreek(entry.label, true);
+    [orthographic, phonetic].forEach(function (form) {
+      if (form && forms.indexOf(form) === -1) {
+        forms.push(form);
+      }
+    });
+    return forms;
+  }
+
+  function searchFormsForQuery(query) {
+    var normalized = normalizeSearchText(query);
+    var forms = [normalized];
+    if (/[a-z]/i.test(normalized)) {
+      var latin = normalizeLatinSearchText(normalized);
+      if (forms.indexOf(latin) === -1) {
+        forms.push(latin);
+      }
+    }
+    return forms;
+  }
+
   function damerauLevenshtein(left, right) {
     var rows = left.length + 1;
     var columns = right.length + 1;
@@ -519,14 +591,32 @@
     return { category: 1, score: score };
   }
 
+  function betterRank(left, right) {
+    return !right || left.category > right.category ||
+      (left.category === right.category && left.score > right.score);
+  }
+
+  function bestFuzzyRank(queryForms, candidateForms) {
+    var best = null;
+    queryForms.forEach(function (query) {
+      candidateForms.forEach(function (candidate) {
+        var rank = fuzzyRank(query, candidate);
+        if (rank && betterRank(rank, best)) {
+          best = rank;
+        }
+      });
+    });
+    return best;
+  }
+
   function search(query) {
-    var normalizedQuery = normalizeSearchText(query);
-    if (normalizedQuery.length < 2) {
+    var queryForms = searchFormsForQuery(query);
+    if (queryForms[0].length < 2) {
       return [];
     }
     return state.searchEntries
       .map(function (entry) {
-        var rank = fuzzyRank(normalizedQuery, entry.normalized);
+        var rank = bestFuzzyRank(queryForms, entry.searchForms);
         return rank ? { entry: entry, rank: rank } : null;
       })
       .filter(function (value) { return value !== null; })
@@ -661,7 +751,7 @@
         shortDateFormatter.format(parseIsoDate(minimum)) + " έως " +
         shortDateFormatter.format(parseIsoDate(maximum)) + ".";
       elements.searchYearCopy.textContent = "Αναζητήστε ονόματα και εορτές για το " +
-        state.config.search_year + ". Οι τόνοι και τα μικρά ορθογραφικά λάθη δεν αποτελούν πρόβλημα.";
+        state.config.search_year + ". Μπορείτε να γράψετε με ελληνικούς ή λατινικούς χαρακτήρες· οι τόνοι και τα μικρά ορθογραφικά λάθη δεν αποτελούν πρόβλημα.";
       elements.dataUpdated.textContent = "Το ημερολόγιο δημιουργήθηκε στις " +
         formatGeneratedAt(state.config.generated_at) + ".";
     } else {
@@ -669,7 +759,7 @@
         shortDateFormatter.format(parseIsoDate(minimum)) + " through " +
         shortDateFormatter.format(parseIsoDate(maximum)) + ".";
       elements.searchYearCopy.textContent = "Search names and feasts in " +
-        state.config.search_year + ". Accents and small spelling mistakes are welcome.";
+        state.config.search_year + ". Greek and Latin letters are supported, and small spelling mistakes are welcome.";
       elements.dataUpdated.textContent = "Calendar bundle generated " +
         formatGeneratedAt(state.config.generated_at) + ".";
     }
@@ -770,7 +860,10 @@
           });
         });
         assertSchema(payloads[1], "Search index");
-        state.searchEntries = payloads[1].entries;
+        state.searchEntries = payloads[1].entries.map(function (entry) {
+          entry.searchForms = searchFormsForEntry(entry);
+          return entry;
+        });
         configureInterface();
         renderToday();
         renderAgenda();

@@ -329,12 +329,13 @@ site. The website presents a 31-day agenda spanning 15 days before and after
 today; today opens as the first visible row, while the earlier dates remain
 available by scrolling upward. In that agenda, collected saint commemorations
 appear together with configured observances under the existing church-feast
-label. They are not added to date lookup, search, or either ICS subscription.
-The site also provides date lookup across the configured range, typo-tolerant
-search for the current year, and links for both calendar subscriptions. Greek
-is the default language, with a clearly visible English switch whose selection
-is stored only in the visitor's browser. To browse a build locally, start a
-static server:
+label. They are included in date lookup but are not added to search or either
+ICS subscription. The site also provides date lookup across the configured
+range, typo-tolerant search for the current year using either Greek or common
+Greeklish spellings, and links for both calendar subscriptions. Greek is the
+default language, with a clearly visible English switch whose selection is
+stored only in the visitor's browser. To browse a build locally, start a static
+server:
 
 ```bash
 .venv/bin/python -m http.server 8000 --directory _site

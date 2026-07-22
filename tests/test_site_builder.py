@@ -117,6 +117,9 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert "TRANSLATIONS" in script
     assert "state.branding.language_storage_key" in script
     assert "damerauLevenshtein" in script
+    assert "transliterateGreek" in script
+    assert "searchFormsForEntry" in script
+    assert "Γιώργος ή Giorgos" in index
     assert "data.commemorations" in script
     assert 'appendEvents(container, dayData(isoDate), t("noEventsOnDate"), true)' in script
     assert 'scrollTo({ top: today.offsetTop, behavior: behavior })' in script
