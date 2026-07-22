@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="{{DEFAULT_LANGUAGE}}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      id="meta-description"
+      name="description"
+      content="{{DEFAULT_DESCRIPTION}}"
+    >
+    <meta name="theme-color" content="#f3eee4">
+    <title>{{DEFAULT_TITLE}}</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content" data-i18n="skipLink">Μετάβαση στο εορτολόγιο</a>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#top" aria-label="{{DEFAULT_HOME_LABEL}}" data-brand-home>
+          <span class="brand-word">{{WORDMARK_PRIMARY}}<span class="brand-tld">{{WORDMARK_SUFFIX}}</span></span>
+        </a>
+        <nav class="site-nav" aria-label="Κύρια πλοήγηση" data-i18n-aria-label="primaryNavigation">
+          <a href="#agenda" data-i18n="navCalendar">Ημερολόγιο</a>
+          <a href="#date-lookup" data-i18n="navDate">Ημερομηνία</a>
+          <a href="#search" data-i18n="navSearch">Αναζήτηση</a>
+          <a href="#subscriptions" data-i18n="navSubscribe">Εγγραφή</a>
+        </nav>
+        <div class="language-switch" role="group" aria-label="Γλώσσα / Language">
+          <button type="button" data-language="el" aria-pressed="true" aria-label="Ελληνικά">ΕΛ</button>
+          <span aria-hidden="true">/</span>
+          <button type="button" data-language="en" aria-pressed="false" aria-label="English">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow" data-i18n="heroEyebrow">Το ελληνικό εορτολόγιο</p>
+            <h1 id="hero-title" data-i18n="heroTitle">Ποιος γιορτάζει σήμερα;</h1>
+            <p class="hero-intro" data-i18n="heroIntro">
+              Δείτε τις σημερινές ονομαστικές εορτές, εξερευνήστε κοντινές
+              ημερομηνίες ή αναζητήστε ένα όνομα, ακόμη κι αν δεν είστε βέβαιοι
+              για την ορθογραφία του.
+            </p>
+          </div>
+
+          <article class="today-card" aria-labelledby="today-heading">
+            <div class="today-date" aria-hidden="true">
+              <span class="today-weekday" id="today-weekday">Σήμερα</span>
+              <strong class="today-number" id="today-number">—</strong>
+              <span class="today-month" id="today-month">Φόρτωση</span>
+            </div>
+            <div class="today-content">
+              <p class="card-kicker" id="today-heading" data-i18n="todayHeading">Γιορτάζουν σήμερα</p>
+              <div id="today-events" aria-live="polite">
+                <p class="loading-copy" data-i18n="loadingToday">Φόρτωση σημερινών εορτών…</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section agenda-section" id="agenda" aria-labelledby="agenda-title">
+        <div class="shell">
+          <div class="section-heading agenda-heading">
+            <div>
+              <p class="eyebrow" data-i18n="agendaEyebrow">Προβολή 31 ημερών</p>
+              <h2 id="agenda-title" data-i18n="agendaTitle">Γύρω από τη σημερινή ημέρα</h2>
+              <p id="agenda-range" data-i18n="agendaLoading">Δεκαπέντε ημέρες πριν και μετά από σήμερα.</p>
+            </div>
+            <button class="text-button" id="return-today" type="button" data-i18n="returnToday">
+              Επιστροφή στο σήμερα
+            </button>
+          </div>
+
+          <div class="agenda-list" id="agenda-list" aria-live="polite">
+            <p class="status-card" data-i18n="loadingCalendar">Φόρτωση ημερολογίου…</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section tools-section" aria-label="Εργαλεία ημερολογίου" data-i18n-aria-label="calendarTools">
+        <div class="shell tools-grid">
+          <article class="tool-card" id="date-lookup" aria-labelledby="date-title">
+            <div class="tool-heading">
+              <div>
+                <p class="eyebrow" data-i18n="dateEyebrow">Εξερευνήστε το ημερολόγιο</p>
+                <h2 id="date-title" data-i18n="dateTitle">Επιλέξτε ημερομηνία</h2>
+              </div>
+            </div>
+            <p class="tool-description" id="date-range-copy">
+              Αναζητήστε οποιαδήποτε ημερομηνία στο διαθέσιμο εύρος.
+            </p>
+            <form class="date-form" id="date-form">
+              <label for="date-input" data-i18n="dateLabel">Ημερομηνία</label>
+              <div class="input-action-row">
+                <input id="date-input" name="date" type="date" required>
+                <button class="primary-button" type="submit" data-i18n="showDate">Προβολή</button>
+              </div>
+            </form>
+            <div class="lookup-result" id="date-result" aria-live="polite"></div>
+          </article>
+
+          <article class="tool-card" id="search" aria-labelledby="search-title">
+            <div class="tool-heading">
+              <div>
+                <p class="eyebrow" data-i18n="searchEyebrow">Ονόματα και εορτές</p>
+                <h2 id="search-title" data-i18n="searchTitle">Αναζήτηση στο έτος</h2>
+              </div>
+            </div>
+            <p class="tool-description" id="search-year-copy">
+              Αναζητήστε ένα όνομα ή μια εορτή. Οι τόνοι και τα μικρά ορθογραφικά λάθη δεν αποτελούν πρόβλημα.
+            </p>
+            <label for="search-input" data-i18n="searchLabel">Όνομα ή εορτή</label>
+            <div class="search-field">
+              <input
+                id="search-input"
+                type="search"
+                inputmode="search"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="π.χ. Γιώργος ή Πάσχα"
+                data-i18n-placeholder="searchPlaceholder"
+                aria-describedby="search-guidance"
+                aria-controls="search-results"
+              >
+              <span class="search-icon" aria-hidden="true"></span>
+            </div>
+            <p class="field-hint" id="search-guidance" data-i18n="searchGuidance">
+              Πληκτρολογήστε τουλάχιστον δύο χαρακτήρες.
+            </p>
+            <div class="search-results" id="search-results" aria-live="polite"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section subscription-section" id="subscriptions" aria-labelledby="subscriptions-title">
+        <div class="shell">
+          <div class="section-heading subscription-heading">
+            <div>
+              <p class="eyebrow" data-i18n="subscriptionsEyebrow">Πάντα ενημερωμένο</p>
+              <h2 id="subscriptions-title" data-i18n="subscriptionsTitle">Προσθέστε το εορτολόγιο στο ημερολόγιό σας</h2>
+            </div>
+            <p data-i18n="subscriptionsIntro">
+              Εγγραφείτε μία φορά. Η εφαρμογή ημερολογίου σας θα ανανεώνει το ίδιο αρχείο καθώς προστίθενται νέα έτη.
+            </p>
+          </div>
+
+          <div class="subscription-grid">
+            <article class="subscription-card subscription-card-featured">
+              <p class="subscription-label" data-i18n="completeLabel">Πλήρες εορτολόγιο</p>
+              <h3 data-i18n="completeTitle">Όλες οι ονομαστικές και εκκλησιαστικές εορτές</h3>
+              <p data-i18n="completeDescription">
+                Το πλήρες ελληνικό ορθόδοξο εορτολόγιο, με όλα τα διαθέσιμα ονόματα και τις εκκλησιαστικές εορτές.
+              </p>
+              <p class="subscription-range" id="complete-range">Κυλιόμενο ημερολόγιο</p>
+              <div class="subscription-actions">
+                <a class="primary-button subscription-link" id="complete-subscribe" href="calendars/complete.ics" data-i18n="subscribe">
+                  Εγγραφή
+                </a>
+                <a class="secondary-button" href="calendars/complete.ics" data-i18n="download">Λήψη .ics</a>
+              </div>
+            </article>
+
+            <article class="subscription-card">
+              <p class="subscription-label" data-i18n="essentialLabel">Βασικό εορτολόγιο</p>
+              <h3 data-i18n="essentialTitle">100 δημοφιλέστερες ονομαστικές εορτές</h3>
+              <p data-i18n="essentialDescription">
+                Ένα πιο λιτό ημερολόγιο με τις δημοφιλέστερες ονομαστικές εορτές, χωρίς τίτλους εκκλησιαστικών εορτών.
+              </p>
+              <p class="subscription-range" id="popular-range">Κυλιόμενο ημερολόγιο</p>
+              <div class="subscription-actions">
+                <a class="primary-button subscription-link" id="popular-subscribe" href="calendars/top-100.ics" data-i18n="subscribe">
+                  Εγγραφή
+                </a>
+                <a class="secondary-button" href="calendars/top-100.ics" data-i18n="download">Λήψη .ics</a>
+              </div>
+            </article>
+          </div>
+          <p class="subscription-note" data-i18n="subscriptionNote">
+            Η συχνότητα ανανέωσης εξαρτάται από την εφαρμογή ημερολογίου σας. Αν η εγγραφή δεν υποστηρίζεται, κατεβάστε και εισαγάγετε το αρχείο χειροκίνητα.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div>
+          <span class="brand footer-brand">
+            <span class="brand-word">{{WORDMARK_PRIMARY}}<span class="brand-tld">{{WORDMARK_SUFFIX}}</span></span>
+          </span>
+          <p data-i18n="footerDescription">Το ελληνικό εορτολόγιο, χωρίς παρακολούθηση ή διαφημίσεις.</p>
+          <p class="repository-credit">
+            <span data-i18n="repositoryPrefix">Τα δεδομένα και τα ημερολόγια δημιουργούνται με το ανοικτού κώδικα</span>
+            <a href="{{REPOSITORY_URL}}" target="_blank" rel="noopener noreferrer">{{REPOSITORY_LABEL}}</a>.
+          </p>
+        </div>
+        <p id="data-updated">Τα δεδομένα του ημερολογίου φορτώνονται τοπικά στον περιηγητή σας.</p>
+      </div>
+    </footer>
+
+    <noscript>
+      <div class="noscript-notice">
+        {{DEFAULT_NOSCRIPT_MESSAGE}}
+      </div>
+    </noscript>
+  </body>
+</html>

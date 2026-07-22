@@ -10,6 +10,7 @@ import sys
 import tempfile
 from collections import defaultdict
 from datetime import date, datetime, timezone
+from html import escape
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 from zoneinfo import ZoneInfo
@@ -37,6 +38,8 @@ ATHENS = ZoneInfo("Europe/Athens")
 DEFAULT_FEASTS_PATH = PROJECT_ROOT / "data" / "feasts.yaml"
 DEFAULT_NAMES_PATH = PROJECT_ROOT / "data" / "names.yaml"
 DEFAULT_OBSERVANCES_PATH = PROJECT_ROOT / "data" / "observances.yaml"
+DEFAULT_WEB_PATH = PROJECT_ROOT / "web"
+FRONTEND_FILES = ("styles.css", "app.js", "branding.json")
 
 
 def _parse_date(value: str) -> date:
@@ -65,6 +68,111 @@ def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+
+
+def _load_branding() -> dict[str, Any]:
+    source = DEFAULT_WEB_PATH / "branding.json"
+    if not source.is_file():
+        raise ValueError(f"missing website branding file: {source}")
+    try:
+        branding = json.loads(source.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        raise ValueError(f"invalid website branding file: {source}") from exc
+
+    if not isinstance(branding, dict) or branding.get("schema_version") != 1:
+        raise ValueError("website branding uses an unsupported schema")
+    for key in ("default_language", "language_storage_key", "site_name"):
+        if not isinstance(branding.get(key), str) or not branding[key].strip():
+            raise ValueError(f"website branding requires a non-empty {key}")
+
+    wordmark = branding.get("wordmark")
+    if not isinstance(wordmark, dict):
+        raise ValueError("website branding requires wordmark settings")
+    if not isinstance(wordmark.get("primary"), str) or not wordmark["primary"].strip():
+        raise ValueError("website branding requires a non-empty wordmark primary")
+    if not isinstance(wordmark.get("suffix"), str):
+        raise ValueError("website branding requires a wordmark suffix string")
+
+    repository = branding.get("repository")
+    if not isinstance(repository, dict):
+        raise ValueError("website branding requires repository settings")
+    for key in ("label", "url"):
+        if not isinstance(repository.get(key), str) or not repository[key].strip():
+            raise ValueError(f"website branding requires a non-empty repository {key}")
+
+    subscriptions = branding.get("subscriptions")
+    if not isinstance(subscriptions, dict):
+        raise ValueError("website branding requires subscription settings")
+    for selection in ("complete", "top_100"):
+        details = subscriptions.get(selection)
+        if not isinstance(details, dict):
+            raise ValueError(
+                f"website branding requires {selection!r} subscription settings"
+            )
+        for key in ("calendar_id", "name", "description"):
+            if not isinstance(details.get(key), str) or not details[key].strip():
+                raise ValueError(
+                    f"website branding subscription {selection!r} "
+                    f"requires a non-empty {key}"
+                )
+        try:
+            details["description"].format(years="YYYY–YYYY")
+        except (KeyError, ValueError) as exc:
+            raise ValueError(
+                f"website branding subscription {selection!r} "
+                "has an invalid description template"
+            ) from exc
+
+    locales = branding.get("locales")
+    default_language = branding["default_language"]
+    if not isinstance(locales, dict) or default_language not in locales:
+        raise ValueError("website branding requires its default locale")
+    for language in ("el", "en"):
+        if language not in locales:
+            raise ValueError(f"website branding requires the {language!r} locale")
+    for language, localized in locales.items():
+        if not isinstance(language, str) or not isinstance(localized, dict):
+            raise ValueError("website branding locales must be objects")
+        for key in ("title", "description", "home_label", "noscript_message"):
+            if not isinstance(localized.get(key), str) or not localized[key].strip():
+                raise ValueError(
+                    f"website branding locale {language!r} requires a non-empty {key}"
+                )
+    return branding
+
+
+def _render_index(destination: Path, branding: Mapping[str, Any]) -> None:
+    source = DEFAULT_WEB_PATH / "index.html"
+    if not source.is_file():
+        raise ValueError(f"missing website source file: {source}")
+    default_language = branding["default_language"]
+    localized = branding["locales"][default_language]
+    replacements = {
+        "DEFAULT_LANGUAGE": default_language,
+        "DEFAULT_TITLE": localized["title"],
+        "DEFAULT_DESCRIPTION": localized["description"],
+        "DEFAULT_HOME_LABEL": localized["home_label"],
+        "DEFAULT_NOSCRIPT_MESSAGE": localized["noscript_message"],
+        "WORDMARK_PRIMARY": branding["wordmark"]["primary"],
+        "WORDMARK_SUFFIX": branding["wordmark"]["suffix"],
+        "REPOSITORY_LABEL": branding["repository"]["label"],
+        "REPOSITORY_URL": branding["repository"]["url"],
+    }
+    rendered = source.read_text(encoding="utf-8")
+    for key, value in replacements.items():
+        rendered = rendered.replace("{{" + key + "}}", escape(value, quote=True))
+    if "{{" in rendered or "}}" in rendered:
+        raise ValueError("website index contains an unknown branding placeholder")
+    (destination / "index.html").write_text(rendered, encoding="utf-8")
+
+
+def _copy_frontend(destination: Path, branding: Mapping[str, Any]) -> None:
+    for filename in FRONTEND_FILES:
+        source = DEFAULT_WEB_PATH / filename
+        if not source.is_file():
+            raise ValueError(f"missing website source file: {source}")
+        shutil.copy2(source, destination / filename)
+    _render_index(destination, branding)
 
 
 def _calendar_year_payload(
@@ -212,6 +320,7 @@ def build_site(
         DEFAULT_OBSERVANCES_PATH,
     )
     validate_catalog(source)
+    branding = _load_branding()
     stamp = _utc_timestamp(generated_at)
     grouped_names = generate_namedays(source, from_year, to_year)
     grouped_observances = generate_observances(source, from_year, to_year)
@@ -226,6 +335,7 @@ def build_site(
         )
     )
     try:
+        _copy_frontend(staging, branding)
         (staging / OUTPUT_MARKER).write_text(
             "Generated by scripts/build_site.py.\n",
             encoding="utf-8",
@@ -251,16 +361,17 @@ def build_site(
         )
 
         years = f"{from_year}–{to_year}"
+        complete_branding = branding["subscriptions"]["complete"]
+        popular_branding = branding["subscriptions"]["top_100"]
         complete_events, complete_bytes = _write_subscription(
             staging / "calendars" / "complete.ics",
             grouped_names,
             grouped_observances,
             generated_at=stamp,
-            calendar_id="official-complete",
-            calendar_name="Grecal — Greek Orthodox Calendar",
-            calendar_description=(
-                "Greek Orthodox namedays and church feasts "
-                f"for {years}, generated by Grecal."
+            calendar_id=complete_branding["calendar_id"],
+            calendar_name=complete_branding["name"],
+            calendar_description=complete_branding["description"].format(
+                years=years
             ),
         )
         popular_events, popular_bytes = _write_subscription(
@@ -268,11 +379,10 @@ def build_site(
             top_names,
             {},
             generated_at=stamp,
-            calendar_id="official-top-100",
-            calendar_name="Grecal — Popular Namedays",
-            calendar_description=(
-                "Top 100 Greek Orthodox nameday identity groups "
-                f"for {years}, generated by Grecal."
+            calendar_id=popular_branding["calendar_id"],
+            calendar_name=popular_branding["name"],
+            calendar_description=popular_branding["description"].format(
+                years=years
             ),
         )
 
@@ -290,7 +400,7 @@ def build_site(
             "subscriptions": {
                 "complete": {
                     "path": "calendars/complete.ics",
-                    "calendar_id": "official-complete",
+                    "calendar_id": complete_branding["calendar_id"],
                     "from_year": from_year,
                     "to_year": to_year,
                     "event_count": complete_events,
@@ -298,7 +408,7 @@ def build_site(
                 },
                 "top_100": {
                     "path": "calendars/top-100.ics",
-                    "calendar_id": "official-top-100",
+                    "calendar_id": popular_branding["calendar_id"],
                     "from_year": from_year,
                     "to_year": to_year,
                     "event_count": popular_events,

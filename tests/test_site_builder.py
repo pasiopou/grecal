@@ -46,6 +46,8 @@ def test_site_builder_generates_the_expected_artifact_set(built_site) -> None:
 
     expected_files = {
         OUTPUT_MARKER,
+        "app.js",
+        "branding.json",
         "calendars/complete.ics",
         "calendars/top-100.ics",
         "data/config.json",
@@ -54,6 +56,8 @@ def test_site_builder_generates_the_expected_artifact_set(built_site) -> None:
         "data/calendar-2026.json",
         "data/calendar-2027.json",
         "data/calendar-2028.json",
+        "index.html",
+        "styles.css",
     }
     actual_files = {
         path.relative_to(output).as_posix()
@@ -62,6 +66,45 @@ def test_site_builder_generates_the_expected_artifact_set(built_site) -> None:
     }
     assert actual_files == expected_files
     assert _read_json(output / "data" / "config.json") == config
+
+
+def test_site_builder_copies_the_frontend(built_site) -> None:
+    output, _ = built_site
+    index = (output / "index.html").read_text(encoding="utf-8")
+    styles = (output / "styles.css").read_text(encoding="utf-8")
+    script = (output / "app.js").read_text(encoding="utf-8")
+    branding = _read_json(output / "branding.json")
+
+    assert f'<html lang="{branding["default_language"]}">' in index
+    assert branding["site_name"] in index
+    assert "{{" not in index
+    assert "brand-mark" not in index
+    assert 'data-language="el"' in index
+    assert 'data-language="en"' in index
+    assert branding["repository"]["url"] in index
+    assert (
+        'target="_blank" rel="noopener noreferrer">'
+        f'{branding["repository"]["label"]}</a>'
+    ) in index
+    assert 'id="agenda"' in index
+    assert 'id="date-lookup"' in index
+    assert 'id="search"' in index
+    assert 'id="subscriptions"' in index
+    assert "tool-number" not in index
+    assert 'src="app.js"' in index
+    assert 'href="styles.css"' in index
+    assert "--color-ink" in styles
+    assert ".language-switch" in styles
+    assert ".event-group.is-feast" in styles
+    assert "padding: 1.75rem 0 2.75rem" in styles
+    assert 'loadJson("branding.json")' in script
+    assert 'loadJson("data/config.json")' in script
+    assert "TRANSLATIONS" in script
+    assert "state.branding.language_storage_key" in script
+    assert "damerauLevenshtein" in script
+    assert 'scrollTo({ top: today.offsetTop, behavior: behavior })' in script
+    assert "position: relative" in styles
+    assert "Europe/Athens" in script
 
 
 def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
@@ -136,6 +179,7 @@ def test_subscription_calendars_have_the_expected_ranges_and_identities(
     popular_path = output / "calendars" / "top-100.ics"
     complete = Calendar.from_ical(complete_path.read_bytes())
     popular = Calendar.from_ical(popular_path.read_bytes())
+    branding = _read_json(output / "branding.json")
     complete_events = _events(complete)
     popular_events = _events(popular)
 
@@ -145,8 +189,8 @@ def test_subscription_calendars_have_the_expected_ranges_and_identities(
     assert str(popular["UID"]) == (
         "urn:uuid:1780acd7-b007-5b37-992b-5dd23ffe7a35"
     )
-    assert str(complete["NAME"]) == "Grecal — Greek Orthodox Calendar"
-    assert str(popular["NAME"]) == "Grecal — Popular Namedays"
+    assert str(complete["NAME"]) == branding["subscriptions"]["complete"]["name"]
+    assert str(popular["NAME"]) == branding["subscriptions"]["top_100"]["name"]
     assert len(complete_events) == 917
     assert len(popular_events) == 304
     assert {event.decoded("DTSTART").year for event in complete_events} == {

@@ -282,6 +282,10 @@ bundle:
 
 ```text
 _site/
+├── index.html
+├── styles.css
+├── app.js
+├── branding.json
 ├── data/
 │   ├── config.json
 │   ├── calendar-2025.json
@@ -313,8 +317,26 @@ when their calendar application refreshes the same URL.
 The builder writes into a staging directory before publishing the result. It
 will replace only a directory carrying its own marker file, preventing an
 accidental overwrite of an unrelated directory. Re-running the same command is
-safe and removes stale generated files. The hand-written frontend will live in
-`web/`; it is the next website milestone and is not part of this data bundle.
+safe and removes stale generated files. It also copies the dependency-free
+frontend from `web/` into the output directory.
+
+Website branding is defined entirely in `web/branding.json`, keeping the
+frontend reusable without coupling the Grecal library to a particular public
+site. The website presents a 31-day agenda spanning 15 days before and after
+today; today opens as the first visible row, while the earlier dates remain
+available by scrolling upward. It also provides date lookup across the
+configured range, typo-tolerant search for the current year, and links for both
+calendar subscriptions. Greek is the default language, with a clearly visible
+English switch whose selection is stored only in the visitor's browser. To
+browse a build locally, start a static server:
+
+```bash
+.venv/bin/python -m http.server 8000 --directory _site
+```
+
+Then open <http://localhost:8000/>. Opening `index.html` directly as a local
+file will not work because browsers restrict its JSON requests. Stop the server
+with `Ctrl-C`.
 
 ### `grecal find`
 
