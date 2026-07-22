@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import date, timedelta
-from typing import Callable, Mapping
+from typing import Callable, Mapping, Optional
 
 from .models import Feast, FeastType
 
@@ -12,7 +12,7 @@ class UnsupportedFeastRuleError(NotImplementedError):
     """Raised when a feast refers to an unknown or unsupported rule."""
 
 
-CustomRule = Callable[[Feast, int, date], date | None]
+CustomRule = Callable[[Feast, int, date], Optional[date]]
 
 
 def _require_nominal_date(feast: Feast, year: int) -> date:
