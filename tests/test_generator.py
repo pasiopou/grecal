@@ -8,6 +8,7 @@ from grecal.generator import (
     generate_namedays,
     generate_personal_namedays,
     lookup_date,
+    normalize_search_text,
     search_names,
     select_namedays,
     select_namedays_by_name,
@@ -87,6 +88,13 @@ def test_selection_by_name_ignores_case_and_diacritics() -> None:
     assert selected == (
         Nameday("andreas", "shared", 95, ("Ανδρέας",)),
         Nameday("andriani", "shared", 60, ("Άντρια",)),
+    )
+
+
+def test_search_normalization_is_public_and_unicode_aware() -> None:
+    assert normalize_search_text("  ΓΙΏΡΓΟΣ  ") == "γιωργοσ"
+    assert normalize_search_text("Κοίμηση της Θεοτόκου") == (
+        "κοιμηση τησ θεοτοκου"
     )
 
 

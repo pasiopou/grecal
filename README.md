@@ -49,10 +49,13 @@ grecal/
 │   ├── parser.py                # YAML loading and validation
 │   └── rules.py                 # all feast-date rule dispatch
 ├── data/
-│   ├── names.yaml               # production names
-│   ├── feasts.yaml              # production dates and rules
+│   ├── names.yaml               # bundled names
+│   ├── feasts.yaml              # bundled dates and rules
 │   └── observances.yaml         # optional church feast titles
+├── scripts/
+│   └── build_site.py            # website data and subscription builder
 ├── tests/
+├── web/                         # hand-written website source
 ├── pyproject.toml
 └── README.md
 ```
@@ -252,6 +255,66 @@ grecal generate --all --from-year 2026 --output "$HOME/My Calendars/grecal-2026.
 After writing a file, Grecal prints its path and size, the year range, and
 generation statistics. A dry-run report begins with `Dry run: no file written`
 and reports the path and byte size that would have been generated.
+
+## Website artifact builder
+
+The website uses pre-generated static files and can be hosted on any static
+web host without a Python server. Build the complete data bundle from the
+repository root:
+
+```bash
+.venv/bin/python scripts/build_site.py
+```
+
+The default output is `_site/`. It is generated content and is ignored by Git.
+Use `--output PATH` to choose another directory. `--today YYYY-MM-DD` fixes the
+effective date for a reproducible local build or test; normal deployments omit
+it and use the current date in the `Europe/Athens` time zone.
+
+```bash
+.venv/bin/python scripts/build_site.py \
+  --today 2026-07-22 \
+  --output _site
+```
+
+Each build validates the bundled calendar data and replaces the generated
+bundle:
+
+```text
+_site/
+├── data/
+│   ├── config.json
+│   ├── calendar-2025.json
+│   ├── calendar-2026.json
+│   ├── calendar-2027.json
+│   ├── calendar-2028.json
+│   └── search-2026.json
+└── calendars/
+    ├── complete.ics
+    └── top-100.ics
+```
+
+The years above illustrate a build made during 2026. Calendar JSON always
+covers the previous year, current year, and next two years. Each occupied date
+contains separate `namedays` and `observances` arrays. The search index covers
+the current year and contains every name variant and feast title, along with a
+case- and tonos-insensitive `normalized` value for client-side fuzzy search.
+`data/config.json` records the generated timestamp, available lookup range,
+schema version, and subscription metadata.
+
+The complete subscription contains all namedays and church feasts. The popular
+subscription contains the top 100 nameday identity groups and no feasts. Their
+explicit calendar IDs are respectively `official-complete` and
+`official-top-100`, preserving event UIDs across annual rebuilds and overlapping
+year ranges. Both feeds include the previous year through two years ahead, so
+subscribers keep recent history while receiving future events automatically
+when their calendar application refreshes the same URL.
+
+The builder writes into a staging directory before publishing the result. It
+will replace only a directory carrying its own marker file, preventing an
+accidental overwrite of an unrelated directory. Re-running the same command is
+safe and removes stale generated files. The hand-written frontend will live in
+`web/`; it is the next website milestone and is not part of this data bundle.
 
 ### `grecal find`
 
@@ -555,6 +618,7 @@ from grecal import (
     generate_personal_namedays,
     load_catalog,
     lookup_date,
+    normalize_search_text,
     search_names,
     validate_catalog,
     write_calendar,
@@ -572,6 +636,7 @@ personal_names = generate_personal_namedays(
     catalog, ("Γιώργος", "Μαρία"), 2026, 2026
 )
 matches = search_names(catalog, "αασΑνδρεας", limit=3)
+search_key = normalize_search_text("Γιώργος")
 day = lookup_date(catalog, date(2026, 8, 15))
 calendar = build_calendar(
     names,
@@ -601,6 +666,8 @@ tonos-insensitive and its output uses canonical catalog spellings.
 `search_names` returns immutable `NameSearchResult` values in the same ranked
 order as `grecal search`. Each result contains the canonical display name,
 identity-group ID, popularity, numeric similarity score, and match type.
+`normalize_search_text` exposes the same Unicode case- and diacritic-insensitive
+normalization used by the CLI and the website search index.
 
 `lookup_date` returns an immutable `DateLookupResult` containing the requested
 date plus separate tuples of namedays and church observance titles.
@@ -690,8 +757,8 @@ description:
 ```
 
 Observance IDs and titles must be unique, and every entry must reference an
-existing feast. The production file contains 22 observances using the Church
-of Greece/revised-calendar convention.
+existing feast. The bundled file contains 22 observances using the Church of
+Greece/revised-calendar convention.
 
 ## Adding names and feasts
 

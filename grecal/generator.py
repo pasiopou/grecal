@@ -106,12 +106,12 @@ def select_namedays(
     return tuple(ordered)
 
 
-def _normalized_name(name: str) -> str:
-    """Return a case- and tonos-insensitive key for a display name."""
+def normalize_search_text(text: str) -> str:
+    """Return a case- and diacritic-insensitive key for search text."""
 
     return "".join(
         character
-        for character in unicodedata.normalize("NFKD", name.strip()).casefold()
+        for character in unicodedata.normalize("NFKD", text.strip()).casefold()
         if not unicodedata.combining(character)
     )
 
@@ -170,7 +170,7 @@ def search_names(
 ) -> tuple[NameSearchResult, ...]:
     """Return ranked exact, partial, and fuzzy catalog-name matches."""
 
-    normalized_query = _normalized_name(query)
+    normalized_query = normalize_search_text(query)
     if not normalized_query:
         raise ValueError("search query must not be empty")
     if limit < 1:
@@ -179,7 +179,7 @@ def search_names(
     ranked: list[tuple[int, float, NameSearchResult]] = []
     for nameday in catalog.namedays:
         for display_name in nameday.names:
-            normalized_display_name = _normalized_name(display_name)
+            normalized_display_name = normalize_search_text(display_name)
             if normalized_display_name == normalized_query:
                 category = 4
                 score = 1.0
@@ -219,7 +219,7 @@ def search_names(
             -item[0],
             -item[1],
             -item[2].popularity,
-            _normalized_name(item[2].name),
+            normalize_search_text(item[2].name),
             item[2].nameday_id,
         )
     )
@@ -240,13 +240,17 @@ def select_namedays_by_name(
     index: dict[str, tuple[Nameday, str]] = {}
     for nameday in catalog.namedays:
         for display_name in nameday.names:
-            index[_normalized_name(display_name)] = (nameday, display_name)
+            index[normalize_search_text(display_name)] = (nameday, display_name)
 
     selected: dict[str, tuple[Nameday, list[str]]] = {}
     unknown: list[str] = []
     for requested_name in names:
         cleaned_name = requested_name.strip()
-        match = index.get(_normalized_name(cleaned_name)) if cleaned_name else None
+        match = (
+            index.get(normalize_search_text(cleaned_name))
+            if cleaned_name
+            else None
+        )
         if match is None:
             if cleaned_name not in unknown:
                 unknown.append(cleaned_name or "<empty>")
@@ -568,7 +572,7 @@ def _default_calendar_id(
     if args.personal_names is not None:
         names = sorted(
             {
-                _normalized_name(name)
+                normalize_search_text(name)
                 for nameday in selected_namedays
                 for name in nameday.names
             }
