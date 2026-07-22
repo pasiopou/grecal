@@ -29,7 +29,8 @@ from grecal import (  # noqa: E402
     normalize_search_text,
     validate_catalog,
 )
-from grecal.easter import MAX_YEAR, MIN_YEAR  # noqa: E402
+from grecal.easter import MAX_YEAR, MIN_YEAR, orthodox_easter  # noqa: E402
+from grecal.rules import resolve_feast_date  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -176,10 +177,22 @@ def _copy_frontend(destination: Path, branding: Mapping[str, Any]) -> None:
 
 
 def _calendar_year_payload(
+    catalog: Catalog,
     year: int,
     grouped_names: Mapping[date, Sequence[str]],
     grouped_observances: Mapping[date, Sequence[str]],
 ) -> dict[str, Any]:
+    easter = orthodox_easter(year)
+    feasts = catalog.feast_map()
+    primary_names_by_day: dict[date, set[str]] = defaultdict(set)
+    for nameday in catalog.namedays:
+        primary_day = resolve_feast_date(
+            feasts[nameday.feast],
+            year,
+            easter,
+        )
+        primary_names_by_day[primary_day].update(nameday.names)
+
     days = []
     occupied_days = sorted(
         day
@@ -187,10 +200,16 @@ def _calendar_year_payload(
         if day.year == year
     )
     for day in occupied_days:
+        namedays = list(grouped_names.get(day, ()))
         days.append(
             {
                 "date": day.isoformat(),
-                "namedays": list(grouped_names.get(day, ())),
+                "namedays": namedays,
+                "primary_namedays": [
+                    name
+                    for name in namedays
+                    if name in primary_names_by_day[day]
+                ],
                 "observances": list(grouped_observances.get(day, ())),
             }
         )
@@ -222,16 +241,33 @@ def _search_index_payload(
         for title in titles:
             dates_by_observance[title].append(day.isoformat())
 
+    easter = orthodox_easter(year)
+    feasts = catalog.feast_map()
+    primary_dates = {
+        nameday.id: resolve_feast_date(
+            feasts[nameday.feast],
+            year,
+            easter,
+        ).isoformat()
+        for nameday in catalog.namedays
+    }
+
     entries: list[dict[str, Any]] = []
     for nameday in catalog.namedays:
         for name in nameday.names:
+            chronological_dates = sorted(dates_by_name[name])
+            primary_date = primary_dates[nameday.id]
+            ordered_dates = [primary_date]
+            ordered_dates.extend(
+                value for value in chronological_dates if value != primary_date
+            )
             entries.append(
                 {
                     "id": nameday.id,
                     "kind": "name",
                     "label": name,
                     "normalized": normalize_search_text(name),
-                    "dates": sorted(dates_by_name[name]),
+                    "dates": ordered_dates,
                     "popularity": nameday.popularity,
                 }
             )
@@ -345,6 +381,7 @@ def build_site(
             _write_json(
                 data_directory / f"calendar-{year}.json",
                 _calendar_year_payload(
+                    source,
                     year,
                     grouped_names,
                     grouped_observances,

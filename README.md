@@ -8,9 +8,6 @@ optionally, major church observances. Dates, names, and observance titles live
 in YAML; Python is responsible only for validation, feast rules, selection,
 grouping, and serialization.
 
-The catalog contains 457 identity groups, 642 unique display names, 22 church
-observances, and 453 feast definitions.
-
 For installation and CLI examples, see
 [running from a checkout](#running-from-a-checkout).
 
@@ -301,9 +298,13 @@ _site/
 
 The years above illustrate a build made during 2026. Calendar JSON always
 covers the previous year, current year, and next two years. Each occupied date
-contains separate `namedays` and `observances` arrays. The search index covers
-the current year and contains every name variant and feast title, along with a
+contains separate `namedays` and `observances` arrays. Its `primary_namedays`
+array lets the interface distinguish primary from additional celebrations.
+The search index covers the current year and contains every name variant and
+feast title, along with a
 case- and tonos-insensitive `normalized` value for client-side fuzzy search.
+For names with multiple celebrations, `dates` places the primary feast first
+and then lists additional feasts chronologically.
 `data/config.json` records the generated timestamp, available lookup range,
 schema version, and subscription metadata.
 
@@ -563,9 +564,8 @@ For `--top N`, groups are ordered first by descending popularity and then by
 their stable `id` in ascending order. The second key makes results deterministic
 when several groups have the same score. A tie at the cutoff is therefore split
 by `id`; the command returns exactly `N` groups when at least `N` groups exist.
-With the current 457 groups, values from 1 through 457 select exactly that many
-groups, while a value greater than 457 simply selects all 457. Zero and negative
-values are rejected.
+If `N` is larger than the catalog, the command simply selects every available
+group. Zero and negative values are rejected.
 
 For `--min-popularity N`, the comparison is `popularity >= N`, so ties are
 always included. `--min-popularity 100` selects only groups scored 100,
@@ -573,39 +573,18 @@ always included. `--min-popularity 100` selects only groups scored 100,
 `--min-popularity 0` is equivalent to selecting every group. Values outside
 0–100 are rejected.
 
-Current-data examples for 2026 illustrate why `N` is not an event count:
-
-| Selection | Identity groups | Display names | Calendar events |
-| --- | ---: | ---: | ---: |
-| `--top 100` | 100 | 208 | 76 |
-| `--min-popularity 80` | 161 | 287 | 108 |
-| `--all` | 457 | 642 | 226 |
-
 One group can contain multiple display names, and groups sharing a date are
 merged into one event. Consequently, `--top 100` means 100 YAML identity
 groups—not 100 spellings, people, dates, or events.
 
 Church observances are independent of popularity. `--include-feasts` adds all
-22 observances after nameday filtering, and `--feasts-only` generates only
-those observances without requiring a nameday selection.
+bundled observances after nameday filtering, and `--feasts-only` generates
+only those observances without requiring a nameday selection.
 
 ## Generation report
 
 After writing the ICS file, the CLI prints its path and size, the requested
-year range, the active selection, and a yearly statistics table. For example:
-
-```text
-Generated: grecal-2025-2026.ics (30,756 bytes)
-Years: 2025-2026
-Selection: top 100 nameday groups
-
-Year               Identity groups  Display names  Church feasts  Calendar events
------------------  ---------------  -------------  -------------  ---------------
-2025                           100            208              0               77
-2026                           100            208              0               76
-Total occurrences              200            416              0              153
-Average/year                 100.0          208.0            0.0             76.5
-```
+year range, the active selection, and a yearly statistics table.
 
 The columns have these meanings:
 
@@ -615,8 +594,8 @@ The columns have these meanings:
 - **Display names** is the number of spellings and common variants carried by
   those selected groups. It counts names before same-date grouping.
 - **Church feasts** is the number of observance titles included for the year.
-  It is 0 for a nameday-only calendar and currently 22 with
-  `--include-feasts` or `--feasts-only`.
+  It is zero for a nameday-only calendar and includes the bundled observances
+  with `--include-feasts` or `--feasts-only`.
 - **Calendar events** is the actual number of all-day `VEVENT` components for
   the year. Names and feast titles that share a date are merged, so this is a
   count of unique occupied calendar dates rather than a sum of the other
@@ -800,7 +779,7 @@ description:
 ```
 
 Observance IDs and titles must be unique, and every entry must reference an
-existing feast. The bundled file contains 22 observances using the Church of
+existing feast. The bundled observances use the Church of
 Greece/revised-calendar convention.
 
 ## Adding names and feasts

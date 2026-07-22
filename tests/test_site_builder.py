@@ -5,7 +5,14 @@ from pathlib import Path
 from icalendar import Calendar
 import pytest
 
-from scripts.build_site import OUTPUT_MARKER, build_site, main
+from grecal import Catalog, Feast, FeastType, Nameday, generate_namedays
+from scripts.build_site import (
+    OUTPUT_MARKER,
+    _calendar_year_payload,
+    _search_index_payload,
+    build_site,
+    main,
+)
 
 
 BUILD_DAY = date(2026, 7, 22)
@@ -169,6 +176,46 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
         "dates": ["2026-08-15"],
         "popularity": None,
     }
+
+
+def test_multi_date_name_payload_marks_and_orders_primary_feast() -> None:
+    catalog = Catalog(
+        feasts=(
+            Feast("christmas", FeastType.FIXED, month=12, day=25),
+            Feast("saint_christina", FeastType.FIXED, month=7, day=24),
+        ),
+        namedays=(
+            Nameday(
+                "christina",
+                "christmas",
+                98,
+                ("Χριστίνα",),
+                ("saint_christina",),
+            ),
+        ),
+    )
+    grouped_names = generate_namedays(catalog, 2026, 2026)
+
+    calendar_payload = _calendar_year_payload(
+        catalog,
+        2026,
+        grouped_names,
+        {},
+    )
+    days = {item["date"]: item for item in calendar_payload["days"]}
+    assert days["2026-12-25"]["primary_namedays"] == ["Χριστίνα"]
+    assert days["2026-07-24"]["primary_namedays"] == []
+
+    search_payload = _search_index_payload(
+        catalog,
+        2026,
+        grouped_names,
+        {},
+    )
+    assert search_payload["entries"][0]["dates"] == [
+        "2026-12-25",
+        "2026-07-24",
+    ]
 
 
 def test_subscription_calendars_have_the_expected_ranges_and_identities(

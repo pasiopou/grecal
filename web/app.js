@@ -56,6 +56,8 @@
       feast: "Εορτή",
       name: "Όνομα",
       calendarDates: "ημερολογιακές ημερομηνίες",
+      primaryFeastDate: "Κύρια εορτή",
+      additionalFeastDate: "Επιπλέον εορτή",
       chooseDateFirst: "Επιλέξτε πρώτα μια ημερομηνία.",
       dateOutsideRange: "Η ημερομηνία βρίσκεται εκτός του διαθέσιμου εύρους.",
       fileServerError: "Ανοίξτε τον ιστότοπο μέσω τοπικού web server και όχι απευθείας ως αρχείο.",
@@ -113,6 +115,8 @@
       feast: "Feast",
       name: "Name",
       calendarDates: "calendar dates",
+      primaryFeastDate: "Primary feast",
+      additionalFeastDate: "Additional feast",
       chooseDateFirst: "Choose a date first.",
       dateOutsideRange: "That date is outside the available calendar range.",
       fileServerError: "Open the site through a local web server instead of as a file.",
@@ -304,20 +308,41 @@
   }
 
   function emptyDay() {
-    return { namedays: [], observances: [] };
+    return { namedays: [], primary_namedays: [], observances: [] };
   }
 
   function dayData(isoDate) {
     return state.days.get(isoDate) || emptyDay();
   }
 
-  function appendEventGroup(container, label, values, type) {
+  function appendEventGroup(container, label, values, type, primaryValues) {
     if (!values.length) {
       return;
     }
     var group = element("div", "event-group is-" + type);
     group.appendChild(element("span", "event-label", label));
-    group.appendChild(element("p", "event-text", values.join(", ")));
+    var eventText = element("p", "event-text");
+    if (type === "nameday") {
+      var primaryNames = new Set(primaryValues || []);
+      values.forEach(function (value, index) {
+        if (index > 0) {
+          eventText.appendChild(document.createTextNode(", "));
+        }
+        var isPrimary = primaryNames.has(value);
+        var feastLabel = isPrimary ? t("primaryFeastDate") : t("additionalFeastDate");
+        var name = element(
+          "span",
+          "event-name" + (isPrimary ? " is-primary" : " is-secondary"),
+          value
+        );
+        name.title = feastLabel;
+        name.appendChild(element("span", "visually-hidden", " (" + feastLabel + ")"));
+        eventText.appendChild(name);
+      });
+    } else {
+      eventText.textContent = values.join(", ");
+    }
+    group.appendChild(eventText);
     container.appendChild(group);
   }
 
@@ -327,8 +352,14 @@
       return;
     }
     var groups = element("div", "event-groups");
-    appendEventGroup(groups, t("namedays"), data.namedays, "nameday");
-    appendEventGroup(groups, t("churchFeast"), data.observances, "feast");
+    appendEventGroup(
+      groups,
+      t("namedays"),
+      data.namedays,
+      "nameday",
+      data.primary_namedays
+    );
+    appendEventGroup(groups, t("churchFeast"), data.observances, "feast", []);
     container.appendChild(groups);
   }
 
@@ -506,10 +537,27 @@
       .slice(0, SEARCH_LIMIT);
   }
 
-  function resultDateText(dates) {
-    return dates.map(function (value) {
-      return shortDateFormatter.format(parseIsoDate(value));
-    }).join(", ");
+  function showSearchResultDate(value) {
+    elements.dateInput.value = value;
+    renderDateResult(value);
+    document.getElementById("date-lookup").scrollIntoView({ behavior: "smooth" });
+  }
+
+  function resultDateButton(value, isPrimary) {
+    var parsed = parseIsoDate(value);
+    var label = isPrimary ? t("primaryFeastDate") : t("additionalFeastDate");
+    var button = element(
+      "button",
+      "search-result-date" + (isPrimary ? " is-primary" : ""),
+      shortDateFormatter.format(parsed)
+    );
+    button.type = "button";
+    button.title = label;
+    button.setAttribute("aria-label", label + ": " + fullDateFormatter.format(parsed));
+    button.addEventListener("click", function () {
+      showSearchResultDate(value);
+    });
+    return button;
   }
 
   function renderSearchResults(query) {
@@ -528,24 +576,24 @@
     var list = element("ul", "search-result-list");
     matches.forEach(function (match) {
       var item = element("li");
-      var button = element("button", "search-result-button");
-      button.type = "button";
-      var copy = element("span");
-      copy.appendChild(element("span", "search-result-name", match.entry.label));
-      copy.appendChild(element("span", "search-result-meta", resultDateText(match.entry.dates)));
-      button.appendChild(copy);
-      button.appendChild(element(
+      var card = element("div", "search-result-card");
+      var heading = element("div", "search-result-heading");
+      heading.appendChild(element("span", "search-result-name", match.entry.label));
+      heading.appendChild(element(
         "span",
         "result-kind" + (match.entry.kind === "feast" ? " is-feast" : ""),
         match.entry.kind === "feast" ? t("feast") : t("name")
       ));
-      button.addEventListener("click", function () {
-        var selectedDate = match.entry.dates[0];
-        elements.dateInput.value = selectedDate;
-        renderDateResult(selectedDate);
-        document.getElementById("date-lookup").scrollIntoView({ behavior: "smooth" });
+      card.appendChild(heading);
+
+      var dates = element("div", "search-result-dates");
+      dates.setAttribute("role", "group");
+      dates.setAttribute("aria-label", t("calendarDates"));
+      match.entry.dates.forEach(function (value, index) {
+        dates.appendChild(resultDateButton(value, index === 0));
       });
-      item.appendChild(button);
+      card.appendChild(dates);
+      item.appendChild(card);
       list.appendChild(item);
     });
     elements.searchResults.appendChild(list);
