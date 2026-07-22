@@ -163,6 +163,31 @@ def _parse_namedays(raw: Any) -> tuple[Nameday, ...]:
             raise DataValidationError(f"duplicate nameday id: {nameday_id}")
         seen_ids.add(nameday_id)
         feast_id = _required_string(value, "feast", context)
+        additional_feasts_value = value.get("additional_feasts", ())
+        if not isinstance(additional_feasts_value, Sequence) or isinstance(
+            additional_feasts_value, (str, bytes)
+        ):
+            raise DataValidationError(
+                f"{context}.additional_feasts must be a list"
+            )
+        if any(
+            not isinstance(feast, str) or not feast.strip()
+            for feast in additional_feasts_value
+        ):
+            raise DataValidationError(
+                f"{context}.additional_feasts must contain only non-empty strings"
+            )
+        additional_feasts = tuple(
+            feast.strip() for feast in additional_feasts_value
+        )
+        if len(set(additional_feasts)) != len(additional_feasts):
+            raise DataValidationError(
+                f"{context}.additional_feasts contains duplicates"
+            )
+        if feast_id in additional_feasts:
+            raise DataValidationError(
+                f"{context}.additional_feasts repeats the primary feast"
+            )
         popularity = value.get("popularity")
         if (
             not isinstance(popularity, int)
@@ -198,6 +223,7 @@ def _parse_namedays(raw: Any) -> tuple[Nameday, ...]:
                 feast=feast_id,
                 popularity=popularity,
                 names=cleaned_names,
+                additional_feasts=additional_feasts,
             )
         )
     return tuple(namedays)
@@ -260,7 +286,10 @@ def load_catalog(
         else ()
     )
     feast_ids = {feast.id for feast in feasts}
-    missing_namedays = sorted({item.feast for item in namedays} - feast_ids)
+    nameday_feast_ids = {
+        feast_id for item in namedays for feast_id in item.feasts
+    }
+    missing_namedays = sorted(nameday_feast_ids - feast_ids)
     if missing_namedays:
         raise DataValidationError(
             "names.yaml references unknown feast ids: "

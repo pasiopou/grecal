@@ -35,7 +35,9 @@ def test_production_catalog_has_22_unique_observances() -> None:
     assert len(catalog.observances) == 22
     assert len({item.id for item in catalog.observances}) == 22
     assert len({item.title for item in catalog.observances}) == 22
-    referenced_feasts = {item.feast for item in catalog.namedays} | {
+    referenced_feasts = {
+        feast_id for item in catalog.namedays for feast_id in item.feasts
+    } | {
         item.feast for item in catalog.observances
     }
     assert referenced_feasts == {item.id for item in catalog.feasts}

@@ -114,6 +114,35 @@ def test_personal_calendar_contains_only_requested_variants() -> None:
     assert grouped == {date(2026, 11, 30): ("Ανδρέας", "Άντρια")}
 
 
+def test_nameday_can_generate_on_primary_and_additional_feasts() -> None:
+    catalog = Catalog(
+        feasts=(
+            Feast("christmas", FeastType.FIXED, month=12, day=25),
+            Feast("saint_christina", FeastType.FIXED, month=7, day=24),
+        ),
+        namedays=(
+            Nameday(
+                "christina",
+                "christmas",
+                98,
+                ("Χριστίνα", "Χριστιάνα"),
+                ("saint_christina",),
+            ),
+        ),
+    )
+
+    assert generate_namedays(catalog, 2026, 2026) == {
+        date(2026, 7, 24): ("Χριστίνα", "Χριστιάνα"),
+        date(2026, 12, 25): ("Χριστίνα", "Χριστιάνα"),
+    }
+    assert generate_personal_namedays(
+        catalog, ("Χριστίνα",), 2026, 2026
+    ) == {
+        date(2026, 7, 24): ("Χριστίνα",),
+        date(2026, 12, 25): ("Χριστίνα",),
+    }
+
+
 def test_lookup_date_returns_namedays_and_observances() -> None:
     source = _catalog()
     catalog = Catalog(

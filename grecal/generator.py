@@ -276,6 +276,7 @@ def select_namedays_by_name(
             feast=nameday.feast,
             popularity=nameday.popularity,
             names=tuple(display_names),
+            additional_feasts=nameday.additional_feasts,
         )
         for nameday, display_names in selected.values()
     )
@@ -298,15 +299,16 @@ def _generate_selected_namedays(
     for year in range(from_year, to_year + 1):
         easter = orthodox_easter(year)
         for nameday in selected:
-            celebration = resolve_feast_date(
-                feasts[nameday.feast],
-                year,
-                easter,
-                custom_rules=custom_rules,
-            )
-            for name in nameday.names:
-                if name not in grouped[celebration]:
-                    grouped[celebration].append(name)
+            for feast_id in nameday.feasts:
+                celebration = resolve_feast_date(
+                    feasts[feast_id],
+                    year,
+                    easter,
+                    custom_rules=custom_rules,
+                )
+                for name in nameday.names:
+                    if name not in grouped[celebration]:
+                        grouped[celebration].append(name)
     return {day: tuple(names) for day, names in sorted(grouped.items())}
 
 

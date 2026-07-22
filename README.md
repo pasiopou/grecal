@@ -18,6 +18,7 @@ For installation and CLI examples, see
 
 - Orthodox Easter calculation for 1900–2100, without external services
 - fixed, Easter-offset, Saint George, and named custom feast rules
+- primary and additional celebration dates for names with multiple feasts
 - one all-day event per date, with all celebrating names in `SUMMARY`
 - `--all`, `--top N`, and `--min-popularity N` selection modes
 - case- and tonos-insensitive exact lookup with `grecal find NAME`
@@ -751,8 +752,8 @@ Built-in custom rules are dispatched centrally in `grecal/rules.py`. Library
 callers may provide extra custom resolvers to `generate_namedays` through its
 `custom_rules` argument; nothing is registered globally.
 
-`data/names.yaml` points an identity group to a feast. Dates must not be copied
-into this file.
+`data/names.yaml` points an identity group to a primary feast. Dates must not be
+copied into this file.
 
 ```yaml
 - id: andreas
@@ -766,6 +767,26 @@ into this file.
 Popularity is an integer from 0 through 100. Every group must have a unique ID,
 reference an existing feast, and contain at least one non-empty display name.
 A display name may occur in only one group.
+
+When an identity group is customarily celebrated on more than one date, keep
+the principal date in `feast` and list the other feast IDs explicitly in
+`additional_feasts`:
+
+```yaml
+- id: christina
+  feast: feast_nativity_christ
+  additional_feasts:
+    - feast_christina
+  popularity: 98
+  names:
+    - Χριστίνα
+    - Χριστιάνα
+```
+
+Generation, personal calendars, date lookup, and website data include every
+configured feast. The order is meaningful for data review: `feast` is the
+primary association and `additional_feasts` contains secondary associations.
+The parser rejects duplicate, repeated-primary, and unknown feast IDs.
 
 `data/observances.yaml` assigns a display title to a feast definition. The
 optional `details` field is a reference note and is never emitted as an ICS
@@ -785,7 +806,9 @@ Greece/revised-calendar convention.
 ## Adding names and feasts
 
 For a name that uses an existing observance, add only a group to `names.yaml`
-and reference the existing feast ID. For a new fixed observance:
+and reference the existing feast ID. If it has multiple accepted celebration
+dates, choose the primary feast and add the others to `additional_feasts`. For
+a new fixed observance:
 
 1. Add the date once to `feasts.yaml`.
 2. Add one or more identity groups to `names.yaml` that reference it.

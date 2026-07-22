@@ -29,6 +29,13 @@ class Nameday:
     feast: str
     popularity: int
     names: tuple[str, ...]
+    additional_feasts: tuple[str, ...] = ()
+
+    @property
+    def feasts(self) -> tuple[str, ...]:
+        """Return the primary feast followed by any additional feasts."""
+
+        return (self.feast, *self.additional_feasts)
 
 
 @dataclass(frozen=True)

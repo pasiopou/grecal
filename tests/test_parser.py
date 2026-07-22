@@ -28,6 +28,28 @@ def test_load_catalog_validates_and_builds_models(tmp_path: Path) -> None:
     assert catalog.namedays[0].names == ("Ανδρέας",)
 
 
+def test_load_catalog_accepts_additional_nameday_feasts(tmp_path: Path) -> None:
+    feasts = _write(
+        tmp_path / "feasts.yaml",
+        "primary: {type: fixed, month: 12, day: 25}\n"
+        "additional: {type: fixed, month: 7, day: 24}\n",
+    )
+    names = _write(
+        tmp_path / "names.yaml",
+        "- id: christina\n"
+        "  feast: primary\n"
+        "  additional_feasts: [additional]\n"
+        "  popularity: 98\n"
+        "  names: [Χριστίνα]\n",
+    )
+
+    catalog = load_catalog(feasts, names)
+
+    assert catalog.namedays[0].feast == "primary"
+    assert catalog.namedays[0].additional_feasts == ("additional",)
+    assert catalog.namedays[0].feasts == ("primary", "additional")
+
+
 def test_load_catalog_rejects_unknown_feast(tmp_path: Path) -> None:
     feasts = _write(tmp_path / "feasts.yaml", "{}\n")
     names = _write(
@@ -37,6 +59,54 @@ def test_load_catalog_rejects_unknown_feast(tmp_path: Path) -> None:
     )
 
     with pytest.raises(DataValidationError, match="unknown feast ids: missing"):
+        load_catalog(feasts, names)
+
+
+def test_load_catalog_rejects_unknown_additional_feast(tmp_path: Path) -> None:
+    feasts = _write(
+        tmp_path / "feasts.yaml",
+        "primary: {type: fixed, month: 12, day: 25}\n",
+    )
+    names = _write(
+        tmp_path / "names.yaml",
+        "- id: christina\n"
+        "  feast: primary\n"
+        "  additional_feasts: [missing]\n"
+        "  popularity: 98\n"
+        "  names: [Χριστίνα]\n",
+    )
+
+    with pytest.raises(DataValidationError, match="unknown feast ids: missing"):
+        load_catalog(feasts, names)
+
+
+@pytest.mark.parametrize(
+    ("additional_feasts", "message"),
+    [
+        ("primary", "must be a list"),
+        ("[primary]", "repeats the primary feast"),
+        ("[additional, additional]", "contains duplicates"),
+        ("['']", "non-empty strings"),
+    ],
+)
+def test_load_catalog_rejects_invalid_additional_feasts(
+    tmp_path: Path, additional_feasts: str, message: str
+) -> None:
+    feasts = _write(
+        tmp_path / "feasts.yaml",
+        "primary: {type: fixed, month: 12, day: 25}\n"
+        "additional: {type: fixed, month: 7, day: 24}\n",
+    )
+    names = _write(
+        tmp_path / "names.yaml",
+        "- id: christina\n"
+        "  feast: primary\n"
+        f"  additional_feasts: {additional_feasts}\n"
+        "  popularity: 98\n"
+        "  names: [Χριστίνα]\n",
+    )
+
+    with pytest.raises(DataValidationError, match=message):
         load_catalog(feasts, names)
 
 
