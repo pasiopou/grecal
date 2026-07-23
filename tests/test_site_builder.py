@@ -102,13 +102,30 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
         f'{branding["repository"]["label"]}</a>'
     ) in index
     assert 'id="agenda"' in index
-    assert 'id="date-lookup"' in index
+    assert 'id="date-form"' in index
+    assert 'id="date-form" novalidate hidden' in index
+    assert 'id="date-toggle"' in index
+    assert 'aria-expanded="false"' in index
+    assert 'aria-controls="date-form"' in index
+    assert 'id="date-lookup"' not in index
+    assert 'id="date-result"' not in index
     assert 'id="search"' in index
     assert 'id="subscriptions"' in index
     assert "tool-number" not in index
     assert 'src="app.js"' in index
     assert 'href="styles.css"' in index
     assert "--color-ink" in styles
+    assert "--color-surface-alternate" in styles
+    assert "--color-today" in styles
+    assert "--color-sun" in styles
+    assert "--color-sky" in styles
+    assert "--color-hero" in styles
+    assert ".agenda-day:nth-child(even)" in styles
+    assert "font-size: clamp(0.76rem, 3.3vw, 0.86rem)" in styles
+    assert 'a[aria-current="location"]' in styles
+    assert "font-variant-numeric: tabular-nums lining-nums" in styles
+    assert "function updateActiveNavigation()" in script
+    assert 'link.setAttribute("aria-current", "location")' in script
     assert ".language-switch" in styles
     assert ".event-group.is-feast" in styles
     assert "padding: 1.75rem 0 2.75rem" in styles
@@ -124,8 +141,11 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert "searchFormsForEntry" in script
     assert "Γιώργος ή Giorgos" in index
     assert "data.commemorations" in script
-    assert 'appendEvents(container, dayData(isoDate), t("noEventsOnDate"), true)' in script
-    assert 'scrollTo({ top: today.offsetTop, behavior: behavior })' in script
+    assert 'appendEvents(events, dayData(isoDate), t("noEvents"), true)' in script
+    assert "function agendaBounds(anchor)" in script
+    assert "function setDateFormOpen(open, focusInput)" in script
+    assert "function selectAgendaDate(value, behavior, scrollSection, focusToggle)" in script
+    assert 'scrollTo({ top: selected.offsetTop, behavior: behavior })' in script
     assert "position: relative" in styles
     assert "Europe/Athens" in script
 

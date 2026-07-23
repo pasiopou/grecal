@@ -9,8 +9,7 @@
       skipLink: "Μετάβαση στο εορτολόγιο",
       primaryNavigation: "Κύρια πλοήγηση",
       navCalendar: "Ημερολόγιο",
-      navDate: "Ημερομηνία",
-      navSearch: "Αναζήτηση",
+      navSearch: "Ονόματα & εορτές",
       navSubscribe: "Εγγραφή",
       heroEyebrow: "Το ελληνικό εορτολόγιο",
       heroTitle: "Ποιος γιορτάζει σήμερα;",
@@ -19,12 +18,12 @@
       loadingToday: "Φόρτωση σημερινών εορτών…",
       agendaEyebrow: "Προβολή 31 ημερών",
       agendaTitle: "Γύρω από τη σημερινή ημέρα",
+      agendaSelectedTitle: "Γύρω από την επιλεγμένη ημέρα",
       agendaLoading: "Δεκαπέντε ημέρες πριν και μετά από σήμερα.",
+      chooseDate: "Επιλογή ημερομηνίας",
       returnToday: "Επιστροφή στο σήμερα",
       loadingCalendar: "Φόρτωση ημερολογίου…",
       calendarTools: "Εργαλεία ημερολογίου",
-      dateEyebrow: "Εξερευνήστε το ημερολόγιο",
-      dateTitle: "Επιλέξτε ημερομηνία",
       dateLabel: "Ημερομηνία",
       showDate: "Προβολή",
       searchEyebrow: "Ονόματα και εορτές",
@@ -50,8 +49,8 @@
       churchFeast: "Εκκλησιαστική εορτή",
       noCelebrationsToday: "Δεν υπάρχουν εορτές σήμερα.",
       noEvents: "Δεν υπάρχουν ονομαστικές ή εκκλησιαστικές εορτές.",
-      noEventsOnDate: "Δεν υπάρχουν ονομαστικές ή εκκλησιαστικές εορτές αυτή την ημερομηνία.",
       today: "Σήμερα",
+      selectedDate: "Επιλεγμένη ημερομηνία",
       noMatches: "Δεν βρέθηκαν κοντινά αποτελέσματα. Δοκιμάστε συντομότερη γραφή.",
       feast: "Εορτή",
       name: "Όνομα",
@@ -69,8 +68,7 @@
       skipLink: "Skip to calendar",
       primaryNavigation: "Primary navigation",
       navCalendar: "Calendar",
-      navDate: "Date",
-      navSearch: "Search",
+      navSearch: "Names & feasts",
       navSubscribe: "Subscribe",
       heroEyebrow: "The Greek nameday calendar",
       heroTitle: "Who is celebrating today?",
@@ -79,12 +77,12 @@
       loadingToday: "Loading today’s calendar…",
       agendaEyebrow: "Thirty-one day view",
       agendaTitle: "Around today",
+      agendaSelectedTitle: "Around the selected date",
       agendaLoading: "Fifteen days before and after today.",
+      chooseDate: "Choose a date",
       returnToday: "Return to today",
       loadingCalendar: "Loading calendar…",
       calendarTools: "Calendar tools",
-      dateEyebrow: "Explore the calendar",
-      dateTitle: "Choose a date",
       dateLabel: "Calendar date",
       showDate: "Show date",
       searchEyebrow: "Names and feasts",
@@ -110,8 +108,8 @@
       churchFeast: "Church feast",
       noCelebrationsToday: "No celebrations today.",
       noEvents: "No namedays or feasts.",
-      noEventsOnDate: "No namedays or feasts on this date.",
       today: "Today",
+      selectedDate: "Selected date",
       noMatches: "No close matches found. Try a shorter spelling.",
       feast: "Feast",
       name: "Name",
@@ -134,23 +132,27 @@
     days: new Map(),
     searchEntries: [],
     language: "el",
-    selectedDate: null,
+    agendaDate: null,
   };
 
   var elements = {
     metaDescription: document.getElementById("meta-description"),
+    siteHeader: document.querySelector(".site-header"),
+    navigationLinks: document.querySelectorAll(".site-nav a[href^='#']"),
     languageButtons: document.querySelectorAll("[data-language]"),
     todayWeekday: document.getElementById("today-weekday"),
     todayNumber: document.getElementById("today-number"),
     todayMonth: document.getElementById("today-month"),
     todayEvents: document.getElementById("today-events"),
+    agendaTitle: document.getElementById("agenda-title"),
     agendaRange: document.getElementById("agenda-range"),
     agendaList: document.getElementById("agenda-list"),
+    dateToggle: document.getElementById("date-toggle"),
     returnToday: document.getElementById("return-today"),
     dateForm: document.getElementById("date-form"),
     dateInput: document.getElementById("date-input"),
     dateRangeCopy: document.getElementById("date-range-copy"),
-    dateResult: document.getElementById("date-result"),
+    dateFeedback: document.getElementById("date-feedback"),
     searchInput: document.getElementById("search-input"),
     searchYearCopy: document.getElementById("search-year-copy"),
     searchResults: document.getElementById("search-results"),
@@ -165,6 +167,7 @@
   var shortDateFormatter;
   var weekdayFormatter;
   var monthFormatter;
+  var navigationFrame;
 
   function t(key) {
     return TRANSLATIONS[state.language][key];
@@ -395,6 +398,8 @@
     if (isoDate === state.today) {
       article.classList.add("is-today");
       article.setAttribute("aria-current", "date");
+    } else if (isoDate === state.agendaDate) {
+      article.classList.add("is-selected");
     }
 
     article.appendChild(element("h3", "visually-hidden", fullDateFormatter.format(parsed)));
@@ -408,47 +413,100 @@
     var events = element("div", "agenda-events");
     if (isoDate === state.today) {
       events.appendChild(element("span", "today-badge", t("today")));
+    } else if (isoDate === state.agendaDate) {
+      events.appendChild(element("span", "selected-date-badge", t("selectedDate")));
     }
     appendEvents(events, dayData(isoDate), t("noEvents"), true);
     article.appendChild(events);
     return article;
   }
 
-  function showTodayAtTop(behavior) {
-    var today = document.getElementById("day-" + state.today);
-    if (!today) {
-      return;
+  function agendaBounds(anchor) {
+    var minimum = state.config.lookup.min_date;
+    var maximum = state.config.lookup.max_date;
+    var first = addDays(anchor, -15);
+    var last = addDays(anchor, 15);
+    if (first < minimum) {
+      first = minimum;
+      last = addDays(first, 30);
     }
-    elements.agendaList.scrollTo({ top: today.offsetTop, behavior: behavior });
+    if (last > maximum) {
+      last = maximum;
+      first = addDays(last, -30);
+    }
+    if (first < minimum) {
+      first = minimum;
+    }
+    return { first: first, last: last };
   }
 
-  function renderAgenda() {
-    var first = addDays(state.today, -15);
-    var last = addDays(state.today, 15);
-    elements.agendaRange.textContent = shortDateFormatter.format(parseIsoDate(first)) +
-      " — " + shortDateFormatter.format(parseIsoDate(last));
+  function showAgendaDateAtTop(isoDate, behavior) {
+    var selected = document.getElementById("day-" + isoDate);
+    if (!selected) {
+      return;
+    }
+    var availableScroll = elements.agendaList.scrollHeight - elements.agendaList.clientHeight;
+    var missingScroll = selected.offsetTop - availableScroll;
+    if (missingScroll > 0) {
+      var spacer = element("div", "agenda-scroll-spacer");
+      spacer.setAttribute("aria-hidden", "true");
+      spacer.style.height = missingScroll + "px";
+      elements.agendaList.appendChild(spacer);
+    }
+    elements.agendaList.scrollTo({ top: selected.offsetTop, behavior: behavior });
+  }
+
+  function renderAgenda(behavior) {
+    var bounds = agendaBounds(state.agendaDate);
+    elements.agendaTitle.textContent = state.agendaDate === state.today ?
+      t("agendaTitle") : t("agendaSelectedTitle");
+    elements.agendaRange.textContent = shortDateFormatter.format(parseIsoDate(bounds.first)) +
+      " — " + shortDateFormatter.format(parseIsoDate(bounds.last));
 
     var fragment = document.createDocumentFragment();
-    for (var offset = -15; offset <= 15; offset += 1) {
-      fragment.appendChild(buildAgendaDay(addDays(state.today, offset)));
+    for (var value = bounds.first; value <= bounds.last; value = addDays(value, 1)) {
+      fragment.appendChild(buildAgendaDay(value));
     }
     elements.agendaList.replaceChildren(fragment);
     window.requestAnimationFrame(function () {
-      showTodayAtTop("auto");
+      showAgendaDateAtTop(state.agendaDate, behavior || "auto");
     });
   }
 
-  function renderDateResult(isoDate) {
-    state.selectedDate = isoDate;
-    var container = element("section", "result-panel");
-    container.appendChild(element("h3", null, fullDateFormatter.format(parseIsoDate(isoDate))));
-    appendEvents(container, dayData(isoDate), t("noEventsOnDate"), true);
-    elements.dateResult.replaceChildren(container);
+  function clearDateFeedback() {
+    elements.dateFeedback.textContent = "";
+    elements.dateFeedback.hidden = true;
   }
 
-  function renderDateError(message) {
-    state.selectedDate = null;
-    elements.dateResult.replaceChildren(element("p", "error-copy", message));
+  function showDateFeedback(message) {
+    elements.dateFeedback.textContent = message;
+    elements.dateFeedback.hidden = false;
+  }
+
+  function setDateFormOpen(open, focusInput) {
+    elements.dateForm.hidden = !open;
+    elements.dateToggle.setAttribute("aria-expanded", String(open));
+    if (open && focusInput) {
+      window.requestAnimationFrame(function () {
+        elements.dateInput.focus();
+      });
+    }
+  }
+
+  function selectAgendaDate(value, behavior, scrollSection, focusToggle) {
+    state.agendaDate = value;
+    elements.dateInput.value = value;
+    clearDateFeedback();
+    setDateFormOpen(false, false);
+    renderAgenda(behavior);
+    if (focusToggle) {
+      elements.dateToggle.focus();
+    }
+    if (scrollSection) {
+      window.requestAnimationFrame(function () {
+        document.getElementById("agenda").scrollIntoView({ behavior: "smooth" });
+      });
+    }
   }
 
   function normalizeSearchText(value) {
@@ -638,9 +696,7 @@
   }
 
   function showSearchResultDate(value) {
-    elements.dateInput.value = value;
-    renderDateResult(value);
-    document.getElementById("date-lookup").scrollIntoView({ behavior: "smooth" });
+    selectAgendaDate(value, "auto", true, false);
   }
 
   function resultDateButton(value, isPrimary) {
@@ -743,8 +799,8 @@
     var maximum = state.config.lookup.max_date;
     elements.dateInput.min = minimum;
     elements.dateInput.max = maximum;
-    if (!elements.dateInput.value || !dateIsWithin(elements.dateInput.value, minimum, maximum)) {
-      elements.dateInput.value = dateIsWithin(state.today, minimum, maximum) ? state.today : minimum;
+    if (!elements.dateInput.value) {
+      elements.dateInput.value = state.agendaDate;
     }
     if (state.language === "el") {
       elements.dateRangeCopy.textContent = "Επιλέξτε ημερομηνία από " +
@@ -762,6 +818,9 @@
         state.config.search_year + ". Greek and Latin letters are supported, and small spelling mistakes are welcome.";
       elements.dataUpdated.textContent = "Calendar bundle generated " +
         formatGeneratedAt(state.config.generated_at) + ".";
+    }
+    if (!elements.dateFeedback.hidden) {
+      showDateFeedback(elements.dateInput.value ? t("dateOutsideRange") : t("chooseDateFirst"));
     }
     setSubscriptionDetails("complete", elements.completeSubscribe, elements.completeRange);
     setSubscriptionDetails("top_100", elements.popularSubscribe, elements.popularRange);
@@ -781,9 +840,6 @@
     configureInterface();
     renderToday();
     renderAgenda();
-    if (state.selectedDate) {
-      renderDateResult(state.selectedDate);
-    }
     renderSearchResults(elements.searchInput.value);
   }
 
@@ -795,21 +851,24 @@
         }
       });
     });
+    elements.dateToggle.addEventListener("click", function () {
+      setDateFormOpen(elements.dateForm.hidden, true);
+    });
     elements.returnToday.addEventListener("click", function () {
-      showTodayAtTop("smooth");
+      selectAgendaDate(state.today, "smooth", false, false);
     });
     elements.dateForm.addEventListener("submit", function (event) {
       event.preventDefault();
       var selected = elements.dateInput.value;
       if (!selected) {
-        renderDateError(t("chooseDateFirst"));
+        showDateFeedback(t("chooseDateFirst"));
         return;
       }
       if (!dateIsWithin(selected, state.config.lookup.min_date, state.config.lookup.max_date)) {
-        renderDateError(t("dateOutsideRange"));
+        showDateFeedback(t("dateOutsideRange"));
         return;
       }
-      renderDateResult(selected);
+      selectAgendaDate(selected, "auto", false, true);
     });
 
     var searchTimer;
@@ -820,6 +879,35 @@
         renderSearchResults(query);
       }, 120);
     });
+
+    window.addEventListener("scroll", scheduleNavigationUpdate, { passive: true });
+    window.addEventListener("resize", scheduleNavigationUpdate);
+  }
+
+  function updateActiveNavigation() {
+    var marker = elements.siteHeader.offsetHeight + Math.min(window.innerHeight * 0.28, 220);
+    var activeLink = null;
+    elements.navigationLinks.forEach(function (link) {
+      var target = document.querySelector(link.getAttribute("href"));
+      if (target && target.getBoundingClientRect().top <= marker) {
+        activeLink = link;
+      }
+    });
+    elements.navigationLinks.forEach(function (link) {
+      if (link === activeLink) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+    navigationFrame = null;
+  }
+
+  function scheduleNavigationUpdate() {
+    if (navigationFrame) {
+      return;
+    }
+    navigationFrame = window.requestAnimationFrame(updateActiveNavigation);
   }
 
   function renderFatalError(error) {
@@ -846,6 +934,7 @@
         var availableMinimum = config.calendar_years[0] + "-01-01";
         var availableMaximum = config.calendar_years[config.calendar_years.length - 1] + "-12-31";
         state.today = dateIsWithin(liveToday, availableMinimum, availableMaximum) ? liveToday : config.today;
+        state.agendaDate = state.today;
         var calendarRequests = config.calendar_years.map(function (year) {
           return loadJson("data/calendar-" + year + ".json");
         });
@@ -867,6 +956,7 @@
         configureInterface();
         renderToday();
         renderAgenda();
+        scheduleNavigationUpdate();
       })
       .catch(renderFatalError);
   }

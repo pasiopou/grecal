@@ -24,8 +24,7 @@
         </a>
         <nav class="site-nav" aria-label="Κύρια πλοήγηση" data-i18n-aria-label="primaryNavigation">
           <a href="#agenda" data-i18n="navCalendar">Ημερολόγιο</a>
-          <a href="#date-lookup" data-i18n="navDate">Ημερομηνία</a>
-          <a href="#search" data-i18n="navSearch">Αναζήτηση</a>
+          <a href="#search" data-i18n="navSearch">Ονόματα &amp; εορτές</a>
           <a href="#subscriptions" data-i18n="navSubscribe">Εγγραφή</a>
         </nav>
         <div class="language-switch" role="group" aria-label="Γλώσσα / Language">
@@ -73,10 +72,40 @@
               <h2 id="agenda-title" data-i18n="agendaTitle">Γύρω από τη σημερινή ημέρα</h2>
               <p id="agenda-range" data-i18n="agendaLoading">Δεκαπέντε ημέρες πριν και μετά από σήμερα.</p>
             </div>
-            <button class="text-button" id="return-today" type="button" data-i18n="returnToday">
-              Επιστροφή στο σήμερα
-            </button>
+            <div class="agenda-actions">
+              <button
+                class="text-button"
+                id="date-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="date-form"
+                data-i18n="chooseDate"
+              >
+                Επιλογή ημερομηνίας
+              </button>
+              <button class="text-button" id="return-today" type="button" data-i18n="returnToday">
+                Επιστροφή στο σήμερα
+              </button>
+            </div>
           </div>
+
+          <form class="agenda-date-form" id="date-form" novalidate hidden>
+            <label for="date-input" data-i18n="dateLabel">Ημερομηνία</label>
+            <div class="input-action-row">
+              <input
+                id="date-input"
+                name="date"
+                type="date"
+                aria-describedby="date-range-copy date-feedback"
+                required
+              >
+              <button class="primary-button" type="submit" data-i18n="showDate">Προβολή</button>
+            </div>
+            <p class="field-hint" id="date-range-copy">
+              Επιλέξτε οποιαδήποτε ημερομηνία στο διαθέσιμο εύρος.
+            </p>
+            <p class="error-copy" id="date-feedback" aria-live="polite" hidden></p>
+          </form>
 
           <div class="agenda-list" id="agenda-list" aria-live="polite">
             <p class="status-card" data-i18n="loadingCalendar">Φόρτωση ημερολογίου…</p>
@@ -86,26 +115,6 @@
 
       <section class="section tools-section" aria-label="Εργαλεία ημερολογίου" data-i18n-aria-label="calendarTools">
         <div class="shell tools-grid">
-          <article class="tool-card" id="date-lookup" aria-labelledby="date-title">
-            <div class="tool-heading">
-              <div>
-                <p class="eyebrow" data-i18n="dateEyebrow">Εξερευνήστε το ημερολόγιο</p>
-                <h2 id="date-title" data-i18n="dateTitle">Επιλέξτε ημερομηνία</h2>
-              </div>
-            </div>
-            <p class="tool-description" id="date-range-copy">
-              Αναζητήστε οποιαδήποτε ημερομηνία στο διαθέσιμο εύρος.
-            </p>
-            <form class="date-form" id="date-form">
-              <label for="date-input" data-i18n="dateLabel">Ημερομηνία</label>
-              <div class="input-action-row">
-                <input id="date-input" name="date" type="date" required>
-                <button class="primary-button" type="submit" data-i18n="showDate">Προβολή</button>
-              </div>
-            </form>
-            <div class="lookup-result" id="date-result" aria-live="polite"></div>
-          </article>
-
           <article class="tool-card" id="search" aria-labelledby="search-title">
             <div class="tool-heading">
               <div>
