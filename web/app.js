@@ -4,6 +4,10 @@
   var EXPECTED_SCHEMA_VERSION = 1;
   var ATHENS_TIME_ZONE = "Europe/Athens";
   var SEARCH_LIMIT = 8;
+  var GREEK_MONTHS_GENITIVE = [
+    "Ιανουαρίου", "Φεβρουαρίου", "Μαρτίου", "Απριλίου", "Μαΐου", "Ιουνίου",
+    "Ιουλίου", "Αυγούστου", "Σεπτεμβρίου", "Οκτωβρίου", "Νοεμβρίου", "Δεκεμβρίου",
+  ];
   var TRANSLATIONS = {
     el: {
       skipLink: "Μετάβαση στο εορτολόγιο",
@@ -167,6 +171,7 @@
   var shortDateFormatter;
   var weekdayFormatter;
   var monthFormatter;
+  var longMonthFormatter;
   var navigationFrame;
 
   function t(key) {
@@ -198,6 +203,10 @@
     });
     monthFormatter = new Intl.DateTimeFormat(currentLocale, {
       month: "short",
+      timeZone: "UTC",
+    });
+    longMonthFormatter = new Intl.DateTimeFormat(currentLocale, {
+      month: "long",
       timeZone: "UTC",
     });
   }
@@ -383,10 +392,8 @@
       timeZone: "UTC",
     }).format(parsed);
     elements.todayNumber.textContent = String(parsed.getUTCDate());
-    elements.todayMonth.textContent = new Intl.DateTimeFormat(locale(), {
-      month: "long",
-      timeZone: "UTC",
-    }).format(parsed);
+    elements.todayMonth.textContent = state.language === "el" ?
+      GREEK_MONTHS_GENITIVE[parsed.getUTCMonth()] : longMonthFormatter.format(parsed);
     elements.todayEvents.replaceChildren();
     appendEvents(elements.todayEvents, dayData(state.today), t("noCelebrationsToday"));
   }

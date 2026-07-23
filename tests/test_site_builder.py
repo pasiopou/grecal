@@ -148,6 +148,8 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert 'scrollTo({ top: selected.offsetTop, behavior: behavior })' in script
     assert "position: relative" in styles
     assert "Europe/Athens" in script
+    assert '"Ιουλίου"' in script
+    assert "GREEK_MONTHS_GENITIVE[parsed.getUTCMonth()]" in script
 
 
 def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
