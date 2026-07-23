@@ -710,7 +710,7 @@
     try {
       var target = new URL(path, window.location.href);
       if (target.protocol === "http:" || target.protocol === "https:") {
-        target.protocol = "webcal:";
+        return target.href.replace(/^https?:/, "webcal:");
       }
       return target.href;
     } catch (error) {

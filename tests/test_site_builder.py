@@ -115,6 +115,8 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert 'loadJson("branding.json")' in script
     assert 'loadJson("data/config.json")' in script
     assert 'fetch(path, { cache: "no-store" })' in script
+    assert 'target.href.replace(/^https?:/, "webcal:")' in script
+    assert 'target.protocol = "webcal:"' not in script
     assert "TRANSLATIONS" in script
     assert "state.branding.language_storage_key" in script
     assert "damerauLevenshtein" in script
