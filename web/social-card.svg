@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">iCalendar.gr — Το ελληνικό εορτολόγιο</title>
+  <desc id="description">Ονομαστικές και εκκλησιαστικές εορτές, αναζήτηση και ημερολόγια για εγγραφή.</desc>
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d7ea2"/>
+      <stop offset="1" stop-color="#07648d"/>
+    </linearGradient>
+    <radialGradient id="sky" cx="84%" cy="14%" r="58%">
+      <stop offset="0" stop-color="#e1f3f8"/>
+      <stop offset="1" stop-color="#f9f9f7" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#14333d" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="#f9f9f7"/>
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <circle cx="1070" cy="65" r="170" fill="none" stroke="#8a6c49" stroke-opacity="0.18" stroke-width="2"/>
+
+  <g filter="url(#shadow)">
+    <rect x="76" y="74" width="390" height="482" rx="44" fill="url(#sea)"/>
+    <rect x="126" y="169" width="290" height="315" rx="24" fill="#fcfcfb"/>
+    <path d="M126 238h290" stroke="#8a6c49" stroke-width="12"/>
+    <path d="M194 135v70M348 135v70" stroke="#fcfcfb" stroke-width="22" stroke-linecap="round"/>
+    <g fill="#07648d">
+      <circle cx="196" cy="301" r="18"/>
+      <circle cx="271" cy="301" r="18"/>
+      <circle cx="346" cy="301" r="18"/>
+      <circle cx="196" cy="374" r="18"/>
+      <circle cx="271" cy="374" r="18"/>
+      <circle cx="346" cy="374" r="18"/>
+      <circle cx="196" cy="447" r="18"/>
+      <circle cx="271" cy="447" r="18"/>
+      <circle cx="346" cy="447" r="18"/>
+    </g>
+  </g>
+
+  <g transform="translate(540 0)">
+    <text x="0" y="154" fill="#14333d" font-family="Georgia, 'Times New Roman', serif" font-size="48" letter-spacing="-1.5">iCalendar<tspan fill="#8a6c49" font-style="italic">.gr</tspan></text>
+    <path d="M0 190h92" stroke="#8a6c49" stroke-width="5"/>
+    <text x="0" y="280" fill="#14333d" font-family="Georgia, 'Times New Roman', serif" font-size="68" letter-spacing="-2">
+      <tspan x="0" dy="0">Το ελληνικό</tspan>
+      <tspan x="0" dy="78">εορτολόγιο</tspan>
+    </text>
+    <text x="0" y="468" fill="#5d5d52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif" font-size="27">
+      <tspan x="0" dy="0">Ονομαστικές και εκκλησιαστικές εορτές</tspan>
+      <tspan x="0" dy="42">Αναζήτηση · ημερολόγιο · εγγραφή</tspan>
+    </text>
+  </g>
+</svg>

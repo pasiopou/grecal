@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import sys
 import tempfile
@@ -43,6 +44,12 @@ DEFAULT_OBSERVANCES_PATH = PROJECT_ROOT / "data" / "observances.yaml"
 DEFAULT_COMMEMORATIONS_PATH = PROJECT_ROOT / "data" / "commemorations.yaml"
 DEFAULT_WEB_PATH = PROJECT_ROOT / "web"
 FRONTEND_FILES = ("styles.css", "app.js", "branding.json")
+BRANDING_ASSET_KEYS = (
+    "favicon_svg",
+    "favicon_png",
+    "apple_touch_icon",
+    "social_image",
+)
 
 
 def _parse_date(value: str) -> date:
@@ -84,9 +91,37 @@ def _load_branding() -> dict[str, Any]:
 
     if not isinstance(branding, dict) or branding.get("schema_version") != 1:
         raise ValueError("website branding uses an unsupported schema")
-    for key in ("default_language", "language_storage_key", "site_name"):
+    for key in (
+        "default_language",
+        "language_storage_key",
+        "site_name",
+        "site_url",
+        "theme_color",
+    ):
         if not isinstance(branding.get(key), str) or not branding[key].strip():
             raise ValueError(f"website branding requires a non-empty {key}")
+    if not branding["site_url"].startswith("https://") or not branding[
+        "site_url"
+    ].endswith("/"):
+        raise ValueError("website branding site_url must be an HTTPS root URL")
+    if not re.fullmatch(r"#[0-9a-fA-F]{6}", branding["theme_color"]):
+        raise ValueError("website branding theme_color must be a six-digit hex color")
+
+    assets = branding.get("assets")
+    if not isinstance(assets, dict):
+        raise ValueError("website branding requires asset settings")
+    for key in BRANDING_ASSET_KEYS:
+        filename = assets.get(key)
+        if (
+            not isinstance(filename, str)
+            or not filename.strip()
+            or Path(filename).name != filename
+        ):
+            raise ValueError(
+                f"website branding requires a valid asset filename for {key}"
+            )
+        if not (DEFAULT_WEB_PATH / filename).is_file():
+            raise ValueError(f"missing website branding asset: {filename}")
 
     wordmark = branding.get("wordmark")
     if not isinstance(wordmark, dict):
@@ -136,7 +171,14 @@ def _load_branding() -> dict[str, Any]:
     for language, localized in locales.items():
         if not isinstance(language, str) or not isinstance(localized, dict):
             raise ValueError("website branding locales must be objects")
-        for key in ("title", "description", "home_label", "noscript_message"):
+        for key in (
+            "title",
+            "description",
+            "og_locale",
+            "social_image_alt",
+            "home_label",
+            "noscript_message",
+        ):
             if not isinstance(localized.get(key), str) or not localized[key].strip():
                 raise ValueError(
                     f"website branding locale {language!r} requires a non-empty {key}"
@@ -154,8 +196,19 @@ def _render_index(destination: Path, branding: Mapping[str, Any]) -> None:
         "DEFAULT_LANGUAGE": default_language,
         "DEFAULT_TITLE": localized["title"],
         "DEFAULT_DESCRIPTION": localized["description"],
+        "DEFAULT_OG_LOCALE": localized["og_locale"],
+        "DEFAULT_SOCIAL_IMAGE_ALT": localized["social_image_alt"],
         "DEFAULT_HOME_LABEL": localized["home_label"],
         "DEFAULT_NOSCRIPT_MESSAGE": localized["noscript_message"],
+        "SITE_NAME": branding["site_name"],
+        "SITE_URL": branding["site_url"],
+        "THEME_COLOR": branding["theme_color"],
+        "FAVICON_SVG": branding["assets"]["favicon_svg"],
+        "FAVICON_PNG": branding["assets"]["favicon_png"],
+        "APPLE_TOUCH_ICON": branding["assets"]["apple_touch_icon"],
+        "SOCIAL_IMAGE_URL": (
+            branding["site_url"] + branding["assets"]["social_image"]
+        ),
         "WORDMARK_PRIMARY": branding["wordmark"]["primary"],
         "WORDMARK_SUFFIX": branding["wordmark"]["suffix"],
         "REPOSITORY_LABEL": branding["repository"]["label"],
@@ -170,12 +223,41 @@ def _render_index(destination: Path, branding: Mapping[str, Any]) -> None:
 
 
 def _copy_frontend(destination: Path, branding: Mapping[str, Any]) -> None:
-    for filename in FRONTEND_FILES:
+    for filename in FRONTEND_FILES + tuple(
+        branding["assets"][key] for key in BRANDING_ASSET_KEYS
+    ):
         source = DEFAULT_WEB_PATH / filename
         if not source.is_file():
             raise ValueError(f"missing website source file: {source}")
         shutil.copy2(source, destination / filename)
     _render_index(destination, branding)
+
+
+def _write_discovery_files(
+    destination: Path,
+    branding: Mapping[str, Any],
+    *,
+    last_modified: date,
+) -> None:
+    site_url = branding["site_url"]
+    (destination / "robots.txt").write_text(
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /calendars/\n"
+        f"Sitemap: {site_url}sitemap.xml\n",
+        encoding="utf-8",
+    )
+    escaped_url = escape(site_url, quote=False)
+    (destination / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        "  <url>\n"
+        f"    <loc>{escaped_url}</loc>\n"
+        f"    <lastmod>{last_modified.isoformat()}</lastmod>\n"
+        "  </url>\n"
+        "</urlset>\n",
+        encoding="utf-8",
+    )
 
 
 def _load_commemoration_collection(
@@ -503,6 +585,7 @@ def build_site(
     )
     try:
         _copy_frontend(staging, branding)
+        _write_discovery_files(staging, branding, last_modified=stamp.date())
         (staging / OUTPUT_MARKER).write_text(
             "Generated by scripts/build_site.py.\n",
             encoding="utf-8",

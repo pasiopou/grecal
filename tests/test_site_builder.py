@@ -62,6 +62,7 @@ def test_site_builder_generates_the_expected_artifact_set(built_site) -> None:
     expected_files = {
         OUTPUT_MARKER,
         "app.js",
+        "apple-touch-icon.png",
         "branding.json",
         "calendars/complete.ics",
         "calendars/top-100.ics",
@@ -71,7 +72,12 @@ def test_site_builder_generates_the_expected_artifact_set(built_site) -> None:
         "data/calendar-2026.json",
         "data/calendar-2027.json",
         "data/calendar-2028.json",
+        "favicon-32.png",
+        "favicon.svg",
         "index.html",
+        "robots.txt",
+        "sitemap.xml",
+        "social-card.png",
         "styles.css",
     }
     actual_files = {
@@ -89,9 +95,28 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     styles = (output / "styles.css").read_text(encoding="utf-8")
     script = (output / "app.js").read_text(encoding="utf-8")
     branding = _read_json(output / "branding.json")
+    robots = (output / "robots.txt").read_text(encoding="utf-8")
+    sitemap = (output / "sitemap.xml").read_text(encoding="utf-8")
 
     assert f'<html lang="{branding["default_language"]}">' in index
     assert branding["site_name"] in index
+    assert f'<link rel="canonical" href="{branding["site_url"]}">' in index
+    assert f'<meta property="og:url" content="{branding["site_url"]}">' in index
+    assert (
+        f'<meta property="og:image" content="{branding["site_url"]}'
+        f'{branding["assets"]["social_image"]}">' in index
+    )
+    assert '<meta name="twitter:card" content="summary_large_image">' in index
+    assert '<link rel="icon" href="favicon.svg" type="image/svg+xml">' in index
+    assert '<link rel="apple-touch-icon" href="apple-touch-icon.png">' in index
+    assert robots == (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /calendars/\n"
+        f'Sitemap: {branding["site_url"]}sitemap.xml\n'
+    )
+    assert f'<loc>{branding["site_url"]}</loc>' in sitemap
+    assert "<lastmod>2026-07-22</lastmod>" in sitemap
     assert "{{" not in index
     assert "brand-mark" not in index
     assert 'data-language="el"' in index
