@@ -325,17 +325,19 @@ frontend from `web/` into the output directory.
 
 Website branding is defined entirely in `web/branding.json`, keeping the
 frontend reusable without coupling the Grecal library to a particular public
-site. The website presents a 31-day agenda spanning 15 days before and after
-today; today opens as the first visible row, while the earlier dates remain
-available by scrolling upward. In that agenda, collected saint commemorations
-appear together with configured observances under the existing church-feast
-label. They are included in date lookup but are not added to search or either
-ICS subscription. The site also provides date lookup across the configured
-range, typo-tolerant search for the current year using either Greek or common
-Greeklish spellings, and links for both calendar subscriptions. Greek is the
-default language, with a clearly visible English switch whose selection is
-stored only in the visitor's browser. To browse a build locally, start a static
-server:
+site. On desktop, the website presents a 31-day agenda spanning 15 days before
+and after today or the selected date; that date opens as the first visible row,
+while earlier dates remain available by scrolling upward. On mobile, the agenda
+starts with that date followed by the next six days, with controls that reveal
+earlier and later dates in seven-day groups. In that agenda, collected saint
+commemorations appear together with configured observances under the existing
+church-feast label. They are included in date lookup but are not added to search
+or either ICS subscription. The site also provides date lookup across the
+configured range, typo-tolerant search for the current year using either Greek
+or common Greeklish spellings, and links for both calendar subscriptions. Greek
+is the default language, with a clearly visible English switch whose selection
+is stored only in the visitor's browser. To browse a build locally, start a
+static server:
 
 ```bash
 .venv/bin/python -m http.server 8000 --directory _site

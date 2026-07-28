@@ -69,6 +69,29 @@ def test_names_on_the_same_day_are_grouped_in_one_result() -> None:
     }
 
 
+def test_primary_feast_groups_precede_additional_groups_then_use_popularity() -> None:
+    catalog = Catalog(
+        feasts=(
+            Feast("shared", FeastType.FIXED, month=11, day=30),
+            Feast("other", FeastType.FIXED, month=12, day=1),
+        ),
+        namedays=(
+            Nameday("additional_high", "other", 100, ("Additional high",), ("shared",)),
+            Nameday("primary_high", "shared", 90, ("Primary high",)),
+            Nameday("primary_low", "shared", 20, ("Primary low", "Primary variant")),
+            Nameday("additional_low", "other", 10, ("Additional low",), ("shared",)),
+        ),
+    )
+
+    assert generate_namedays(catalog, 2026, 2026)[date(2026, 11, 30)] == (
+        "Primary high",
+        "Primary low",
+        "Primary variant",
+        "Additional high",
+        "Additional low",
+    )
+
+
 def test_validate_catalog_checks_each_year_in_the_range() -> None:
     catalog = Catalog(
         feasts=(Feast("leap_day", FeastType.FIXED, month=2, day=29),),

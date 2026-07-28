@@ -96,12 +96,16 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert "brand-mark" not in index
     assert 'data-language="el"' in index
     assert 'data-language="en"' in index
+    assert 'id="help-toggle"' in index
+    assert 'id="help-panel"' in index
     assert branding["repository"]["url"] in index
     assert (
         'target="_blank" rel="noopener noreferrer">'
         f'{branding["repository"]["label"]}</a>'
     ) in index
     assert 'id="agenda"' in index
+    assert 'id="agenda-previous"' in index
+    assert 'id="agenda-next"' in index
     assert 'id="date-form"' in index
     assert 'id="date-form" novalidate hidden' in index
     assert 'id="date-toggle"' in index
@@ -121,6 +125,7 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert "--color-sky" in styles
     assert "--color-hero" in styles
     assert ".agenda-day:nth-child(even)" in styles
+    assert "overscroll-behavior: auto" in styles
     assert "font-size: clamp(0.76rem, 3.3vw, 0.86rem)" in styles
     assert 'a[aria-current="location"]' in styles
     assert "font-variant-numeric: tabular-nums lining-nums" in styles

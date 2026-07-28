@@ -27,10 +27,39 @@
           <a href="#search" data-i18n="navSearch">Ονόματα &amp; εορτές</a>
           <a href="#subscriptions" data-i18n="navSubscribe">Εγγραφή</a>
         </nav>
-        <div class="language-switch" role="group" aria-label="Γλώσσα / Language">
-          <button type="button" data-language="el" aria-pressed="true" aria-label="Ελληνικά">ΕΛ</button>
-          <span aria-hidden="true">/</span>
-          <button type="button" data-language="en" aria-pressed="false" aria-label="English">EN</button>
+        <div class="header-utilities">
+          <div class="language-switch" role="group" aria-label="Γλώσσα / Language">
+            <button type="button" data-language="el" aria-pressed="true" aria-label="Ελληνικά">ΕΛ</button>
+            <span aria-hidden="true">/</span>
+            <button type="button" data-language="en" aria-pressed="false" aria-label="English">EN</button>
+          </div>
+          <div class="help-disclosure">
+            <button
+              class="help-toggle"
+              id="help-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="help-panel"
+              aria-label="Πώς λειτουργεί"
+              title="Πώς λειτουργεί"
+              data-i18n-aria-label="helpTitle"
+              data-i18n-title="helpTitle"
+            >?</button>
+            <section
+              class="help-panel"
+              id="help-panel"
+              aria-labelledby="help-title"
+              hidden
+            >
+              <h2 id="help-title" data-i18n="helpTitle">Πώς λειτουργεί</h2>
+              <ul>
+                <li data-i18n="helpPrimary">Τα ονόματα με έντονα γράμματα έχουν την κύρια εορτή τους εκείνη την ημέρα.</li>
+                <li data-i18n="helpAdditional">Τα ονόματα με κανονικά γράμματα έχουν μια επιπλέον εορτή.</li>
+                <li data-i18n="helpSearch">Επιλέξτε ένα όνομα στο «Ποιος γιορτάζει σήμερα;» για να δείτε όλες τις ημερομηνίες του.</li>
+                <li data-i18n="helpDate">Επιλέξτε μια ημερομηνία στα αποτελέσματα αναζήτησης για να τη δείτε στο εορτολόγιο.</li>
+              </ul>
+            </section>
+          </div>
         </div>
       </div>
     </header>
@@ -68,7 +97,7 @@
         <div class="shell">
           <div class="section-heading agenda-heading">
             <div>
-              <p class="eyebrow" data-i18n="agendaEyebrow">Προβολή 31 ημερών</p>
+              <p class="eyebrow" data-i18n="agendaEyebrow">Ημερολόγιο</p>
               <h2 id="agenda-title" data-i18n="agendaTitle">Γύρω από τη σημερινή ημέρα</h2>
               <p id="agenda-range" data-i18n="agendaLoading">Δεκαπέντε ημέρες πριν και μετά από σήμερα.</p>
             </div>
@@ -107,9 +136,25 @@
             <p class="error-copy" id="date-feedback" aria-live="polite" hidden></p>
           </form>
 
+          <button
+            class="agenda-reveal agenda-reveal-previous"
+            id="agenda-previous"
+            type="button"
+            aria-controls="agenda-list"
+            data-i18n="agendaPreviousDays"
+            hidden
+          >↑ Προβολή 7 προηγούμενων ημερών</button>
           <div class="agenda-list" id="agenda-list" aria-live="polite">
             <p class="status-card" data-i18n="loadingCalendar">Φόρτωση ημερολογίου…</p>
           </div>
+          <button
+            class="agenda-reveal agenda-reveal-next"
+            id="agenda-next"
+            type="button"
+            aria-controls="agenda-list"
+            data-i18n="agendaNextDays"
+            hidden
+          >Προβολή 7 επόμενων ημερών ↓</button>
         </div>
       </section>
 

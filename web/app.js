@@ -20,10 +20,12 @@
       heroIntro: "Δείτε τις σημερινές ονομαστικές εορτές, εξερευνήστε κοντινές ημερομηνίες ή αναζητήστε ένα όνομα, ακόμη κι αν δεν είστε βέβαιοι για την ορθογραφία του.",
       todayHeading: "Γιορτάζουν σήμερα",
       loadingToday: "Φόρτωση σημερινών εορτών…",
-      agendaEyebrow: "Προβολή 31 ημερών",
+      agendaEyebrow: "Ημερολόγιο",
       agendaTitle: "Γύρω από τη σημερινή ημέρα",
       agendaSelectedTitle: "Γύρω από την επιλεγμένη ημέρα",
       agendaLoading: "Δεκαπέντε ημέρες πριν και μετά από σήμερα.",
+      agendaPreviousDays: "↑ Προβολή 7 προηγούμενων ημερών",
+      agendaNextDays: "Προβολή 7 επόμενων ημερών ↓",
       chooseDate: "Επιλογή ημερομηνίας",
       returnToday: "Επιστροφή στο σήμερα",
       loadingCalendar: "Φόρτωση ημερολογίου…",
@@ -35,6 +37,12 @@
       searchLabel: "Όνομα ή εορτή",
       searchPlaceholder: "π.χ. Γιώργος ή Giorgos",
       searchGuidance: "Πληκτρολογήστε τουλάχιστον δύο χαρακτήρες, στα ελληνικά ή με λατινικούς χαρακτήρες.",
+      searchForName: "Αναζήτηση στο έτος για: {name}",
+      helpTitle: "Πώς λειτουργεί",
+      helpPrimary: "Τα ονόματα με έντονα γράμματα έχουν την κύρια εορτή τους εκείνη την ημέρα.",
+      helpAdditional: "Τα ονόματα με κανονικά γράμματα έχουν μια επιπλέον εορτή.",
+      helpSearch: "Επιλέξτε ένα όνομα στο «Ποιος γιορτάζει σήμερα;» για να δείτε όλες τις ημερομηνίες του.",
+      helpDate: "Επιλέξτε μια ημερομηνία στα αποτελέσματα αναζήτησης για να τη δείτε στο εορτολόγιο.",
       subscriptionsEyebrow: "Πάντα ενημερωμένο",
       subscriptionsTitle: "Προσθέστε το εορτολόγιο στο ημερολόγιό σας",
       subscriptionsIntro: "Εγγραφείτε μία φορά. Η εφαρμογή ημερολογίου σας θα ανανεώνει το ίδιο αρχείο καθώς προστίθενται νέα έτη.",
@@ -50,7 +58,7 @@
       footerDescription: "Το ελληνικό εορτολόγιο, χωρίς παρακολούθηση ή διαφημίσεις.",
       repositoryPrefix: "Τα δεδομένα και τα ημερολόγια δημιουργούνται με το ανοικτού κώδικα",
       namedays: "Ονομαστικές εορτές",
-      churchFeast: "Εκκλησιαστική εορτή",
+      churchFeast: "Εκκλησιαστικές εορτές",
       noCelebrationsToday: "Δεν υπάρχουν εορτές σήμερα.",
       noEvents: "Δεν υπάρχουν ονομαστικές ή εκκλησιαστικές εορτές.",
       today: "Σήμερα",
@@ -79,10 +87,12 @@
       heroIntro: "See today’s namedays, explore nearby dates, or find a name even when you are unsure of its spelling.",
       todayHeading: "Celebrated today",
       loadingToday: "Loading today’s calendar…",
-      agendaEyebrow: "Thirty-one day view",
+      agendaEyebrow: "Calendar",
       agendaTitle: "Around today",
       agendaSelectedTitle: "Around the selected date",
       agendaLoading: "Fifteen days before and after today.",
+      agendaPreviousDays: "↑ Show previous 7 days",
+      agendaNextDays: "Show next 7 days ↓",
       chooseDate: "Choose a date",
       returnToday: "Return to today",
       loadingCalendar: "Loading calendar…",
@@ -94,6 +104,12 @@
       searchLabel: "Name or feast",
       searchPlaceholder: "Try Γιώργος or Giorgos",
       searchGuidance: "Type at least two characters using Greek or Latin letters.",
+      searchForName: "Search the year for {name}",
+      helpTitle: "How it works",
+      helpPrimary: "Bold names celebrate their primary feast on that date.",
+      helpAdditional: "Regular names celebrate an additional feast.",
+      helpSearch: "Select a name in ‘Who is celebrating today?’ to find all its dates.",
+      helpDate: "Select a date in the search results to view it in the calendar.",
       subscriptionsEyebrow: "Always up to date",
       subscriptionsTitle: "Add the nameday calendar to your calendar",
       subscriptionsIntro: "Subscribe once. Your calendar app can refresh the same feed as new years are added.",
@@ -109,7 +125,7 @@
       footerDescription: "Greek namedays and feasts, without tracking or advertising.",
       repositoryPrefix: "Data and calendars are generated with the open-source",
       namedays: "Namedays",
-      churchFeast: "Church feast",
+      churchFeast: "Church feasts",
       noCelebrationsToday: "No celebrations today.",
       noEvents: "No namedays or feasts.",
       today: "Today",
@@ -137,6 +153,10 @@
     searchEntries: [],
     language: "el",
     agendaDate: null,
+    agendaVisibleFirst: null,
+    agendaVisibleLast: null,
+    agendaWindowAnchor: null,
+    agendaIsMobile: null,
   };
 
   var elements = {
@@ -144,6 +164,9 @@
     siteHeader: document.querySelector(".site-header"),
     navigationLinks: document.querySelectorAll(".site-nav a[href^='#']"),
     languageButtons: document.querySelectorAll("[data-language]"),
+    helpDisclosure: document.querySelector(".help-disclosure"),
+    helpToggle: document.getElementById("help-toggle"),
+    helpPanel: document.getElementById("help-panel"),
     todayWeekday: document.getElementById("today-weekday"),
     todayNumber: document.getElementById("today-number"),
     todayMonth: document.getElementById("today-month"),
@@ -151,6 +174,8 @@
     agendaTitle: document.getElementById("agenda-title"),
     agendaRange: document.getElementById("agenda-range"),
     agendaList: document.getElementById("agenda-list"),
+    agendaPrevious: document.getElementById("agenda-previous"),
+    agendaNext: document.getElementById("agenda-next"),
     dateToggle: document.getElementById("date-toggle"),
     returnToday: document.getElementById("return-today"),
     dateForm: document.getElementById("date-form"),
@@ -246,6 +271,9 @@
     document.querySelectorAll("[data-i18n-placeholder]").forEach(function (node) {
       node.placeholder = t(node.dataset.i18nPlaceholder);
     });
+    document.querySelectorAll("[data-i18n-title]").forEach(function (node) {
+      node.title = t(node.dataset.i18nTitle);
+    });
     elements.languageButtons.forEach(function (button) {
       button.setAttribute("aria-pressed", String(button.dataset.language === state.language));
     });
@@ -329,12 +357,27 @@
     return state.days.get(isoDate) || emptyDay();
   }
 
-  function appendEventGroup(container, label, values, type, primaryValues) {
+  function showNameInSearch(name) {
+    elements.searchInput.value = name;
+    renderSearchResults(name);
+    elements.searchInput.focus();
+  }
+
+  function appendEventGroup(
+    container,
+    label,
+    values,
+    type,
+    primaryValues,
+    linkNamesToSearch
+  ) {
     if (!values.length) {
       return;
     }
     var group = element("div", "event-group is-" + type);
-    group.appendChild(element("span", "event-label", label));
+    if (label) {
+      group.appendChild(element("span", "event-label", label));
+    }
     var eventText = element("p", "event-text");
     if (type === "nameday") {
       var primaryNames = new Set(primaryValues || []);
@@ -345,12 +388,27 @@
         var isPrimary = primaryNames.has(value);
         var feastLabel = isPrimary ? t("primaryFeastDate") : t("additionalFeastDate");
         var name = element(
-          "span",
-          "event-name" + (isPrimary ? " is-primary" : " is-secondary"),
+          linkNamesToSearch ? "a" : "span",
+          "event-name" +
+            (linkNamesToSearch ? " event-name-link" : "") +
+            (isPrimary ? " is-primary" : " is-secondary"),
           value
         );
-        name.title = feastLabel;
-        name.appendChild(element("span", "visually-hidden", " (" + feastLabel + ")"));
+        if (linkNamesToSearch) {
+          var searchLabel = t("searchForName").replace("{name}", value);
+          name.href = "#search";
+          name.title = feastLabel + " — " + searchLabel;
+          name.setAttribute("aria-label", searchLabel + " (" + feastLabel + ")");
+          name.addEventListener("click", function (event) {
+            event.preventDefault();
+            showNameInSearch(value);
+          });
+        } else {
+          name.title = feastLabel;
+          name.appendChild(
+            element("span", "visually-hidden", " (" + feastLabel + ")")
+          );
+        }
         eventText.appendChild(name);
       });
     } else {
@@ -360,7 +418,14 @@
     container.appendChild(group);
   }
 
-  function appendEvents(container, data, emptyMessage, includeCommemorations) {
+  function appendEvents(
+    container,
+    data,
+    emptyMessage,
+    includeCommemorations,
+    hideNamedayLabel,
+    linkNamesToSearch
+  ) {
     var feastValues = data.observances.slice();
     if (includeCommemorations) {
       (data.commemorations || []).forEach(function (title) {
@@ -376,10 +441,11 @@
     var groups = element("div", "event-groups");
     appendEventGroup(
       groups,
-      t("namedays"),
+      hideNamedayLabel ? "" : t("namedays"),
       data.namedays,
       "nameday",
-      data.primary_namedays
+      data.primary_namedays,
+      linkNamesToSearch
     );
     appendEventGroup(groups, t("churchFeast"), feastValues, "feast", []);
     container.appendChild(groups);
@@ -395,7 +461,14 @@
     elements.todayMonth.textContent = state.language === "el" ?
       GREEK_MONTHS_GENITIVE[parsed.getUTCMonth()] : longMonthFormatter.format(parsed);
     elements.todayEvents.replaceChildren();
-    appendEvents(elements.todayEvents, dayData(state.today), t("noCelebrationsToday"));
+    appendEvents(
+      elements.todayEvents,
+      dayData(state.today),
+      t("noCelebrationsToday"),
+      false,
+      true,
+      true
+    );
   }
 
   function buildAgendaDay(isoDate) {
@@ -447,6 +520,47 @@
     return { first: first, last: last };
   }
 
+  function isMobileAgenda() {
+    return window.matchMedia("(max-width: 38rem)").matches;
+  }
+
+  function resetMobileAgendaWindow(fullBounds) {
+    var first = state.agendaDate;
+    var last = addDays(first, 6);
+    if (last > fullBounds.last) {
+      last = fullBounds.last;
+    }
+    state.agendaVisibleFirst = first;
+    state.agendaVisibleLast = last;
+    state.agendaWindowAnchor = state.agendaDate;
+  }
+
+  function visibleAgendaBounds(fullBounds, resetWindow) {
+    if (!isMobileAgenda()) {
+      return fullBounds;
+    }
+    if (
+      resetWindow ||
+      state.agendaWindowAnchor !== state.agendaDate ||
+      !state.agendaVisibleFirst ||
+      !state.agendaVisibleLast ||
+      state.agendaVisibleFirst < fullBounds.first ||
+      state.agendaVisibleLast > fullBounds.last
+    ) {
+      resetMobileAgendaWindow(fullBounds);
+    }
+    return {
+      first: state.agendaVisibleFirst,
+      last: state.agendaVisibleLast,
+    };
+  }
+
+  function updateAgendaRevealControls(fullBounds, visibleBounds) {
+    var mobile = isMobileAgenda();
+    elements.agendaPrevious.hidden = !mobile || visibleBounds.first <= fullBounds.first;
+    elements.agendaNext.hidden = !mobile || visibleBounds.last >= fullBounds.last;
+  }
+
   function showAgendaDateAtTop(isoDate, behavior) {
     var selected = document.getElementById("day-" + isoDate);
     if (!selected) {
@@ -463,21 +577,47 @@
     elements.agendaList.scrollTo({ top: selected.offsetTop, behavior: behavior });
   }
 
-  function renderAgenda(behavior) {
+  function renderAgenda(behavior, resetWindow) {
     var bounds = agendaBounds(state.agendaDate);
+    var visibleBounds = visibleAgendaBounds(bounds, resetWindow);
+    state.agendaIsMobile = isMobileAgenda();
     elements.agendaTitle.textContent = state.agendaDate === state.today ?
       t("agendaTitle") : t("agendaSelectedTitle");
     elements.agendaRange.textContent = shortDateFormatter.format(parseIsoDate(bounds.first)) +
       " — " + shortDateFormatter.format(parseIsoDate(bounds.last));
 
     var fragment = document.createDocumentFragment();
-    for (var value = bounds.first; value <= bounds.last; value = addDays(value, 1)) {
+    for (
+      var value = visibleBounds.first;
+      value <= visibleBounds.last;
+      value = addDays(value, 1)
+    ) {
       fragment.appendChild(buildAgendaDay(value));
     }
     elements.agendaList.replaceChildren(fragment);
-    window.requestAnimationFrame(function () {
-      showAgendaDateAtTop(state.agendaDate, behavior || "auto");
-    });
+    updateAgendaRevealControls(bounds, visibleBounds);
+    if (!state.agendaIsMobile) {
+      window.requestAnimationFrame(function () {
+        showAgendaDateAtTop(state.agendaDate, behavior || "auto");
+      });
+    }
+  }
+
+  function revealAgendaDays(direction) {
+    var bounds = agendaBounds(state.agendaDate);
+    var visibleBounds = visibleAgendaBounds(bounds, false);
+    if (direction === "previous") {
+      state.agendaVisibleFirst = addDays(visibleBounds.first, -7);
+      if (state.agendaVisibleFirst < bounds.first) {
+        state.agendaVisibleFirst = bounds.first;
+      }
+    } else {
+      state.agendaVisibleLast = addDays(visibleBounds.last, 7);
+      if (state.agendaVisibleLast > bounds.last) {
+        state.agendaVisibleLast = bounds.last;
+      }
+    }
+    renderAgenda("auto", false);
   }
 
   function clearDateFeedback() {
@@ -505,7 +645,7 @@
     elements.dateInput.value = value;
     clearDateFeedback();
     setDateFormOpen(false, false);
-    renderAgenda(behavior);
+    renderAgenda(behavior, true);
     if (focusToggle) {
       elements.dateToggle.focus();
     }
@@ -850,6 +990,11 @@
     renderSearchResults(elements.searchInput.value);
   }
 
+  function setHelpOpen(open) {
+    elements.helpPanel.hidden = !open;
+    elements.helpToggle.setAttribute("aria-expanded", String(open));
+  }
+
   function registerInteractions() {
     elements.languageButtons.forEach(function (button) {
       button.addEventListener("click", function () {
@@ -857,6 +1002,29 @@
           setLanguage(button.dataset.language, true);
         }
       });
+    });
+    elements.helpToggle.addEventListener("click", function () {
+      setHelpOpen(elements.helpPanel.hidden);
+    });
+    elements.agendaPrevious.addEventListener("click", function () {
+      revealAgendaDays("previous");
+    });
+    elements.agendaNext.addEventListener("click", function () {
+      revealAgendaDays("next");
+    });
+    document.addEventListener("click", function (event) {
+      if (
+        !elements.helpPanel.hidden &&
+        !elements.helpDisclosure.contains(event.target)
+      ) {
+        setHelpOpen(false);
+      }
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !elements.helpPanel.hidden) {
+        setHelpOpen(false);
+        elements.helpToggle.focus();
+      }
     });
     elements.dateToggle.addEventListener("click", function () {
       setDateFormOpen(elements.dateForm.hidden, true);
@@ -888,7 +1056,13 @@
     });
 
     window.addEventListener("scroll", scheduleNavigationUpdate, { passive: true });
-    window.addEventListener("resize", scheduleNavigationUpdate);
+    window.addEventListener("resize", function () {
+      var mobile = isMobileAgenda();
+      if (state.config && mobile !== state.agendaIsMobile) {
+        renderAgenda("auto", true);
+      }
+      scheduleNavigationUpdate();
+    });
   }
 
   function updateActiveNavigation() {

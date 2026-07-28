@@ -295,11 +295,11 @@ def _generate_selected_namedays(
             f"year range must satisfy {MIN_YEAR} <= from_year <= to_year <= {MAX_YEAR}"
         )
     feasts = catalog.feast_map()
-    grouped: dict[date, list[str]] = defaultdict(list)
+    grouped: dict[date, dict[str, tuple[bool, int, str, int]]] = defaultdict(dict)
     for year in range(from_year, to_year + 1):
         easter = orthodox_easter(year)
         for nameday in selected:
-            for feast_id in nameday.feasts:
+            for feast_index, feast_id in enumerate(nameday.feasts):
                 celebration = resolve_feast_date(
                     feasts[feast_id],
                     year,
@@ -308,10 +308,26 @@ def _generate_selected_namedays(
                 )
                 if celebration is None:
                     continue
-                for name in nameday.names:
-                    if name not in grouped[celebration]:
-                        grouped[celebration].append(name)
-    return {day: tuple(names) for day, names in sorted(grouped.items())}
+                for name_index, name in enumerate(nameday.names):
+                    sort_key = (
+                        feast_index > 0,
+                        -nameday.popularity,
+                        nameday.id,
+                        name_index,
+                    )
+                    existing_key = grouped[celebration].get(name)
+                    if existing_key is None or sort_key < existing_key:
+                        grouped[celebration][name] = sort_key
+    return {
+        day: tuple(
+            name
+            for name, _ in sorted(
+                names.items(),
+                key=lambda item: item[1],
+            )
+        )
+        for day, names in sorted(grouped.items())
+    }
 
 
 def generate_namedays(
