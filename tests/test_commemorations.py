@@ -45,7 +45,7 @@ def test_commemorations_are_a_standalone_validated_collection() -> None:
     assert len(ids) == len(set(ids))
     titles = [entry["title"] for entry in entries]
     assert len(titles) == len(set(titles))
-    assert len(entries) == 408
+    assert len(entries) == 404
 
     assert isinstance(mappings, dict)
     assert mappings
@@ -375,11 +375,9 @@ def test_august_nameday_rules_have_collected_commemorations() -> None:
         "feast_fanoyris",
         "feast_floros",
         "feast_gerasimos",
-        "feast_gesthimani",
         "feast_ippolytos",
         "feast_iro",
         "feast_kosmas_aitolos",
-        "feast_krystallo",
         "feast_laurus_august",
         "feast_layrentios",
         "feast_leykothea",
@@ -388,13 +386,11 @@ def test_august_nameday_rules_have_collected_commemorations() -> None:
         "feast_natalia",
         "feast_orestis_august",
         "feast_osios",
-        "feast_presveia",
         "feast_riginos_august",
         "feast_salomi",
         "feast_serafeim_august",
         "feast_stamatios_august",
         "feast_straton_august",
-        "feast_symela",
         "feast_theocharis",
         "feast_titos_august",
         "feast_triantafyllia",

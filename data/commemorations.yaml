@@ -276,14 +276,6 @@ commemorations:
     title: Άγιος Μάρτυρας Ιππόλυτος
   - id: lawrence_the_archdeacon
     title: Άγιος Μάρτυρας Λαυρέντιος ο Αρχιδιάκονος
-  - id: dormition_panagia_soumela
-    title: Κοίμηση της Θεοτόκου — Παναγία Σουμελά
-  - id: dormition_panagia_krystallou
-    title: Κοίμηση της Θεοτόκου — Παναγία Κρυσταλλώ
-  - id: dormition_gethsemane
-    title: Κοίμηση της Θεοτόκου στη Γεθσημανή
-  - id: dormition_presveia
-    title: Κοίμηση της Θεοτόκου — Πρέσβεια της Θεοτόκου
   - id: gerasimos_the_new_ascetic
     title: Όσιος Γεράσιμος ο Νέος Ασκητής
   - id: alkiviadis_the_martyr
@@ -1413,14 +1405,6 @@ feasts:
     - lawrence_the_archdeacon
   feast_lora:
     - lawrence_the_archdeacon
-  feast_symela:
-    - dormition_panagia_soumela
-  feast_krystallo:
-    - dormition_panagia_krystallou
-  feast_gesthimani:
-    - dormition_gethsemane
-  feast_presveia:
-    - dormition_presveia
   feast_gerasimos:
     - gerasimos_the_new_ascetic
   feast_alkiviadis:

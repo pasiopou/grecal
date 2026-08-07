@@ -199,7 +199,7 @@ def test_validate_command_checks_all_production_data(capsys) -> None:
     report = capsys.readouterr().out
     assert "Validation successful" in report
     assert "Years checked: 1900-2100" in report
-    assert "Feast definitions: 589" in report
+    assert "Feast definitions: 585" in report
     assert "Identity groups: 492" in report
     assert "Display names: 1793" in report
     assert "Church feasts: 38" in report

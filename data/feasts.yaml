@@ -1175,22 +1175,6 @@ feast_layrentios:
   type: fixed
   month: 8
   day: 10
-feast_symela:
-  type: fixed
-  month: 8
-  day: 15
-feast_krystallo:
-  type: fixed
-  month: 8
-  day: 15
-feast_gesthimani:
-  type: fixed
-  month: 8
-  day: 15
-feast_presveia:
-  type: fixed
-  month: 8
-  day: 15
 feast_gerasimos:
   type: fixed
   month: 8

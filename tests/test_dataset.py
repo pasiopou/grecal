@@ -17,7 +17,7 @@ def _catalog():
 
 def test_production_dataset_has_expected_size() -> None:
     catalog = _catalog()
-    assert len(catalog.feasts) == 589
+    assert len(catalog.feasts) == 585
     assert len(catalog.namedays) == 492
     assert sum(len(item.names) for item in catalog.namedays) == 1793
     assert {feast.type for feast in catalog.feasts} == set(FeastType)
@@ -249,6 +249,9 @@ def test_existing_names_include_their_supported_august_celebrations() -> None:
     }
     for celebration_date, names in expected.items():
         assert names <= set(grouped[celebration_date])
+
+    for name_id in ("symela", "krystallo", "gesthimani", "presveia"):
+        assert by_id[name_id].feast == "feast_dormition"
 
     assert by_id["apostolos"].feast == "feast_apostolos"
     assert by_id["serafeim"].feast == "feast_serafeim"

@@ -2151,14 +2151,14 @@
   - Λαυρέντιος
   - Λαυρέντης
 - id: symela
-  feast: feast_symela
+  feast: feast_dormition
   popularity: 72
   names:
   - Συμέλα
   - Σουμελά
   - Σιμέλα
 - id: krystallo
-  feast: feast_krystallo
+  feast: feast_dormition
   popularity: 70
   names:
   - Κρυσταλλία
@@ -2169,13 +2169,13 @@
   - Κρίστι
   - Κρουσταλένια
 - id: gesthimani
-  feast: feast_gesthimani
+  feast: feast_dormition
   popularity: 67
   names:
   - Γεσθημανή
   - Ιεσθημανή
 - id: presveia
-  feast: feast_presveia
+  feast: feast_dormition
   popularity: 34
   names:
   - Πρέσβεια
