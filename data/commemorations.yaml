@@ -126,6 +126,8 @@ commemorations:
     title: Άγιοι Μάρτυρες Αιμίλιος και Κάστος
   - id: meletios_and_companion_martyrs
     title: Άγιος Μελέτιος και οι συν αυτώ Μάρτυρες
+  - id: eutychis_of_melitene
+    title: Άγιος Ευτυχής Επίσκοπος Μελιτηνής
   - id: theodosia_of_caesarea
     title: Αγία Παρθενομάρτυς Θεοδοσία της Καισαρείας
   - id: emmeleia_of_caesarea
@@ -1221,6 +1223,8 @@ feasts:
     - martyrs_aemilius_and_castus
   feast_meletios_martyrs:
     - meletios_and_companion_martyrs
+  feast_eytychios_may:
+    - eutychis_of_melitene
   feast_theodosia:
     - theodosia_of_caesarea
   feast_saint_emmeleia:

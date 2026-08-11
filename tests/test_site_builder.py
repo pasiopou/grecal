@@ -188,7 +188,7 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["event_count"] == 269
+    assert payload["event_count"] == 270
     assert [item["date"] for item in payload["days"]] == sorted(
         item["date"] for item in payload["days"]
     )
@@ -472,8 +472,8 @@ def test_subscription_calendars_have_the_expected_ranges_and_identities(
     )
     assert str(complete["NAME"]) == branding["subscriptions"]["complete"]["name"]
     assert str(popular["NAME"]) == branding["subscriptions"]["top_100"]["name"]
-    assert len(complete_events) == 1085
-    assert len(popular_events) == 436
+    assert len(complete_events) == 1089
+    assert len(popular_events) == 440
     assert {event.decoded("DTSTART").year for event in complete_events} == {
         2025,
         2026,

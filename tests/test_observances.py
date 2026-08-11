@@ -177,7 +177,7 @@ def test_nameday_only_generation_excludes_observance_titles() -> None:
         generated_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
     )
 
-    assert len(_events(calendar)) == 265
+    assert len(_events(calendar)) == 266
     easter_event = next(
         event
         for event in _events(calendar)
@@ -237,7 +237,7 @@ def test_include_feasts_cli_merges_titles_with_names(tmp_path: Path) -> None:
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = _events(parsed)
-    assert len(events) == 269
+    assert len(events) == 270
     assert str(parsed["UID"]) == (
         "urn:uuid:209a65ff-4de0-5814-bd78-e273c944ae52"
     )

@@ -795,6 +795,10 @@ feast_therapon_may27:
   type: fixed
   month: 5
   day: 27
+feast_eytychios_may:
+  type: fixed
+  month: 5
+  day: 28
 feast_theodosia:
   type: fixed
   month: 5

@@ -45,7 +45,7 @@ def test_commemorations_are_a_standalone_validated_collection() -> None:
     assert len(ids) == len(set(ids))
     titles = [entry["title"] for entry in entries]
     assert len(titles) == len(set(titles))
-    assert len(entries) == 404
+    assert len(entries) == 405
 
     assert isinstance(mappings, dict)
     assert mappings
@@ -215,7 +215,8 @@ def test_requested_judas_thaddeus_is_mapped() -> None:
 
 
 def test_may_nameday_rules_have_collected_commemorations() -> None:
-    feast_ids = set(_feast_mappings())
+    mappings = _feast_mappings()
+    feast_ids = set(mappings)
 
     assert {
         "feast_isidora",
@@ -258,9 +259,12 @@ def test_may_nameday_rules_have_collected_commemorations() -> None:
         "feast_konstantinos",
         "feast_aimilios",
         "feast_meletios_martyrs",
+        "feast_eytychios_may",
         "feast_theodosia",
         "feast_saint_emmeleia",
     } <= feast_ids
+
+    assert mappings["feast_eytychios_may"] == ["eutychis_of_melitene"]
 
 
 def test_june_nameday_rules_have_collected_commemorations() -> None:

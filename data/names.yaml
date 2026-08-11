@@ -1026,6 +1026,7 @@
 - id: eytychios
   feast: feast_eytychios
   additional_feasts:
+  - feast_eytychios_may
   - feast_eytychios_august
   popularity: 93
   names:

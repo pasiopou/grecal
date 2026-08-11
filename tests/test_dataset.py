@@ -17,7 +17,7 @@ def _catalog():
 
 def test_production_dataset_has_expected_size() -> None:
     catalog = _catalog()
-    assert len(catalog.feasts) == 585
+    assert len(catalog.feasts) == 586
     assert len(catalog.namedays) == 492
     assert sum(len(item.names) for item in catalog.namedays) == 1793
     assert {feast.type for feast in catalog.feasts} == set(FeastType)
@@ -481,6 +481,7 @@ def test_existing_names_include_their_supported_may_celebrations() -> None:
         date(2026, 5, 21): {"Κωστής", "Κωνσταντία", "Λένα"},
         date(2026, 5, 22): {"Εμιλία", "Μίλιος", "Καλή", "Κάλη"},
         date(2026, 5, 24): {"Φωτεινή", "Φωτούλα"},
+        date(2026, 5, 28): {"Ευτυχία", "Ευτύχης", "Ευτύχιος"},
         date(2026, 5, 29): {"Θεοδόσω"},
     }
     for celebration_date, names in expected.items():
@@ -778,7 +779,7 @@ def test_documented_selection_examples_match_the_production_data() -> None:
         166,
         801,
     )
-    assert len(generate_namedays(catalog, 2026, 2026, top=100)) == 110
+    assert len(generate_namedays(catalog, 2026, 2026, top=100)) == 111
     assert len(
         generate_namedays(catalog, 2026, 2026, min_popularity=80)
-    ) == 156
+    ) == 157
