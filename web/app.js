@@ -422,12 +422,12 @@
     container,
     data,
     emptyMessage,
-    includeCommemorations,
-    hideNamedayLabel,
-    linkNamesToSearch
+    options
   ) {
-    var feastValues = data.observances.slice();
-    if (includeCommemorations) {
+    options = options || {};
+    var includeChurchFeasts = options.includeChurchFeasts !== false;
+    var feastValues = includeChurchFeasts ? data.observances.slice() : [];
+    if (includeChurchFeasts && options.includeCommemorations) {
       (data.commemorations || []).forEach(function (title) {
         if (feastValues.indexOf(title) === -1) {
           feastValues.push(title);
@@ -441,11 +441,11 @@
     var groups = element("div", "event-groups");
     appendEventGroup(
       groups,
-      hideNamedayLabel ? "" : t("namedays"),
+      options.hideNamedayLabel ? "" : t("namedays"),
       data.namedays,
       "nameday",
       data.primary_namedays,
-      linkNamesToSearch
+      options.linkNamesToSearch
     );
     appendEventGroup(groups, t("churchFeast"), feastValues, "feast", []);
     container.appendChild(groups);
@@ -465,9 +465,11 @@
       elements.todayEvents,
       dayData(state.today),
       t("noCelebrationsToday"),
-      false,
-      true,
-      true
+      {
+        includeChurchFeasts: false,
+        hideNamedayLabel: true,
+        linkNamesToSearch: true,
+      }
     );
   }
 
@@ -496,7 +498,9 @@
     } else if (isoDate === state.agendaDate) {
       events.appendChild(element("span", "selected-date-badge", t("selectedDate")));
     }
-    appendEvents(events, dayData(isoDate), t("noEvents"), true);
+    appendEvents(events, dayData(isoDate), t("noEvents"), {
+      includeCommemorations: true,
+    });
     article.appendChild(events);
     return article;
   }

@@ -171,7 +171,8 @@ def test_site_builder_copies_the_frontend(built_site) -> None:
     assert "searchFormsForEntry" in script
     assert "Γιώργος ή Giorgos" in index
     assert "data.commemorations" in script
-    assert 'appendEvents(events, dayData(isoDate), t("noEvents"), true)' in script
+    assert "includeChurchFeasts: false" in script
+    assert "includeCommemorations: true" in script
     assert "function agendaBounds(anchor)" in script
     assert "function setDateFormOpen(open, focusInput)" in script
     assert "function selectAgendaDate(value, behavior, scrollSection, focusToggle)" in script

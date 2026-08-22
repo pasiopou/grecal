@@ -332,11 +332,12 @@ starts with that date followed by the next six days, with controls that reveal
 earlier and later dates in seven-day groups. In that agenda, collected saint
 commemorations appear together with configured observances under the existing
 church-feast label. They are included in date lookup but are not added to search
-or either ICS subscription. The site also provides date lookup across the
-configured range, typo-tolerant search for the current year using either Greek
-or common Greeklish spellings, and links for both calendar subscriptions. Greek
-is the default language, with a clearly visible English switch whose selection
-is stored only in the visitor's browser. To browse a build locally, start a
+or either ICS subscription. The hero card shows only today's namedays. The site
+also provides date lookup across the configured range, typo-tolerant search for
+the current year using either Greek or common Greeklish spellings, and links for
+both calendar subscriptions. Greek is the default language, with a clearly
+visible English switch whose selection is stored only in the visitor's browser.
+To browse a build locally, start a
 static server:
 
 ```bash
