@@ -17,7 +17,7 @@ def _catalog():
 
 def test_production_dataset_has_expected_size() -> None:
     catalog = _catalog()
-    assert len(catalog.feasts) == 586
+    assert len(catalog.feasts) == 587
     assert len(catalog.namedays) == 492
     assert sum(len(item.names) for item in catalog.namedays) == 1793
     assert {feast.type for feast in catalog.feasts} == set(FeastType)

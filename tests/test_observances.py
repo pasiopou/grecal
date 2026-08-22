@@ -29,12 +29,12 @@ def _events(calendar: Calendar):
     return [component for component in calendar.walk() if component.name == "VEVENT"]
 
 
-def test_production_catalog_has_38_unique_observances() -> None:
+def test_production_catalog_has_40_unique_observances() -> None:
     catalog = _catalog()
 
-    assert len(catalog.observances) == 38
-    assert len({item.id for item in catalog.observances}) == 38
-    assert len({item.title for item in catalog.observances}) == 38
+    assert len(catalog.observances) == 40
+    assert len({item.id for item in catalog.observances}) == 40
+    assert len({item.title for item in catalog.observances}) == 40
     referenced_feasts = {
         feast_id for item in catalog.namedays for feast_id in item.feasts
     } | {
@@ -113,6 +113,14 @@ def test_friday_of_akathist_hymn_tracks_orthodox_easter(
         (date(2026, 8, 6), "Μεταμόρφωση του Σωτήρος"),
         (date(2026, 8, 15), "Κοίμηση της Θεοτόκου"),
         (
+            date(2026, 8, 23),
+            "Απόδοση της Κοιμήσεως της Θεοτόκου",
+        ),
+        (
+            date(2026, 8, 23),
+            "Σύναξη της Παναγίας της Προυσιώτισσας",
+        ),
+        (
             date(2026, 8, 31),
             "Κατάθεσις της Τιμίας Ζώνης της Θεοτόκου",
         ),
@@ -190,7 +198,7 @@ def test_nameday_only_generation_excludes_observance_titles() -> None:
     assert "Ορθόδοξο Πάσχα" not in easter_summary
 
 
-def test_feasts_only_cli_generates_38_events(tmp_path: Path, capsys) -> None:
+def test_feasts_only_cli_generates_39_events(tmp_path: Path, capsys) -> None:
     output = tmp_path / "feasts-2026.ics"
 
     assert main(
@@ -206,7 +214,7 @@ def test_feasts_only_cli_generates_38_events(tmp_path: Path, capsys) -> None:
 
     parsed = Calendar.from_ical(output.read_bytes())
     events = _events(parsed)
-    assert len(events) == 38
+    assert len(events) == 39
     assert str(parsed["UID"]) == (
         "urn:uuid:4ea6860e-3df1-5f49-8098-dc834e9a093b"
     )
@@ -215,9 +223,17 @@ def test_feasts_only_cli_generates_38_events(tmp_path: Path, capsys) -> None:
         str(event["SUMMARY"]) == "Πεντηκοστή"
         for event in events
     )
+    assert any(
+        str(event["SUMMARY"])
+        == (
+            "Απόδοση της Κοιμήσεως της Θεοτόκου · "
+            "Σύναξη της Παναγίας της Προυσιώτισσας"
+        )
+        for event in events
+    )
     report = capsys.readouterr().out
     assert "Selection: church feasts only" in report
-    assert re.search(r"^2026\s+0\s+0\s+38\s+38$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+0\s+0\s+40\s+39$", report, re.MULTILINE)
 
 
 def test_include_feasts_cli_merges_titles_with_names(tmp_path: Path) -> None:

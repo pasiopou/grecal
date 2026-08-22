@@ -2225,6 +2225,10 @@ feast_dormition:
   type: fixed
   month: 8
   day: 15
+feast_apodosis_dormition:
+  type: fixed
+  month: 8
+  day: 23
 feast_saint_alexandra:
   type: fixed
   month: 4

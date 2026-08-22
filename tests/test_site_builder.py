@@ -202,6 +202,14 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
     assert "Μαρία" in dormition["namedays"]
     assert "Παναγιώτης" in dormition["namedays"]
 
+    apodosis = next(
+        item for item in payload["days"] if item["date"] == "2026-08-23"
+    )
+    assert apodosis["observances"] == [
+        "Απόδοση της Κοιμήσεως της Θεοτόκου",
+        "Σύναξη της Παναγίας της Προυσιώτισσας",
+    ]
+
     transfiguration = next(
         item for item in payload["days"] if item["date"] == "2026-08-06"
     )
@@ -301,8 +309,8 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["entry_count"] == 1831
-    assert len(payload["entries"]) == 1831
+    assert payload["entry_count"] == 1833
+    assert len(payload["entries"]) == 1833
     assert payload["entries"] == sorted(
         payload["entries"],
         key=lambda item: (item["normalized"], item["kind"], item["id"]),
@@ -381,6 +389,15 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
         "normalized": "κοιμηση τησ θεοτοκου",
         "dates": ["2026-08-15"],
         "popularity": None,
+    }
+    august_23_feasts = {
+        item["label"]: item["dates"]
+        for item in payload["entries"]
+        if item["kind"] == "feast" and item["dates"] == ["2026-08-23"]
+    }
+    assert august_23_feasts == {
+        "Απόδοση της Κοιμήσεως της Θεοτόκου": ["2026-08-23"],
+        "Σύναξη της Παναγίας της Προυσιώτισσας": ["2026-08-23"],
     }
     assert all(
         item["label"] != "Αγία Μαρία η Μαγδαληνή"
