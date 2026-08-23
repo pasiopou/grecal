@@ -121,10 +121,6 @@
   feast: feast_apodosis_dormition
   title: Απόδοση της Κοιμήσεως της Θεοτόκου
   details: Εννιάμερα της Παναγίας
-- id: synaxis_panagia_prousiotissa
-  feast: feast_apodosis_dormition
-  title: Σύναξη της Παναγίας της Προυσιώτισσας
-  details: Πανήγυρη της Ιεράς Μονής Προυσού Ευρυτανίας
 - id: deposition_belt_theotokos
   feast: feast_deposition_belt_theotokos
   title: Κατάθεσις της Τιμίας Ζώνης της Θεοτόκου

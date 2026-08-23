@@ -208,7 +208,9 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
     )
     assert apodosis["observances"] == [
         "Απόδοση της Κοιμήσεως της Θεοτόκου",
-        "Σύναξη της Παναγίας της Προυσιώτισσας",
+    ]
+    assert "Σύναξη της Παναγίας της Προυσιώτισσας" in apodosis[
+        "commemorations"
     ]
 
     transfiguration = next(
@@ -310,8 +312,8 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["entry_count"] == 1833
-    assert len(payload["entries"]) == 1833
+    assert payload["entry_count"] == 1832
+    assert len(payload["entries"]) == 1832
     assert payload["entries"] == sorted(
         payload["entries"],
         key=lambda item: (item["normalized"], item["kind"], item["id"]),
@@ -398,7 +400,6 @@ def test_search_index_contains_names_and_feasts_for_the_current_year(
     }
     assert august_23_feasts == {
         "Απόδοση της Κοιμήσεως της Θεοτόκου": ["2026-08-23"],
-        "Σύναξη της Παναγίας της Προυσιώτισσας": ["2026-08-23"],
     }
     assert all(
         item["label"] != "Αγία Μαρία η Μαγδαληνή"

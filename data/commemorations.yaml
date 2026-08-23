@@ -302,6 +302,8 @@ commemorations:
     title: Άγιος Θεοχάρης ο Νεαπολίτης
   - id: panagia_malamateni
     title: Σύναξη της Παναγίας της Μαλαματένιας στην Τήνο
+  - id: panagia_prousiotissa
+    title: Σύναξη της Παναγίας της Προυσιώτισσας
   - id: irenaeus_of_lyons
     title: Άγιος Ιερομάρτυρας Ειρηναίος, Επίσκοπος Λυώνος
   - id: eutychios_the_hieromartyr_august
@@ -1437,6 +1439,8 @@ feasts:
     - theocharis_of_neapolis
   feast_malamati:
     - panagia_malamateni
+  feast_panagia_prousiotissa:
+    - panagia_prousiotissa
   feast_eirinaios:
     - irenaeus_of_lyons
   feast_eytychios_august:

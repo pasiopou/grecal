@@ -45,7 +45,7 @@ def test_commemorations_are_a_standalone_validated_collection() -> None:
     assert len(ids) == len(set(ids))
     titles = [entry["title"] for entry in entries]
     assert len(titles) == len(set(titles))
-    assert len(entries) == 405
+    assert len(entries) == 406
 
     assert isinstance(mappings, dict)
     assert mappings
@@ -93,6 +93,21 @@ def test_related_feast_rules_share_canonical_commemorations() -> None:
     assert mappings["feast_arsinoi"] == ["arsenios_of_cappadocia"]
     assert mappings["feast_arsenios_cappadocia"] == [
         "arsenios_of_cappadocia"
+    ]
+
+
+def test_august_23_local_synaxes_are_commemorations() -> None:
+    entries = {entry["id"]: entry["title"] for entry in _commemorations()}
+    mappings = _feast_mappings()
+
+    assert entries["panagia_prousiotissa"] == (
+        "Σύναξη της Παναγίας της Προυσιώτισσας"
+    )
+    assert mappings["feast_malamati"] == [
+        "panagia_malamateni",
+    ]
+    assert mappings["feast_panagia_prousiotissa"] == [
+        "panagia_prousiotissa",
     ]
 
 

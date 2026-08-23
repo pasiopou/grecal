@@ -1235,6 +1235,10 @@ feast_malamati:
   type: fixed
   month: 8
   day: 23
+feast_panagia_prousiotissa:
+  type: fixed
+  month: 8
+  day: 23
 feast_eirinaios:
   type: fixed
   month: 8

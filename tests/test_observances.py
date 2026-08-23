@@ -11,7 +11,7 @@ from grecal.generator import (
     generate_observances,
     main,
 )
-from grecal.parser import load_catalog
+from grecal.parser import _load_yaml, load_catalog
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,16 +29,21 @@ def _events(calendar: Calendar):
     return [component for component in calendar.walk() if component.name == "VEVENT"]
 
 
-def test_production_catalog_has_40_unique_observances() -> None:
+def test_production_catalog_has_39_unique_observances() -> None:
     catalog = _catalog()
 
-    assert len(catalog.observances) == 40
-    assert len({item.id for item in catalog.observances}) == 40
-    assert len({item.title for item in catalog.observances}) == 40
+    assert len(catalog.observances) == 39
+    assert len({item.id for item in catalog.observances}) == 39
+    assert len({item.title for item in catalog.observances}) == 39
     referenced_feasts = {
         feast_id for item in catalog.namedays for feast_id in item.feasts
     } | {
         item.feast for item in catalog.observances
+    } | {
+        feast_id
+        for feast_id in _load_yaml(ROOT / "data" / "commemorations.yaml")[
+            "feasts"
+        ]
     }
     assert referenced_feasts == {item.id for item in catalog.feasts}
 
@@ -115,10 +120,6 @@ def test_friday_of_akathist_hymn_tracks_orthodox_easter(
         (
             date(2026, 8, 23),
             "Απόδοση της Κοιμήσεως της Θεοτόκου",
-        ),
-        (
-            date(2026, 8, 23),
-            "Σύναξη της Παναγίας της Προυσιώτισσας",
         ),
         (
             date(2026, 8, 31),
@@ -225,15 +226,12 @@ def test_feasts_only_cli_generates_39_events(tmp_path: Path, capsys) -> None:
     )
     assert any(
         str(event["SUMMARY"])
-        == (
-            "Απόδοση της Κοιμήσεως της Θεοτόκου · "
-            "Σύναξη της Παναγίας της Προυσιώτισσας"
-        )
+        == "Απόδοση της Κοιμήσεως της Θεοτόκου"
         for event in events
     )
     report = capsys.readouterr().out
     assert "Selection: church feasts only" in report
-    assert re.search(r"^2026\s+0\s+0\s+40\s+39$", report, re.MULTILINE)
+    assert re.search(r"^2026\s+0\s+0\s+39\s+39$", report, re.MULTILINE)
 
 
 def test_include_feasts_cli_merges_titles_with_names(tmp_path: Path) -> None:
