@@ -189,7 +189,7 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
 
     assert payload["schema_version"] == 1
     assert payload["year"] == 2026
-    assert payload["event_count"] == 270
+    assert payload["event_count"] == 274
     assert [item["date"] for item in payload["days"]] == sorted(
         item["date"] for item in payload["days"]
     )
@@ -259,6 +259,25 @@ def test_calendar_json_contains_complete_ordered_daily_data(built_site) -> None:
     )
     assert "Ιούδας" in judas_thaddeus["namedays"]
     assert "Αγίου Ιούδα του Θαδδαίου" in judas_thaddeus["commemorations"]
+
+    john_the_baptist_celebrations = {
+        "2026-01-07": "Σύναξη του Τιμίου Προδρόμου και Βαπτιστή Ιωάννη",
+        "2026-02-24": (
+            "Α΄ και Β΄ Εύρεση της Τιμίας Κεφαλής του Αγίου Ιωάννη "
+            "του Προδρόμου"
+        ),
+        "2026-05-25": (
+            "Γ΄ Εύρεση της Τιμίας Κεφαλής του Αγίου Ιωάννη του Προδρόμου"
+        ),
+        "2026-06-24": "Γενέθλιο του Τιμίου Προδρόμου",
+        "2026-08-29": (
+            "Αποτομή της Τιμίας Κεφαλής του Αγίου Ιωάννη του Προδρόμου"
+        ),
+        "2026-09-23": "Σύλληψη του Τιμίου Προδρόμου",
+    }
+    by_date = {item["date"]: item for item in payload["days"]}
+    for celebration_date, title in john_the_baptist_celebrations.items():
+        assert title in by_date[celebration_date]["commemorations"]
 
     raw_payload = (output / "data" / "calendar-2026.json").read_bytes()
     assert not raw_payload.startswith(b"\xef\xbb\xbf")

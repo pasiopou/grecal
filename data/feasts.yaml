@@ -303,6 +303,10 @@ feast_polychronis_february:
   type: fixed
   month: 2
   day: 23
+feast_first_second_finding_head_john_baptist:
+  type: fixed
+  month: 2
+  day: 24
 feast_riginos:
   type: fixed
   month: 2
@@ -791,6 +795,10 @@ feast_meletios_martyrs:
   type: fixed
   month: 5
   day: 24
+feast_third_finding_head_john_baptist:
+  type: fixed
+  month: 5
+  day: 25
 feast_therapon_may27:
   type: fixed
   month: 5
@@ -923,6 +931,10 @@ feast_zenon_zenas:
   type: fixed
   month: 6
   day: 22
+feast_nativity_john_baptist:
+  type: fixed
+  month: 6
+  day: 24
 feast_fevronia:
   type: fixed
   month: 6
@@ -1283,6 +1295,10 @@ feast_osios:
   type: fixed
   month: 8
   day: 27
+feast_beheading_john_baptist:
+  type: fixed
+  month: 8
+  day: 29
 feast_alexandros:
   type: fixed
   month: 8
@@ -1616,6 +1632,10 @@ feast_xanthippi:
   month: 9
   day: 23
 feast_iris:
+  type: fixed
+  month: 9
+  day: 23
+feast_conception_john_baptist:
   type: fixed
   month: 9
   day: 23

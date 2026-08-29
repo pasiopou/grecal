@@ -814,6 +814,16 @@ commemorations:
     title: Όσιος Θεόκτιστος
   - id: phocas_the_hieromartyr
     title: Άγιος Ιερομάρτυρας Φωκάς
+  - id: first_second_finding_head_john_baptist
+    title: Α΄ και Β΄ Εύρεση της Τιμίας Κεφαλής του Αγίου Ιωάννη του Προδρόμου
+  - id: third_finding_head_john_baptist
+    title: Γ΄ Εύρεση της Τιμίας Κεφαλής του Αγίου Ιωάννη του Προδρόμου
+  - id: nativity_john_baptist
+    title: Γενέθλιο του Τιμίου Προδρόμου
+  - id: beheading_john_baptist
+    title: Αποτομή της Τιμίας Κεφαλής του Αγίου Ιωάννη του Προδρόμου
+  - id: conception_john_baptist
+    title: Σύλληψη του Τιμίου Προδρόμου
 feasts:
   feast_emmeleia_january:
     - basil_the_great
@@ -833,6 +843,16 @@ feasts:
     - synaxis_john_the_baptist
   feast_prodromos:
     - synaxis_john_the_baptist
+  feast_first_second_finding_head_john_baptist:
+    - first_second_finding_head_john_baptist
+  feast_third_finding_head_john_baptist:
+    - third_finding_head_john_baptist
+  feast_nativity_john_baptist:
+    - nativity_john_baptist
+  feast_beheading_john_baptist:
+    - beheading_john_baptist
+  feast_conception_john_baptist:
+    - conception_john_baptist
   feast_dominiki:
     - domnica_of_constantinople
   feast_eystratios:

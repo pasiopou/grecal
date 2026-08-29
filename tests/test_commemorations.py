@@ -45,7 +45,7 @@ def test_commemorations_are_a_standalone_validated_collection() -> None:
     assert len(ids) == len(set(ids))
     titles = [entry["title"] for entry in entries]
     assert len(titles) == len(set(titles))
-    assert len(entries) == 406
+    assert len(entries) == 411
 
     assert isinstance(mappings, dict)
     assert mappings
@@ -94,6 +94,42 @@ def test_related_feast_rules_share_canonical_commemorations() -> None:
     assert mappings["feast_arsenios_cappadocia"] == [
         "arsenios_of_cappadocia"
     ]
+
+
+def test_six_celebrations_of_saint_john_the_baptist_are_mapped() -> None:
+    entries = {entry["id"]: entry["title"] for entry in _commemorations()}
+    mappings = _feast_mappings()
+
+    expected = {
+        "feast_ioannis": (
+            "synaxis_john_the_baptist",
+            "Σύναξη του Τιμίου Προδρόμου και Βαπτιστή Ιωάννη",
+        ),
+        "feast_first_second_finding_head_john_baptist": (
+            "first_second_finding_head_john_baptist",
+            "Α΄ και Β΄ Εύρεση της Τιμίας Κεφαλής του Αγίου Ιωάννη "
+            "του Προδρόμου",
+        ),
+        "feast_third_finding_head_john_baptist": (
+            "third_finding_head_john_baptist",
+            "Γ΄ Εύρεση της Τιμίας Κεφαλής του Αγίου Ιωάννη του Προδρόμου",
+        ),
+        "feast_nativity_john_baptist": (
+            "nativity_john_baptist",
+            "Γενέθλιο του Τιμίου Προδρόμου",
+        ),
+        "feast_beheading_john_baptist": (
+            "beheading_john_baptist",
+            "Αποτομή της Τιμίας Κεφαλής του Αγίου Ιωάννη του Προδρόμου",
+        ),
+        "feast_conception_john_baptist": (
+            "conception_john_baptist",
+            "Σύλληψη του Τιμίου Προδρόμου",
+        ),
+    }
+    for feast_id, (commemoration_id, title) in expected.items():
+        assert entries[commemoration_id] == title
+        assert mappings[feast_id] == [commemoration_id]
 
 
 def test_august_23_local_synaxes_are_commemorations() -> None:
